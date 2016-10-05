@@ -1,0 +1,15 @@
+.piano {
+		background-color: rgb(27, 139, 161);
+		border : 2px solid rgb(23, 110, 128);
+		color : rgb(207, 204, 208);
+}
+.formationMusicale {
+	background-color: rgb(22, 135, 67);
+	border : 2px solid rgb(7, 122, 53);
+	color : rgb(217, 216, 218);
+}
+.guitare {
+	background-color: rgb(186, 112, 24);
+	border : 2px solid rgb(159, 92, 12);
+	color : rgb(175, 172, 176);
+}

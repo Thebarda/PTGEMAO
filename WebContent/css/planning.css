@@ -1,0 +1,148 @@
+.salle {
+    width: 10rem;
+}
+
+.draggable {
+    color:#2f2fff;
+    border: 1px black;
+    width: 10rem;
+    list-style: none;
+}
+
+#edt {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    border: 0.4rem solid #2C3E50;
+    padding: 0;
+}
+
+.edt-modifier {
+    float: right;
+}
+
+#boutonValider {
+    position: fixed;
+    right: 2rem;
+    bottom: 2.5rem;
+    width: 10rem; 
+}
+
+#boutonExporter {
+    position: fixed;
+    right: 2rem;
+    bottom: 5rem;
+    width: 10rem;
+}
+
+.pure-planning tbody > tr:not(:first-child) > th {
+    width: 5rem;
+    font-size: 1rem;
+    text-align: center;
+}
+.pure-planning tbody > tr:not(:first-child) > td {
+    border-bottom: 1px #bfbfbf solid;
+	/*border-top: 1px #bfbfbf solid;*/
+}
+.pure-planning tbody > tr:last-child > td {
+    border-bottom: 1px black solid;
+	/*border-top: 1px #bfbfbf solid;*/
+}
+#edt .pure-planning tbody td.bordure-debut-heure {
+	border-top: 1px black solid;
+}
+#edt .pure-planning tbody td.bordure-fin-heure {
+	border-bottom: 1px black solid;
+}
+
+
+.pure-planning tbody > tr:first-child > th {
+    height: 0.8rem;
+    width: 10rem;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.pure-planning {
+    width: 95%;
+    border-collapse: collapse;
+}
+
+.pure-planning td, th {
+    border: solid 1px #2c2c2c;
+}
+#edt .pure-planning tr,td {
+    height: 0.7rem ;
+}
+.creneauDrag {
+	color: white;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    text-align: center;
+}
+.pure-planning td, #creneauxAPlacer li {
+	color: white;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    text-align: center;
+    min-height: 1rem;
+    max-height: 6rem;
+}
+#creneauxAPlacer li {
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+}
+
+#creneauxAPlacer {
+    padding: 0.3rem 2rem;
+    background-color: #eaeaea;
+	list-style-type: none;
+	width : 10em;
+    overflow-y: scroll;
+    overflow-x: hidden;
+	min-height: 10rem;
+    max-height: 15rem;
+}
+
+#creneauxAPlacer li {
+  /* A mettre également au début du start du drap pour la liste des créneaux à placer */
+  list-style: none;
+  margin: 0.3rem 0;
+
+  min-height: 1.5rem;
+  max-height: 10rem;
+  height: 100%;
+}
+.pure-planning td {
+    width: 2em; /*TODO en mieux*/
+    /* font-weight: bold; */
+}
+
+.unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#champCreneau {
+  position: fixed;
+  margin-left: 1rem;
+}
+
+/* A supprimer si modification et inclusion d'un css général */
+#ajoutCreneau input {
+  margin: 0.2rem 0;
+}
+
+#ajoutCreneau {
+  display: none;
+}
+
+.smallInput {
+  width: 5rem;
+}
+
+#addCreneau {
+  cursor: pointer;
+}

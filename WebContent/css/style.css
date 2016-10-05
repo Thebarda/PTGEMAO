@@ -1,0 +1,326 @@
+.hidden{
+	display: none;
+}
+
+.align-center{
+	text-align: center;
+}
+
+.align-left{
+	text-align: left;
+}
+
+.align-right{
+	text-align: right;
+}
+
+.btn{
+	color: #fff;
+/*	background-color: #646464;*/
+	background-color: #00E28D;
+    border-color: #2e6da4;
+	padding: 5px 10px;
+	font-weight: bold;
+	border-radius: 2px;
+	margin : 0 10px;
+	border: none;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.2s ease-in-out;
+}
+
+.btn:active {
+	background-color: #00c178;
+}
+
+.btn:hover {
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.euro::after{
+	content: ' €';
+}
+
+.icon{
+	color:black;
+}
+
+.icon:hover{
+	color:#444;
+}
+
+header .icon, header .icon:hover{
+	color:#fff;
+}
+
+.no-border{
+	border: none;
+}
+
+.offset{
+	margin-left: 18%;
+	margin-right: 18%;
+}
+
+.required::after{
+	content: '*';
+}
+
+.table-col-2 td{
+	width: 45%;
+}
+
+.text-label{
+	display: inline-block;
+	width: 45%;
+	text-align: right;
+	margin-right: 10px;
+}
+
+.white{
+	color: white;
+}
+
+#disconnect{
+	/*background-color: #34495e;*/
+	padding: 5px;
+	margin-top: -5px;
+}
+
+#formParametre input{
+	width : 100px;
+}
+
+#logo img{
+	border-radius: 10px;
+}
+
+article{
+	margin-bottom: 20px;
+}
+
+fieldset div{
+	margin: 5px 0;
+}
+
+fieldset div>label{
+	display: inline-block;
+	width: 45%;
+	text-align: right;
+	margin-right: 10px;
+}
+
+fieldset, table{
+	text-align: left;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom : 10px;
+}
+
+fieldset table{
+	border: none;
+}
+
+h1 {
+	margin: 0.67em 0 0.67em 18%;
+}
+
+header, footer{
+	background-color: #1e88e5;
+    color: white;
+	font-size: 1.3em;
+	padding: 15px;
+	min-height: 55px;
+}
+
+header a{
+	float: right;
+}
+
+input, select, textarea{
+	border-radius: 7px;
+}
+
+input[readonly]{
+	background-color: #CCC;
+}
+/*
+input[type=button], input[type=submit]{
+	color: #fff;
+	background-color: #337ab7;
+	border-color: #2e6da4;
+	padding: 5px 10px;
+	font-weight: bold;
+}
+*/
+input[type=checkbox]{
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+input[type=text], input[type=password], input[type=number], input[type=email]{
+	padding-left: 10px;
+}
+
+section{
+	margin-left: auto;
+	margin-right: auto;
+}
+
+select{
+	max-width: 200px;
+}
+
+table{
+	border: solid 1px white;
+	padding: 10px;
+}
+
+table>caption{
+	text-align: left;
+	font-weight: bold;
+	margin-left: 30px;
+}
+
+th{
+	cursor: pointer;
+}
+
+th, td {
+	padding : 3px;
+}
+
+tr {
+	margin: 15px;
+}
+
+@media (max-width:768px)
+{
+	table, fieldset{
+		width : 500px;
+	}
+}
+
+@media (min-width:768px) and (max-width:992px)
+{
+	table, fieldset{
+		width : 500px;
+	}
+}
+
+@media (min-width:992px) and (max-width:1200px)
+{
+	table, fieldset{
+		width : 650px;
+	}
+}
+
+@media (min-width:1200px)
+{	
+	table, fieldset{
+		width : 800px;
+	}
+}
+
+/* Couleurs de texte */
+.text-primary {
+  color: #ffffff;
+  font-size:1.2em;
+}
+a.text-primary:hover {
+  color: #c0c0c0;
+}
+.text-success {
+  color: #36e43a;
+  font-size:1.2em;
+}
+a.text-success:hover {
+  color: #438345;
+}
+.text-info {
+  color: #ffff00;
+  font-size:1.2em;
+}
+a.text-info:hover {
+  color: #ffff80;
+}
+.text-warning {
+  color: #bd9c64;
+  font-size:1.2em;
+}
+a.text-warning:hover {
+  color: #937640;
+}
+.text-danger {
+  color: #fd4c47;
+  font-size:1.2em;
+}
+a.text-danger:hover {
+  color: #843534;
+}
+
+#gras
+{
+	font-weight : bold;
+	margin-right : 20px;
+}
+
+.choix
+{
+	margin-right : 16px;
+}
+
+.choix input
+{
+	margin : 1px;
+}
+
+.oblig
+{
+	font-style : italic;
+	font-size : 0.8em;
+	text-align : right;
+	margin-top : 0;
+}
+
+.ui-autocomplete { 
+	max-height: 200px; 
+	overflow-y: auto; 
+	overflow-x: hidden;
+}
+
+i {
+	color: black;
+	margin: 0 0.25rem;
+}
+
+.text-align {
+    text-align: center;
+}
+
+/* Style de la page d'accueil */
+
+#pageConnexion {
+    margin-top: 5rem;
+}
+
+body {
+    color: black;
+}
+
+.icon-white {
+    color: white;
+}
+
+.imgLogo {
+    display: block;
+    margin: 0 auto;
+    width: 40rem;
+}
+
+#disconnect {
+	background-color: #23B7F2;
+}
+
+#parametres i {
+	font-size: 1.8rem;
+}
