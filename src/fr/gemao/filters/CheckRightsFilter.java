@@ -52,6 +52,7 @@ public class CheckRightsFilter implements Filter {
 		if(personneConnectee==null){
 			// Personne n'est connecté, le filtre CheckConnected s'en chargera
 			chain.doFilter(req, res);
+			//Voir le fichier CheckConnectedFilter.java
 			return;
 		}
 		

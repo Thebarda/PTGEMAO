@@ -41,6 +41,7 @@ public class ConnexionServlet extends HttpServlet {
         ConnexionForm form = new ConnexionForm();
 
         //Traitement de la requête et récupération du bean en résultant
+        //login et mdp non null
         Personnel personnel = form.testerDonneesFormulaires( request );
 
         //Récupération de la session depuis la requête
@@ -51,6 +52,7 @@ public class ConnexionServlet extends HttpServlet {
 		if (form.getErreurs().isEmpty()) {
 			ConnexionCtrl connexionCtrl = new ConnexionCtrl();
 			try {
+				//Controle du login et du mot de passe avec la bdd
 				personnel = connexionCtrl.controlerPersonnel(form.getLogin(), form.getMotDePasse());
 			} catch (Exception e) {
 				// Erreur lors de la connexion
@@ -66,6 +68,7 @@ public class ConnexionServlet extends HttpServlet {
 			
 			// L'utilisateur voit la redirection
 			response.sendRedirect(request.getContextPath() + Pattern.ACCUEIL);
+			//Voir vers CheckRightsFilter.java
 		} else {
 			// Retour à la page de connexion
 			request.setAttribute(ATT_FORM, form);
