@@ -7,9 +7,9 @@
 
 <footer>
 	<div>Gemao v1.0</div>
-	<script src="/PTGEMAOTestGi/js/script.js"></script>
-<script src="/PTGEMAOTestGi/js/classie.js"></script>
-<script src="/PTGEMAOTestGi/js/mlpushmenu.js"></script>
+	<script src="/GEMAO/js/script.js"></script>
+<script src="/GEMAO/js/classie.js"></script>
+<script src="/GEMAO/js/mlpushmenu.js"></script>
 <script>
 	new mlPushMenu( document.getElementById( 'mp-menu' ), document.getElementById( 'trigger' ) );
 </script>
