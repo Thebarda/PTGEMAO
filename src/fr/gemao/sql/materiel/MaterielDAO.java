@@ -202,6 +202,33 @@ public class MaterielDAO extends IDAO<Materiel> {
 
 		return liste;
 	}
+	
+	public List<Materiel> getAllByCategorie(int idCategorie) {
+		List<Materiel> liste = new ArrayList<>();
+
+		Materiel materiel = null;
+		Connection connexion = null;
+		PreparedStatement requete = null;
+		ResultSet result = null;
+		String sql = "SELECT * FROM materiel WHERE idCategorie = ?;";
+		try {
+			connexion = factory.getConnection();
+			requete = DAOUtilitaires.initialisationRequetePreparee(connexion,
+					sql, false, idCategorie);
+			result = requete.executeQuery();
+
+			while (result.next()) {
+				materiel = this.map(result);
+				liste.add(materiel);
+			}
+		} catch (SQLException e1) {
+			throw new DAOException(e1);
+		} finally {
+			DAOUtilitaires.fermeturesSilencieuses(result, requete, connexion);
+		}
+
+		return liste;
+	}
 
 	@Override
 	protected Materiel map(ResultSet result) throws SQLException {

@@ -102,6 +102,13 @@ public class MaterielCtrl {
 		return listeMateriel;
 	}
 	
+	public static List<Materiel> recupererMaterielByCategorie(int idCategorie){
+		List<Materiel> listMaterielByCategorie = new ArrayList<>();
+		MaterielDAO materielDAO = new MaterielDAO(DAOFactory.getInstance());
+		listMaterielByCategorie = materielDAO.getAllByCategorie(idCategorie);
+		return listMaterielByCategorie;
+	}
+	
 	public void modifierMateriel(Materiel materiel) {
 		if (materiel.getEtat() == null) {
 			throw new NullPointerException("L'etat ne doit pas etre null");

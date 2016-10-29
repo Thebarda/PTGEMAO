@@ -2,14 +2,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page import="fr.gemao.view.Pattern"%>
 
-<c:set var="titre" value="Location d'un instrument" scope="request" />
+<c:set var="titre" value="Location interne d'un instrument" scope="request" />
 
 <c:import url="/inc/head.inc.jsp" />
 
 <c:import url="/inc/header.inc.jsp" />
 <c:import url="/inc/menu.inc.jsp" />
 
-	<h1>Location d'instrument</h1>
+	<h1>Location interne d'un instrument</h1>
 
 	<c:choose >
 		<c:when test="${empty resultat}">
@@ -48,9 +48,9 @@
 						<c:when test="${!empty requestScope.nomDesignation}">
 							<div><span class='text-label'>Désignation : </span><c:out value="${nomDesignation}" /></div>
 						</c:when>
-					</c:choose>
-					
+					</c:choose>		
 				</fieldset>
+				
 				<c:if test="${!empty requestScope.listeAdherent}">
 					<fieldset>
 						<legend>Adhérent</legend>

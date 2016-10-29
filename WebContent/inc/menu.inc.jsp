@@ -73,7 +73,6 @@
 							</ul>
 						</div></li>
 					</c:if>
-					<%--
 					<c:if test="${sessionScope.sessionObjectPersonnel.profil.recupererTypeDroit('Location') != 'Aucun' }">
 					<li class="icon icon-arrow-left"><a href="#">Location</a>
 						<div class="mp-level">
@@ -81,7 +80,8 @@
 							<a class="mp-back" href="#">Retour</a>
 							<ul>
 								<c:if test="${sessionScope.sessionObjectPersonnel.profil.recupererTypeDroit('Location') == 'Lecture/écriture' }">
-								<li><a href="<c:url value="<%= Pattern.LOCATION_LOCATION %>"/>">Prêt</a></li>
+								<li><a href="<c:url value="<%= Pattern.LOCATION_LOCATION_INTERNE %>"/>">Location interne</a></li>
+								<li><a href="<c:url value="<%= Pattern.LOCATION_LOCATION_EXTERNE %>"/>">Location externe</a></li>
 								</c:if>
 								<li><a href="<c:url value="<%= Pattern.LOCATION_RETOUR %>"/>">Retour</a></li>
 							</ul>
@@ -101,7 +101,6 @@
 						</div>
 					</li>
 					</c:if>
-					 --%>
 					 <li class="icon icon-arrow-left"><a href="#">Emploi du temps</a>
 						<div class="mp-level">
 							<h2>Emploi du temps</h2>
