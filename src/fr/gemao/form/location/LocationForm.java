@@ -11,13 +11,13 @@ import fr.gemao.form.util.Form;
 public class LocationForm {
 	
 	private static final String CHAMP_CATEGORIE = "categorie";
-	private static final String CHAMP_DESIGNATION = "designation";
+	private static final String CHAMP_MATERIEL = "materiel";
 	private static final String CHAMP_ADHERENT = "adherent";
 	private static final String CHAMP_DATEDEBUT = "datedeb";
 	private static final String CHAMP_DATEFIN = "datefin";
 	
 	private String categorie;
-	private String designation;
+	private String materiel;
 	private String adherent;
 	private String dateDebut, dateFin;
 	
@@ -26,7 +26,7 @@ public class LocationForm {
 
 	public LocationForm(HttpServletRequest request) {
 		categorie	= Form.getValeurChamp(request, CHAMP_CATEGORIE);
-		designation	= Form.getValeurChamp(request, CHAMP_DESIGNATION);
+		materiel	= Form.getValeurChamp(request, CHAMP_MATERIEL);
 		adherent	= Form.getValeurChamp(request, CHAMP_ADHERENT);
 		dateDebut	= Form.getValeurChamp(request, CHAMP_DATEDEBUT);
 		dateFin		= Form.getValeurChamp(request, CHAMP_DATEFIN);
@@ -50,11 +50,11 @@ public class LocationForm {
 	}
 
 	public String getDesignation() {
-		return designation;
+		return materiel;
 	}
 
-	public void setDesignation(String designation) {
-		this.designation = designation;
+	public void setDesignation(String materiel) {
+		this.materiel = materiel;
 	}
 
 	public String getAdherent() {

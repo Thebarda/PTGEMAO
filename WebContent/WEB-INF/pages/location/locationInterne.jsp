@@ -29,57 +29,10 @@
 							</div>
 						</c:when>
 						<c:otherwise>
-							<div><span class='text-label'>Catégorie : </span><c:out value="${nomCategorie}" /></div>
-						</c:otherwise>
-					</c:choose>
-					
-					<c:choose>
-						<c:when test="${!empty requestScope.listeDesignation}">
-							<div>
-								<label for="designation">Désignation :</label>
-								<select name="designation">
-								<c:forEach items="${requestScope.listeDesignation}" var="designation">
-									<option value="<c:out value="${designation['idDesignation']}" />"><c:out
-											value="${designation['libelleDesignation']}" /></option>
-								</c:forEach>
-								</select>
-							</div>
-						</c:when>
-						<c:when test="${!empty requestScope.nomDesignation}">
-							<div><span class='text-label'>Désignation : </span><c:out value="${nomDesignation}" /></div>
-						</c:when>
-					</c:choose>		
+							<div><span class='text-label'>Catégorie : </span><p><c:out value="${request.test }"/></p></div>
+						</c:otherwise>	
+						</c:choose>
 				</fieldset>
-				
-				<c:if test="${!empty requestScope.listeAdherent}">
-					<fieldset>
-						<legend>Adhérent</legend>
-						<div>
-							<label for="adherent">Nom :</label>
-							<select name="adherent">
-								<c:forEach items="${requestScope.listeAdherent}" var="adherent">
-									<option value="<c:out value="${adherent['idPersonne']}" />">
-										<c:out value="${adherent['nom']} ${adherent['prenom']}" />
-									</option>
-								</c:forEach>
-							</select>
-						</div>
-					</fieldset>
-					
-					<fieldset>
-						<legend>Dates</legend>
-						
-						<div>
-							<label for="datedeb">Date d'emprunt :</label>
-							<input class='datepicker' type="text" name="datedeb" required />
-						</div>
-						
-						<div>
-							<label for="datefin">Date de retour :</label>
-							<input class='datepicker' type="text" name="datefin" required />
-						</div>
-					</fieldset>
-				</c:if>
 				<fieldset class='align-center no-border'>
 					<input type="submit" value="Valider" />
 				</fieldset>

@@ -61,49 +61,14 @@ public class LocationInterneServlet extends HttpServlet {
 
 		LocationForm locationForm = new LocationForm(request);
 		HttpSession session = request.getSession();
-		int idCategorie, idDesignation;
-
-		if (locationForm.getCategorie() != null) {
-			idCategorie = Integer.parseInt(locationForm.getCategorie());
-			// 2ème passage : la catégorie vient d'être choisie,
-			// choix de la désignation
-
-			// Mise du numéro de la catégorie dans la session
-			session.setAttribute(PARAM_ID_CATEGORIE, idCategorie);
-
-			// Passage en paramètre dans la requête du nom de la catégorie
-			request.setAttribute(PARAM_NOM_CATEGORIE, CategorieCtrl.recupererCategorie(idCategorie).getLibelleCat());
-
-			// Récupération de la liste
-			List<Materiel> listeDesignation = MaterielCtrl.recupererMaterielByCategorie(idCategorie);
-			request.setAttribute(PARAM_LISTE_DESIGNATION, listeDesignation);
-		} else if (locationForm.getDesignation() != null) {
-			// 3ème passage : la désignation vient d'être choisie,
-			// choix de l'instrument
-			idDesignation = Integer.parseInt(locationForm.getDesignation());
-			idCategorie = ((Integer) session.getAttribute(PARAM_ID_CATEGORIE)).intValue();
-
-			// Mise du numéro de la désignation dans la session
-			session.setAttribute(PARAM_ID_DESIGNATION, idDesignation);
-
-			// Passage en paramètre dans la requête du nom de la catégorie
-			request.setAttribute(PARAM_NOM_CATEGORIE, CategorieCtrl.recupererCategorie(idCategorie).getLibelleCat());
-			request.setAttribute(PARAM_NOM_DESIGNATION,
-					CategorieCtrl.recupererCategorie(idDesignation).getLibelleCat());
-
-			List<Adherent> listeAdherent = AdherentCtrl.recupererTousAdherents();
-			request.setAttribute(PARAM_LISTE_ADHERENT, listeAdherent);
-
-		} else {
-			// Dernier passage : Toutes les informations ont été choisies
-			idDesignation = ((Integer) session.getAttribute(PARAM_ID_DESIGNATION)).intValue();
-			idCategorie = ((Integer) session.getAttribute(PARAM_ID_CATEGORIE)).intValue();
-			int idAdherent = Integer.parseInt(locationForm.getAdherent());
-			String dateDebut = locationForm.getDateDebut();
-			String dateFin = locationForm.getDateFin();
-
-			// TODO
-			// Insérer la location dans la base
+		int idCategorie;
+		if(request.getAttribute("categorie")!=null){
+			idCategorie = (int) request.getAttribute("categorie");
+			request.setAttribute("test", idCategorie);
+			CategorieCtrl categorieCtrl = new CategorieCtrl();
+			Categorie categorie = CategorieCtrl.recupererCategorie(idCategorie);
+			System.out.println("::::::: "+categorie.getLibelleCat());
+			request.setAttribute(PARAM_NOM_CATEGORIE, categorie.getLibelleCat());
 		}
 
 		this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_INTERNE).forward(request, response);
