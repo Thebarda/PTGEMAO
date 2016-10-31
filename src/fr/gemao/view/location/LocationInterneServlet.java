@@ -64,10 +64,8 @@ public class LocationInterneServlet extends HttpServlet {
 		int idCategorie;
 		if(request.getAttribute("categorie")!=null){
 			idCategorie = (int) request.getAttribute("categorie");
-			request.setAttribute("test", idCategorie);
 			CategorieCtrl categorieCtrl = new CategorieCtrl();
 			Categorie categorie = CategorieCtrl.recupererCategorie(idCategorie);
-			System.out.println("::::::: "+categorie.getLibelleCat());
 			request.setAttribute(PARAM_NOM_CATEGORIE, categorie.getLibelleCat());
 		}
 

@@ -29,7 +29,7 @@
 							</div>
 						</c:when>
 						<c:otherwise>
-							<div><span class='text-label'>Catégorie : </span><p><c:out value="${request.test }"/></p></div>
+							<div><span class='text-label'>Catégorie : </span><p><c:out value="${nomCategorie }"/></p></div>
 						</c:otherwise>	
 						</c:choose>
 				</fieldset>
