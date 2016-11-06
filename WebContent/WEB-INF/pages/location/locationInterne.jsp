@@ -22,14 +22,31 @@
 								<label for="categorie">Catégorie :</label>
 								<select name="categorie">
 									<c:forEach items="${requestScope.listeCategorie}" var="categorie">
-										<option value="<c:out value="${categorie['idCategorie']}" />"><c:out
+										<option value="${categorie['idCategorie']}"><c:out
 												value="${categorie['libelleCat']}" /></option>
 									</c:forEach>
 								</select>
 							</div>
 						</c:when>
 						<c:otherwise>
-							<div><span class='text-label'>Catégorie : </span><p><c:out value="${nomCategorie }"/></p></div>
+							<fieldset>
+							<legend>Designation</legend>
+								<div><span class='text-label'>Catégorie : </span><span><%= session.getAttribute("nomCategorie") %></span></div>
+								<label for="instrument">Instrument : </label>
+									<select name="instrument">
+										<c:forEach items="${listeMateriel}" var="instrument">
+											<option value="${instrument['idMateriel']}"><c:out
+													value="${instrument['designation']['libelleDesignation']}" /></option>
+										</c:forEach>
+									</select><br>
+									<label for="adh">Adhérent : </label>
+									<select name="adh">
+										<c:forEach items="${listeAdherent}" var="adh">
+											<option value="${adh['idPersonne']}"><c:out
+													value="${adh['nom']}" /></option>
+										</c:forEach>
+									</select>
+							</fieldset>
 						</c:otherwise>	
 						</c:choose>
 				</fieldset>

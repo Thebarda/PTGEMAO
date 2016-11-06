@@ -122,7 +122,7 @@ public class Adherent extends Personne implements Serializable{
 		this.aPaye = aPaye;
 		this.famille = famille;
 	}
-
+	
 	/**
 	 * @return the idMotif
 	 */
