@@ -83,6 +83,7 @@ public class LocationInterneServlet extends HttpServlet {
 				Personne pers = new Personne(a.getIdPersonne(), a.getAdresse(), a.getCommuneNaiss(), a.getNom(), a.getPrenom(), a.getDateNaissance(), a.getTelFixe(), a.getTelPort(), a.getEmail(), a.getCivilite(), a.isDroitImage());
 				listePersonne.add(pers);
 			}
+			request.setAttribute(PARAM_LISTE_MATERIEL, listeMateriel);
 			request.setAttribute(PARAM_LISTE_ADHERENT, listePersonne);
 		}
 		this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_INTERNE).forward(request, response);
