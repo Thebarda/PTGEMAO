@@ -1,6 +1,7 @@
 package fr.gemao.ctrl.location;
 
-import java.sql.Date;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import fr.gemao.entity.Personne;
@@ -33,12 +34,12 @@ public class LocationCtrl {
 	 * @param montant
 	 *            le montant de l'emprunt
 	 */
-	/*public static void ajouterLocation(Personne personne, Materiel materiel,
-			Etat etatDebut, Date dateEmprunt, int duree, float montant) {
-		if (personne == null) {
+	public static void ajouterLocation(String idPersonne, String idMateriel,
+			String etatDebut, String dateEmprunt, String dateFin, float caution, float montant) {
+		if (idPersonne == null) {
 			throw new NullPointerException("L'adherent ne peut etre null");
 		}
-		if (materiel == null) {
+		if (idMateriel == null) {
 			throw new NullPointerException("Le materiel ne peut etre null");
 		}
 		if (etatDebut == null) {
@@ -48,71 +49,19 @@ public class LocationCtrl {
 			throw new NullPointerException(
 					"La date d'emprunt ne peut etre null");
 		}
-		if (duree <= 0) {
+		if (caution <= 0) {
 			throw new IllegalArgumentException(
-					"La duree doit etre strictement positive");
-		}
-		if (montant <= 0) {
-			throw new IllegalArgumentException(
-					"Le montant doit etre strictement positif");
-		}
-		GregorianCalendar gc = new GregorianCalendar();
-		gc.setTime(dateEmprunt);
-		gc.add(GregorianCalendar.DAY_OF_YEAR, duree); // Duree en jour
-		Date dateRetour = new Date(gc.getTime().getTime());
-
-		Location location = new Location(personne, materiel, etatDebut, null,
-				dateEmprunt, dateRetour, duree, montant, null);
-
-		new LocationDAO(DAOFactory.getInstance()).create(location);
-	}*/
-	
-	/**
-	 * Permet de rajouter une Location dans la BdD. La date de fin de l'emprun
-	 * est calculée automatiquement en fonction de la duree (en jours).
-	 * 
-	 * @param personne
-	 *            la personne qui loue le materiel.
-	 * @param materiel
-	 *            le materiel loué.
-	 * @param etatDebut
-	 *            l'etat du materiel au début de la location.
-	 * @param dateEmprunt
-	 *            la date de debut de l'emprunt.
-	 * @param duree
-	 *            la durée de l'emprunt.
-	 * @param montant
-	 *            le montant de l'emprunt
-	 */
-	public static void ajouterLocation(Personne personne, Materiel materiel,
-			Etat etatDebut, Date dateEmprunt, Date dateEcheance, float montant) {
-		if (personne == null) {
-			throw new NullPointerException("L'adherent ne peut etre null");
-		}
-		if (materiel == null) {
-			throw new NullPointerException("Le materiel ne peut etre null");
-		}
-		if (etatDebut == null) {
-			throw new NullPointerException("L'etat ne peut etre null");
-		}
-		if (dateEmprunt == null) {
-			throw new NullPointerException(
-					"La date d'emprunt ne peut etre null");
-		}
-		if (dateEcheance == null) {
-			throw new IllegalArgumentException(
-					"La duree doit etre strictement positive");
+					"La caution doit etre strictement positive");
 		}
 		if (montant <= 0) {
 			throw new IllegalArgumentException(
 					"Le montant doit etre strictement positif");
 		}
 
-		Location location = new Location(personne, materiel, etatDebut, null,
-				dateEmprunt, null, dateEcheance, montant, null);
-
-		new LocationDAO(DAOFactory.getInstance()).create(location);
+		new LocationDAO(DAOFactory.getInstance()).create(idPersonne, idMateriel,
+				etatDebut, dateEmprunt, dateFin, caution, montant);
 	}
+	
 
 	/**
 	 * Permet de supprimer une location de la base de données. La personne et le

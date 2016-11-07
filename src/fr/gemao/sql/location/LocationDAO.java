@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import fr.gemao.entity.cours.Discipline;
@@ -22,31 +23,29 @@ public class LocationDAO extends IDAO<Location>{
 		super(factory);
 	}
 	
-	@Override
-	public Location create(Location obj) {
-		throw new UnsupportedOperationException("Méthode non implémentée.");
-		/*if (obj == null) {
-			throw new NullPointerException("L'objet location ne doit pas être null");
-		}
+
+	public boolean create(String idPersonne, String idMateriel,
+			String etatDebut, String dateEmprunt, String dateFin, float caution, float montant) {
 		Connection connexion = null;
 		PreparedStatement requete = null;
 		ResultSet result = null;
 		String sql = "INSERT INTO location(idPersonne, idMateriel, idEtatDebut, idEtatFin, "
-				+ "idReparation, dateEmprunt,dateEcheance, dateRetour, montant) VALUES "
-				+ "(?, ?, ?, ?, ?, ?, ?, ?, ?);";
+				+ "idReparation, dateEmprunt,dateEcheance, dateRetour, caution, montant) VALUES "
+				+ "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 		try {
 			connexion = factory.getConnection();
 			requete = DAOUtilitaires.initialisationRequetePreparee(connexion,
 					sql, false,
-					obj.getPersonne().getIdPersonne(),
-					obj.getMateriel().getIdMateriel(),
-					obj.getEtatDebut().getIdEtat(),
-					obj.getEtatFin().getIdEtat(),
-					obj.getReparation().getIdReparation(),
-					obj.getDateEmprunt(),
-					obj.getDateEcheance(),
-					obj.getDateRetour(),
-					obj.getMontant()
+					idPersonne,
+					idMateriel,
+					etatDebut,
+					null,
+					null,
+					dateEmprunt,
+					dateFin,
+					null,
+					caution,
+					montant
 			);
 
 			int status = requete.executeUpdate();
@@ -62,7 +61,7 @@ public class LocationDAO extends IDAO<Location>{
 			DAOUtilitaires.fermeturesSilencieuses(result, requete, connexion);
 		}
 
-		return this.get(obj.getIdDiscipline());*/
+		return true;
 	}
 
 	@Override
@@ -101,8 +100,15 @@ public class LocationDAO extends IDAO<Location>{
 				result.getDate("dateEmprunt"),
 				result.getDate("dateRetour"),
 				result.getDate("dateEcheance"),
+				result.getInt("caution"),
 				result.getFloat("montant"),
 				idReparation==null?null:factory.getReparationDAO().get(idReparation));
+	}
+
+	@Override
+	public Location create(Location obj) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

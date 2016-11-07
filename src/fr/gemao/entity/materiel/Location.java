@@ -39,6 +39,8 @@ public class Location implements Serializable{
 	/** The montant. */
 	private float montant;
 	
+	private int caution;
+	
 	/** The reparation. */
 	private Reparation reparation;
 
@@ -145,7 +147,7 @@ public class Location implements Serializable{
 	 * @param reparation the reparation
 	 */
 	public Location(Personne personne, Materiel materiel, Etat etatDebut,
-			Etat etatFin, Date dateEmprunt, Date dateRetour, Date dateEcheance,
+			Etat etatFin, Date dateEmprunt, Date dateRetour, Date dateEcheance, int caution,
 			float montant, Reparation reparation) {
 		this.personne = personne;
 		this.materiel = materiel;
@@ -155,6 +157,7 @@ public class Location implements Serializable{
 		this.dateRetour = dateRetour;
 		this.dateEcheance = dateEcheance;
 		this.montant = montant;
+		this.caution = caution;
 		this.reparation = reparation;
 	}
 
