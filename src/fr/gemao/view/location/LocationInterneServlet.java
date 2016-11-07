@@ -115,8 +115,16 @@ public class LocationInterneServlet extends HttpServlet {
 		        
 				float caution = Float.parseFloat(Form.getValeurChamp(request, PARAM_CAUTION));
 				float montant = Float.parseFloat(Form.getValeurChamp(request, PARAM_MONTANT));
-				LocationCtrl.ajouterLocation(idPersonne, idMateriel, etatDebut, dateDebut, dateFin,caution, montant);
-				response.sendRedirect(request.getContextPath() + Pattern.ACCUEIL);
+				
+				session.setAttribute(PARAM_ID_ADHERENT, idPersonne);
+				session.setAttribute(PARAM_ID_DESIGNATION, idMateriel);
+				session.setAttribute("etatDebut", etatDebut);
+				session.setAttribute(PARAM_DATE_DEBUT, dateDebut);
+				session.setAttribute(PARAM_DATE_FIN, dateFin);
+				session.setAttribute(PARAM_CAUTION, caution);
+				session.setAttribute(PARAM_MONTANT, montant);
+			//	LocationCtrl.ajouterLocation(idPersonne, idMateriel, etatDebut, dateDebut, dateFin,caution, montant);
+				response.sendRedirect(request.getContextPath() + Pattern.LOCATION_VALIDATION);
 			}else{
 				response.sendRedirect(request.getContextPath()+Pattern.LOCATION_LOCATION_INTERNE);
 			}
