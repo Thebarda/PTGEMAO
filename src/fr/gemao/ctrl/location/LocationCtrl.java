@@ -93,4 +93,9 @@ public class LocationCtrl {
 			}
 		}
 	}
+	
+	public static int getNbLocation(){
+		LocationDAO locDAO = new LocationDAO(DAOFactory.getInstance());
+		return locDAO.getNbLocation();
+	}
 }

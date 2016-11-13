@@ -48,7 +48,6 @@ public class LocationForm {
 	}
 	
 	public LocationForm(){
-		
 	}
 	
 	/**
@@ -115,15 +114,15 @@ public class LocationForm {
 	 * sinon.
 	 */
 	private static String getValeurChamp(HttpServletRequest request, String nomChamp) {
-		String valeur = request.getParameter(nomChamp);
-		if (valeur == null || valeur.trim().length() == 0) {
+		String valeur = Form.getValeurChamp(request, nomChamp);
+		if (valeur == null) {
 			return null;
 		} else {
 			return valeur;
 		}
 	}
 	
-	private void validationDateDebut(String dateDebut) throws Exception{
+	/*private void validationDateDebut(String dateDebut) throws Exception{
 		if (dateDebut == null || dateDebut.equals("")){
 			throw new Exception("Merci de choisir une date valide.");
 		}else{
@@ -132,11 +131,11 @@ public class LocationForm {
 			Date today = new Date();
 			String tmp = dateLoc.toString();
 			today = dateFormat.parse(tmp);
-			if(dateLoc.before(today)){
+			if(today.after(dateLoc)){
 				throw new Exception("Merci spécifier une date supérieure à aujourd'hui.");
 			}
 		}
-	}
+	}*/
 	
 	private void validationCaution(String caution) throws Exception{
 		int nb = Integer.parseInt(caution);
@@ -153,19 +152,15 @@ public class LocationForm {
 	}
 
 	public void testFormulaire(HttpServletRequest request){
-		categorie = LocationForm.getValeurChamp(request, CHAMP_CATEGORIE);
-		designation=this.getValeurChamp(request, CHAMP_DESIGNATION);
-		adherent=this.getValeurChamp(request, CHAMP_ADHERENT);
 		dateDebut=this.getValeurChamp(request, CHAMP_DATEDEBUT);
-		dateFin=this.getValeurChamp(request, CHAMP_DATEFIN);
 		caution=this.getValeurChamp(request, CHAMP_CAUTION);
 		montant=this.getValeurChamp(request, CHAMP_MONTANT);
 
-		try{
+		/*try{
 			validationDateDebut(dateDebut);
 		}catch(Exception e){
 			setErreur(CHAMP_DATEDEBUT, e.getMessage());
-		}
+		}*/
 		try{
 			validationCaution(caution);
 		}catch(Exception e){
@@ -175,12 +170,6 @@ public class LocationForm {
 			validationMontant(montant);
 		}catch(Exception e){
 			setErreur(CHAMP_MONTANT, e.getMessage());
-		}
-		
-		if(erreurs.isEmpty()){
-			this.setResultat("Location ajouté avec succés");
-		}else{
-			this.setResultat("Location contenant des erreurs");
 		}
 	}
 	
@@ -194,11 +183,21 @@ public class LocationForm {
 		}
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
-		c.add(Calendar.YEAR, 1);
-		int month = 1+c.getTime().getMonth();
-		int year = 1900+c.getTime().getYear();
-		String fin = ""+c.getTime().getDate()+"/"+month+"/"+year;
-		dateFin = fin;
-		return fin;
+		if((date.getYear()%4==0)&&((date.getYear()%400==0)||(date.getYear()%10!=0))&&(date.getMonth()==2)){
+			c.add(Calendar.YEAR, 1);
+			int month = 1+c.getTime().getMonth();
+			int year = 1900+c.getTime().getYear();
+			String fin = ""+01+"/"+month+1+"/"+year;
+			dateFin = fin;
+			return fin;
+		}else{
+			c.add(Calendar.YEAR, 1);
+			int month = 1+c.getTime().getMonth();
+			int year = 1900+c.getTime().getYear();
+			String fin = ""+c.getTime().getDate()+"/"+month+"/"+year;
+			dateFin = fin;
+			return fin;
+		}
+		
 	}
 }

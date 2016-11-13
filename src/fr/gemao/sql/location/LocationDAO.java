@@ -110,5 +110,24 @@ public class LocationDAO extends IDAO<Location>{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public int getNbLocation(){
+		Connection connexion = null;
+		PreparedStatement requete = null;
+		ResultSet result = null;
+		String sql = "SELECT COUNT(idPersonne) FROM location";
+		int res=0;
+		try {
+			connexion = factory.getConnection();
+			requete = DAOUtilitaires.initialisationRequetePreparee(connexion,
+					sql, false);
+			result = requete.executeQuery();
+			res= result.getInt(0);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return res;
+	}
 
 }

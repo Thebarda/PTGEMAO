@@ -1,6 +1,14 @@
 package fr.gemao.view.location;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,10 +34,17 @@ import fr.gemao.entity.adherent.Adherent;
 import fr.gemao.entity.materiel.Categorie;
 import fr.gemao.entity.materiel.Designation;
 import fr.gemao.entity.materiel.Materiel;
+import fr.gemao.entity.personnel.Personnel;
 import fr.gemao.form.location.LocationForm;
 import fr.gemao.form.util.Form;
 import fr.gemao.view.JSPFile;
 import fr.gemao.view.Pattern;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
 
 /**
  * Servlet implementation class locationInstrumentServlet
@@ -79,6 +94,91 @@ public class LocationInterneServlet extends HttpServlet {
 		LocationForm locationForm = new LocationForm(request);
 		HttpSession session = request.getSession();
 		int idCategorie;
+		
+		if(Form.getValeurChamp(request, "imprimer")!=null){
+			if(Form.getValeurChamp(request, "imprimer")=="Oui"){ //impression
+				Personnel connectee = (Personnel)session.getAttribute("sessionObjectPersonnel");
+				char lettreNom = connectee.getNom().charAt(0);
+				char lettrePrenom = connectee.getPrenom().charAt(0);
+				int numeroLocation = LocationCtrl.getNbLocation();
+				String adherent = ""+session.getAttribute("nomAdherent");
+				String[] adh = adherent.split(" ");
+				String nom = adh[0];
+				String prenom = adh[1];
+				String instrument = ""+session.getAttribute("nomInstrument");
+				String marqueType = "";
+				List<Materiel> materiels = MaterielCtrl.recupererMaterielByCategorie(Integer.parseInt(""+session.getAttribute(PARAM_ID_CATEGORIE)));
+				for(Materiel mat : materiels){
+					if(mat.getDesignation().getIdDesignation()==Integer.parseInt(""+session.getAttribute(PARAM_ID_DESIGNATION))){
+						marqueType = mat.getTypeMat();
+					}
+				}
+				int montant = Integer.parseInt(""+session.getAttribute(PARAM_MONTANT));
+				
+				//Generation du report
+				/*String jrxmlFileName = "";
+				String jasperFileName="";
+				try {
+					JasperCompileManager.compileReportToFile(jrxmlFileName, jasperFileName);
+					
+				} catch (JRException e) {
+					e.printStackTrace();
+				}*/
+			}
+			LocationCtrl.ajouterLocation(""+session.getAttribute("nomAdherent"), ""+session.getAttribute("nomInstrument"), ""+session.getAttribute("etatDebut"), ""+session.getAttribute(PARAM_DATE_DEBUT), ""+session.getAttribute(PARAM_DATE_FIN), Float.parseFloat(""+session.getAttribute(PARAM_CAUTION)), Float.parseFloat(""+session.getAttribute(PARAM_MONTANT)));
+		}
+		
+		if(Form.getValeurChamp(request, PARAM_ID_DESIGNATION)!=null){
+			String dateFin = locationForm.setDateFinForm(Form.getValeurChamp(request, PARAM_DATE_DEBUT));
+			locationForm.testFormulaire(request);
+			if(locationForm.getErreurs().isEmpty()==true){
+				String idPersonne = Form.getValeurChamp(request, PARAM_ID_ADHERENT);
+				String idMateriel = Form.getValeurChamp(request, PARAM_ID_DESIGNATION);
+				session.setAttribute("PARAM_ID_DESIGNATION",Integer.parseInt(idMateriel));
+				List<Materiel> mats = MaterielCtrl.recupererMaterielByCategorie(Integer.parseInt(""+session.getAttribute(PARAM_ID_CATEGORIE)));
+				Materiel mat=null;
+				for(Materiel m : mats){
+					if(m.getDesignation().getIdDesignation()==Integer.parseInt(idMateriel)){
+						mat = m;
+					}
+				}
+				
+				String materiel = mat.getDesignation().getLibelleDesignation();
+				
+				String etatDebut = ""+mat.getEtat().getIdEtat();
+				
+				String dateDebut = Form.getValeurChamp(request, PARAM_DATE_DEBUT);
+		        
+				float caution = Float.parseFloat(Form.getValeurChamp(request, PARAM_CAUTION));
+				float montant = Float.parseFloat(Form.getValeurChamp(request, PARAM_MONTANT));
+				
+				String nom = null, prenom = null;
+				
+				List<Adherent> adhs = AdherentCtrl.recupererTousAdherents();
+				for(Adherent adh : adhs){
+					if(adh.getIdPersonne()==Long.parseLong(idPersonne)){
+						nom = adh.getNom();
+						prenom = adh.getPrenom();
+					}
+				}
+				
+				session.setAttribute("etatDebut", etatDebut);
+				session.setAttribute(PARAM_DATE_DEBUT, dateDebut);
+				session.setAttribute(PARAM_DATE_FIN, dateFin);
+				session.setAttribute(PARAM_CAUTION, caution);
+				session.setAttribute(PARAM_MONTANT, montant);
+				
+				request.setAttribute("resultat", "yes");
+				
+				session.setAttribute("nomInstrument", materiel);
+				session.setAttribute("nomAdherent", prenom+" "+nom);
+				
+				
+				this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_INTERNE).forward(request, response);
+			}else{
+				response.sendRedirect(request.getContextPath()+Pattern.ACCUEIL);
+			}
+		}
 		if(Form.getValeurChamp(request, CATEGORIE)!=null){
 			idCategorie = Integer.parseInt(Form.getValeurChamp(request, CATEGORIE));
 			CategorieCtrl categorieCtrl = new CategorieCtrl();
@@ -96,39 +196,7 @@ public class LocationInterneServlet extends HttpServlet {
 			request.setAttribute(PARAM_LISTE_ADHERENT, listePersonne);
 			this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_INTERNE).forward(request, response);
 		}
-		if(Form.getValeurChamp(request, PARAM_ID_DESIGNATION)!=null){
-			String dateFin = locationForm.setDateFinForm(Form.getValeurChamp(request, PARAM_DATE_DEBUT));
-			locationForm.testFormulaire(request);
-			if(locationForm.getErreurs().isEmpty()!=true){
-				String idPersonne = Form.getValeurChamp(request, PARAM_ID_ADHERENT);
-				String idMateriel = Form.getValeurChamp(request, PARAM_ID_DESIGNATION);
-				List<Materiel> mats = MaterielCtrl.recupererMaterielByCategorie(Integer.parseInt(""+session.getAttribute(PARAM_ID_CATEGORIE)));
-				Materiel mat=null;
-				for(Materiel m : mats){
-					if(m.getCategorie().getIdCategorie()==Integer.parseInt(""+session.getAttribute(PARAM_ID_CATEGORIE))){
-						mat = m;
-					}
-				}
-				String etatDebut = ""+mat.getEtat().getIdEtat();
-				
-				String dateDebut = Form.getValeurChamp(request, PARAM_DATE_DEBUT);
-		        
-				float caution = Float.parseFloat(Form.getValeurChamp(request, PARAM_CAUTION));
-				float montant = Float.parseFloat(Form.getValeurChamp(request, PARAM_MONTANT));
-				
-				session.setAttribute(PARAM_ID_ADHERENT, idPersonne);
-				session.setAttribute(PARAM_ID_DESIGNATION, idMateriel);
-				session.setAttribute("etatDebut", etatDebut);
-				session.setAttribute(PARAM_DATE_DEBUT, dateDebut);
-				session.setAttribute(PARAM_DATE_FIN, dateFin);
-				session.setAttribute(PARAM_CAUTION, caution);
-				session.setAttribute(PARAM_MONTANT, montant);
-			//	LocationCtrl.ajouterLocation(idPersonne, idMateriel, etatDebut, dateDebut, dateFin,caution, montant);
-				response.sendRedirect(request.getContextPath() + Pattern.LOCATION_VALIDATION);
-			}else{
-				response.sendRedirect(request.getContextPath()+Pattern.LOCATION_LOCATION_INTERNE);
-			}
-		}
+		
 	}
 
 }

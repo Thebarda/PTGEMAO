@@ -34,7 +34,7 @@ import fr.gemao.view.Pattern;
 /**
  * Servlet implementation class locationInstrumentServlet
  */
-@WebServlet(Pattern.LOCATION_LOCATION_INTERNE)
+@WebServlet(Pattern.LOCATION_VALIDATION)
 public class ValidationLocationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
