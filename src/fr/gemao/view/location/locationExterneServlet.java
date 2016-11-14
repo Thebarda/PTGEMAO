@@ -1,19 +1,7 @@
 package fr.gemao.view.location;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.print.PageFormat;
-import java.awt.print.Printable;
-import java.awt.print.PrinterException;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -27,24 +15,16 @@ import fr.gemao.ctrl.PersonneCtrl;
 import fr.gemao.ctrl.adherent.AdherentCtrl;
 import fr.gemao.ctrl.location.LocationCtrl;
 import fr.gemao.ctrl.materiel.CategorieCtrl;
-import fr.gemao.ctrl.materiel.DesignationCtrl;
 import fr.gemao.ctrl.materiel.MaterielCtrl;
 import fr.gemao.entity.Personne;
 import fr.gemao.entity.adherent.Adherent;
 import fr.gemao.entity.materiel.Categorie;
-import fr.gemao.entity.materiel.Designation;
 import fr.gemao.entity.materiel.Materiel;
 import fr.gemao.entity.personnel.Personnel;
 import fr.gemao.form.location.LocationForm;
 import fr.gemao.form.util.Form;
 import fr.gemao.view.JSPFile;
 import fr.gemao.view.Pattern;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.design.JasperDesign;
-import net.sf.jasperreports.engine.xml.JRXmlLoader;
 
 /**
  * Servlet implementation class locationInstrumentServlet
@@ -57,7 +37,7 @@ public class locationExterneServlet extends HttpServlet {
 	private final String PARAM_NOM_CATEGORIE = "nomCategorie";
 	private final String PARAM_LISTE_CATEGORIE = "listeCategorie";
 	private final String PARAM_LISTE_MATERIEL = "listeMateriel";
-	private final String PARAM_LISTE_ADHERENT = "listeAdherent";
+	private final String PARAM_LISTE_PERSONNE = "listePersonne";
 	private final String PARAM_ID_DESIGNATION = "nomDesignation";
 	private final String PARAM_ID_ADHERENT = "adherent";
 	private final String PARAM_DATE_DEBUT = "debutLocation";
@@ -81,7 +61,7 @@ public class locationExterneServlet extends HttpServlet {
 		}
 		request.setAttribute(PARAM_LISTE_CATEGORIE, listeCategorie);
 
-		this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_INTERNE).forward(request, response);
+		this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_EXTERNE).forward(request, response);
 	}
 
 	/**
@@ -125,7 +105,8 @@ public class locationExterneServlet extends HttpServlet {
 					e.printStackTrace();
 				}*/
 			}
-			LocationCtrl.ajouterLocation(""+session.getAttribute("nomAdherent"), ""+session.getAttribute("nomInstrument"), ""+session.getAttribute("etatDebut"), ""+session.getAttribute(PARAM_DATE_DEBUT), ""+session.getAttribute(PARAM_DATE_FIN), Float.parseFloat(""+session.getAttribute(PARAM_CAUTION)), Float.parseFloat(""+session.getAttribute(PARAM_MONTANT)));
+			LocationCtrl.ajouterLocation(""+session.getAttribute(PARAM_ID_ADHERENT), ""+session.getAttribute(PARAM_ID_DESIGNATION), ""+session.getAttribute("etatDebut"), ""+session.getAttribute(PARAM_DATE_DEBUT), ""+session.getAttribute(PARAM_DATE_FIN), Float.parseFloat(""+session.getAttribute(PARAM_CAUTION)), Float.parseFloat(""+session.getAttribute(PARAM_MONTANT)));
+			response.sendRedirect(request.getContextPath()+Pattern.ACCUEIL);
 		}
 		
 		if(Form.getValeurChamp(request, PARAM_ID_DESIGNATION)!=null){
@@ -174,7 +155,7 @@ public class locationExterneServlet extends HttpServlet {
 				session.setAttribute("nomAdherent", prenom+" "+nom);
 				
 				
-				this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_INTERNE).forward(request, response);
+				this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_EXTERNE).forward(request, response);
 			}else{
 				response.sendRedirect(request.getContextPath()+Pattern.ACCUEIL);
 			}
@@ -186,15 +167,15 @@ public class locationExterneServlet extends HttpServlet {
 			session.setAttribute(PARAM_ID_CATEGORIE, Integer.parseInt(Form.getValeurChamp(request, CATEGORIE)));
 			session.setAttribute(PARAM_NOM_CATEGORIE, categorie.getLibelleCat());
 			List<Materiel> listeMateriel = MaterielCtrl.recupererMaterielByCategorie((int) session.getAttribute(PARAM_ID_CATEGORIE));
-			List<Adherent> listeAdherent = AdherentCtrl.recupererTousAdherents();
-			List<Personne> listePersonne = new ArrayList<>();
-			for(Adherent a : listeAdherent){
-				Personne pers = new Personne(a.getIdPersonne(), a.getAdresse(), a.getCommuneNaiss(), a.getNom(), a.getPrenom(), a.getDateNaissance(), a.getTelFixe(), a.getTelPort(), a.getEmail(), a.getCivilite(), a.isDroitImage());
-				listePersonne.add(pers);
+			List<Personne> listePersonnes = PersonneCtrl.recupererToutesPersonnes();
+			List<Personne> listePers = new ArrayList<Personne>();
+			for(Personne p : listePersonnes){
+				Personne pers = new Personne(p.getIdPersonne(), p.getAdresse(), p.getCommuneNaiss(), p.getNom(), p.getPrenom(), p.getDateNaissance(), p.getTelFixe(), p.getTelPort(), p.getEmail(), p.getCivilite(), false);
+				listePers.add(pers);
 			}
 			request.setAttribute(PARAM_LISTE_MATERIEL, listeMateriel);
-			request.setAttribute(PARAM_LISTE_ADHERENT, listePersonne);
-			this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_INTERNE).forward(request, response);
+			request.setAttribute(PARAM_LISTE_PERSONNE, listePers);
+			this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_EXTERNE).forward(request, response);
 		}
 		
 	}

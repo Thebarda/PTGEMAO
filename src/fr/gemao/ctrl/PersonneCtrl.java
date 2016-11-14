@@ -3,13 +3,17 @@
  */
 package fr.gemao.ctrl;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import fr.gemao.entity.Personne;
+import fr.gemao.entity.adherent.Adherent;
 import fr.gemao.sql.DAOFactory;
 import fr.gemao.sql.PersonneDAO;
+import fr.gemao.sql.adherent.AdherentDAO;
 
 /**
  * @author FELTON-GROS-METAYER-PIAT-VAREILLE
@@ -190,5 +194,15 @@ public final class PersonneCtrl {
 			System.out.println("Les informations de la personne ne sont pas valides...");
 			return -1;
 		}
+	}
+	
+	public static List<Personne> recupererToutesPersonnes() {
+		List<Personne> listePersonnes = new ArrayList<Personne>();
+		DAOFactory co = DAOFactory.getInstance();
+		PersonneDAO personneDAO = co.getPersonneDAO();
+
+		listePersonnes = personneDAO.getAll();
+
+		return listePersonnes;
 	}
 }

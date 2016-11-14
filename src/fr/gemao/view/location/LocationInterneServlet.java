@@ -1,19 +1,7 @@
 package fr.gemao.view.location;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.print.PageFormat;
-import java.awt.print.Printable;
-import java.awt.print.PrinterException;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -23,28 +11,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import fr.gemao.ctrl.PersonneCtrl;
 import fr.gemao.ctrl.adherent.AdherentCtrl;
 import fr.gemao.ctrl.location.LocationCtrl;
 import fr.gemao.ctrl.materiel.CategorieCtrl;
-import fr.gemao.ctrl.materiel.DesignationCtrl;
 import fr.gemao.ctrl.materiel.MaterielCtrl;
 import fr.gemao.entity.Personne;
 import fr.gemao.entity.adherent.Adherent;
 import fr.gemao.entity.materiel.Categorie;
-import fr.gemao.entity.materiel.Designation;
 import fr.gemao.entity.materiel.Materiel;
 import fr.gemao.entity.personnel.Personnel;
 import fr.gemao.form.location.LocationForm;
 import fr.gemao.form.util.Form;
 import fr.gemao.view.JSPFile;
 import fr.gemao.view.Pattern;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.design.JasperDesign;
-import net.sf.jasperreports.engine.xml.JRXmlLoader;
 
 /**
  * Servlet implementation class locationInstrumentServlet
@@ -125,7 +104,7 @@ public class LocationInterneServlet extends HttpServlet {
 					e.printStackTrace();
 				}*/
 			}
-			LocationCtrl.ajouterLocation(""+session.getAttribute("nomAdherent"), ""+session.getAttribute("nomInstrument"), ""+session.getAttribute("etatDebut"), ""+session.getAttribute(PARAM_DATE_DEBUT), ""+session.getAttribute(PARAM_DATE_FIN), Float.parseFloat(""+session.getAttribute(PARAM_CAUTION)), Float.parseFloat(""+session.getAttribute(PARAM_MONTANT)));
+			LocationCtrl.ajouterLocation(""+session.getAttribute(PARAM_ID_ADHERENT), ""+session.getAttribute(PARAM_ID_DESIGNATION), ""+session.getAttribute("etatDebut"), ""+session.getAttribute(PARAM_DATE_DEBUT), ""+session.getAttribute(PARAM_DATE_FIN), Float.parseFloat(""+session.getAttribute(PARAM_CAUTION)), Float.parseFloat(""+session.getAttribute(PARAM_MONTANT)));
 		}
 		
 		if(Form.getValeurChamp(request, PARAM_ID_DESIGNATION)!=null){

@@ -26,7 +26,7 @@ $(function(){
 	$(".tablesorter-blue").tablesorter();
 });
 
-document.getElementById("dateEmprunt").addEventListener("focus", function(e){
+document.getElementById("dateEmprunt").addEventListener("input", function(e){
     var today = new Date();
     var date = e.target.value.split("/", 3);
     var day = date[0];
