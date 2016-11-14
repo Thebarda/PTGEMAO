@@ -48,21 +48,8 @@
 										</c:forEach>
 									</select><br><br>
 									<label>Date d'emprunt : </label><input id="dateEmprunt" type="text" class="datepicker" required='required' name="debutLocation"><span id="dateErreur"></span><br><br>
-									<label>Durée (en mois) : </label><select required='required' name="finLocation">
-																		<option>1</option>
-																		<option>2</option>
-																		<option>3</option>
-																		<option>4</option>
-																		<option>5</option>
-																		<option>6</option>
-																		<option>7</option>
-																		<option>8</option>
-																		<option>9</option>
-																		<option>10</option>
-																		<option>11</option>
-																		<option>12</option>
-																	</select>
-									<br><br><label>Caution : </label><input id="caution" type="text" required='required' name="caution"><span id="cautionErreur"></span>
+									<label>Date d'échéance : </label><input id="dateEcheance" type="text" class="datepicker" required='required' name="finLocation"><span id="dateErreur2"></span><br><br>
+									<label>Caution : </label><input id="caution" type="text" required='required' name="caution"><span id="cautionErreur"></span>
 									<br><br><label>Montant : </label><input id="montant" type="text" required='required' name="montant"><span id="montantErreur"></span>
 									<br><br><label>Date encaissement : </label>
 							</fieldset>

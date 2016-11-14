@@ -128,8 +128,7 @@ public class locationExterneServlet extends HttpServlet {
 				String etatDebut = ""+mat.getEtat().getIdEtat();
 				
 				String dateDebut = Form.getValeurChamp(request, PARAM_DATE_DEBUT);
-				int duree = Integer.parseInt(""+Form.getValeurChamp(request, PARAM_DATE_FIN));
-				String dateFin = locationForm.setDateFinFormByDuree(duree, dateDebut);
+				String dateFin = Form.getValeurChamp(request, PARAM_DATE_FIN);
 		        
 				float caution = Float.parseFloat(Form.getValeurChamp(request, PARAM_CAUTION));
 				float montant = Float.parseFloat(Form.getValeurChamp(request, PARAM_MONTANT));
