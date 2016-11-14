@@ -1,5 +1,5 @@
 package fr.gemao.view.materiel;
-//test push 2
+
 import java.io.IOException;
 
 import javax.servlet.ServletException;
