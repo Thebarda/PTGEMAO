@@ -128,18 +128,19 @@ public class locationExterneServlet extends HttpServlet {
 				String etatDebut = ""+mat.getEtat().getIdEtat();
 				
 				String dateDebut = Form.getValeurChamp(request, PARAM_DATE_DEBUT);
-				String dateFin = Form.getValeurChamp(request, PARAM_DATE_FIN);
+				int duree = Integer.parseInt(""+Form.getValeurChamp(request, PARAM_DATE_FIN));
+				String dateFin = locationForm.setDateFinFormByDuree(duree, dateDebut);
 		        
 				float caution = Float.parseFloat(Form.getValeurChamp(request, PARAM_CAUTION));
 				float montant = Float.parseFloat(Form.getValeurChamp(request, PARAM_MONTANT));
 				
 				String nom = null, prenom = null;
 				
-				List<Adherent> adhs = AdherentCtrl.recupererTousAdherents();
-				for(Adherent adh : adhs){
-					if(adh.getIdPersonne()==Long.parseLong(idPersonne)){
-						nom = adh.getNom();
-						prenom = adh.getPrenom();
+				List<Personne> pers = PersonneCtrl.recupererToutesPersonnes();
+				for(Personne per : pers){
+					if(per.getIdPersonne()==Long.parseLong(idPersonne)){
+						nom = per.getNom();
+						prenom = per.getPrenom();
 					}
 				}
 				
@@ -148,6 +149,8 @@ public class locationExterneServlet extends HttpServlet {
 				session.setAttribute(PARAM_DATE_FIN, dateFin);
 				session.setAttribute(PARAM_CAUTION, caution);
 				session.setAttribute(PARAM_MONTANT, montant);
+				session.setAttribute(PARAM_ID_ADHERENT, idPersonne);
+				session.setAttribute(PARAM_ID_DESIGNATION, idMateriel);
 				
 				request.setAttribute("resultat", "yes");
 				

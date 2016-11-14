@@ -146,6 +146,8 @@ public class LocationInterneServlet extends HttpServlet {
 				session.setAttribute(PARAM_DATE_FIN, dateFin);
 				session.setAttribute(PARAM_CAUTION, caution);
 				session.setAttribute(PARAM_MONTANT, montant);
+				session.setAttribute(PARAM_ID_ADHERENT, idPersonne);
+				session.setAttribute(PARAM_ID_DESIGNATION, idMateriel);
 				
 				request.setAttribute("resultat", "yes");
 				

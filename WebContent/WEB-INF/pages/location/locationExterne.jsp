@@ -2,14 +2,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page import="fr.gemao.view.Pattern"%>
 
-<c:set var="titre" value="Location interne d'un instrument" scope="request" />
+<c:set var="titre" value="Location externe d'un instrument" scope="request" />
 
 <c:import url="/inc/head.inc.jsp" />
 
 <c:import url="/inc/header.inc.jsp" />
 <c:import url="/inc/menu.inc.jsp" />
 
-	<h1>Location interne d'un instrument</h1>
+	<h1>Location externe d'un instrument</h1>
 
 	<c:choose >
 		<c:when test="${empty resultat}">
@@ -44,7 +44,7 @@
 									<select name="adherent">
 										<c:forEach items="${listePersonne}" var="pers">
 											<option value="${pers['idPersonne']}"><c:out
-													value="${adh['nom']}" /></option>
+													value="${pers['nom']}" /></option>
 										</c:forEach>
 									</select><br><br>
 									<label>Date d'emprunt : </label><input id="dateEmprunt" type="text" class="datepicker" required='required' name="debutLocation"><span id="dateErreur"></span><br><br>
@@ -79,7 +79,7 @@
 					<legend>Validation des informations</legend>
 					<label>Categorie : </label><span id="nomCategorie"><%= session.getAttribute("nomCategorie") %></span><br>
 					<label>Instrument : </label><span id="nomInstrument"><%= session.getAttribute("nomInstrument") %></span><br>
-					<label>Adhérent : </label><span id="nomAdherent"><%= session.getAttribute("nomAdherent") %></span><br>
+					<label>Personne : </label><span id="nomAdherent"><%= session.getAttribute("nomAdherent") %></span><br>
 					<label>Date d'emprunt : </label><span id="debutLocation"><%= session.getAttribute("debutLocation") %></span><br>
 					<label>Date d'echéance : </label><span id="finLocation"><%= session.getAttribute("finLocation") %></span><br>
 					<label>Montant : </label><span id="leMontant"><%= session.getAttribute("montant") %></span><br>
