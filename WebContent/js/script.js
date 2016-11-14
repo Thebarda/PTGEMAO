@@ -43,44 +43,44 @@ document.getElementById("dateEmprunt").addEventListener("focus", function(e){
     }
 });
 
-document.getElementById("dateEcheance").addEventListener("blur", function(e){
+document.getElementById("dateEcheance").addEventListener("focus", function(e){
     var today = new Date();
-    var date = e.target.value.split("/", 3);
-    var dateEmprunt = document.getElementById("dateEmprunt").textContent;
-    var dateFin = dateEmprunt.split("/", 3);
-    var yearFin = dateFin[2];
-    var monthFin = dateFin[1];
-    var dayFin = dateFin[0];
-    var day = date[0];
-    var month = date[1];
-    var year = date[2];
-    if(yearFin < year){
+    var dateEcheance = e.target.value.split("/", 3);
+    var dateEmprunt = document.getElementById("dateEmprunt").value;
+    var dateEmpr = dateEmprunt.split("/", 3);
+    var yearEmprunt = Number(dateEmpr[2]);
+    var monthEmprunt = Number(dateEmpr[1]);
+    var dayEmprunt = Number(dateEmpr[0]);
+    var dayFin = Number(dateEcheance[0]);
+    var monthFin = Number(dateEcheance[1]);
+    var yearFin = Number(dateEcheance[2]);
+   if(yearFin < yearEmprunt){
     	document.getElementById("dateErreur2").textContent = "Date invalide";
         document.getElementById("dateErreur2").style.color = "red";
         document.getElementById("valider").disabled = true;
-    }else if(yearFin == year){
-    	if(monthFin < month){
+    }else if(yearFin == yearEmprunt){
+    	if(monthFin < monthEmprunt){
     		document.getElementById("dateErreur2").textContent = "Date invalide";
             document.getElementById("dateErreur2").style.color = "red";
             document.getElementById("valider").disabled = true;
-    	}else if(month==monthFin){
-    		if(dayFin <= day){
+    	}else if(monthEmprunt==monthFin){
+    		if(dayFin <= dayEmprunt){
     			document.getElementById("dateErreur2").textContent = "Date invalide";
     	        document.getElementById("dateErreur2").style.color = "red";
     	        document.getElementById("valider").disabled = true;
     		}else{
-    			document.getElementById("dateErreur").textContent = "Date valide";
-            	document.getElementById("dateErreur").style.color = "green";
+    			document.getElementById("dateErreur2").textContent = "Date valide";
+            	document.getElementById("dateErreur2").style.color = "green";
             	document.getElementById("valider").disabled = false;
     		}
     	}else{
-    		document.getElementById("dateErreur").textContent = "Date valide";
-        	document.getElementById("dateErreur").style.color = "green";
+    		document.getElementById("dateErreur2").textContent = "Date valide";
+        	document.getElementById("dateErreur2").style.color = "green";
         	document.getElementById("valider").disabled = false;
     	}
     }else{
-    	document.getElementById("dateErreur").textContent = "Date valide";
-    	document.getElementById("dateErreur").style.color = "green";
+    	document.getElementById("dateErreur2").textContent = "Date valide year";
+    	document.getElementById("dateErreur2").style.color = "green";
     	document.getElementById("valider").disabled = false;
     }
 });
