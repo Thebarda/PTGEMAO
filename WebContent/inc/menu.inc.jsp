@@ -82,8 +82,9 @@
 								<c:if test="${sessionScope.sessionObjectPersonnel.profil.recupererTypeDroit('Location') == 'Lecture/écriture' }">
 								<li><a href="<c:url value="<%= Pattern.LOCATION_LOCATION_INTERNE %>"/>">Location interne</a></li>
 								<li><a href="<c:url value="<%= Pattern.LOCATION_LOCATION_EXTERNE %>"/>">Location externe</a></li>
-								</c:if>
 								<li><a href="<c:url value="<%= Pattern.LOCATION_RETOUR %>"/>">Enregistrer un Retour</a></li>
+								</c:if>
+								<li><a href="<c:url value="<%= Pattern.LOCATION_LISTER %>"/>">Lister</a></li>
 							</ul>
 						</div>
 					</li>

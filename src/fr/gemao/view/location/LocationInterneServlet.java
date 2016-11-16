@@ -105,6 +105,7 @@ public class LocationInterneServlet extends HttpServlet {
 				}*/
 			}
 			LocationCtrl.ajouterLocation(""+session.getAttribute(PARAM_ID_ADHERENT), ""+session.getAttribute(PARAM_ID_DESIGNATION), ""+session.getAttribute("etatDebut"), ""+session.getAttribute(PARAM_DATE_DEBUT), ""+session.getAttribute(PARAM_DATE_FIN), Float.parseFloat(""+session.getAttribute(PARAM_CAUTION)), Float.parseFloat(""+session.getAttribute(PARAM_MONTANT)));
+			response.sendRedirect(request.getContextPath()+Pattern.ACCUEIL);
 		}
 		
 		if(Form.getValeurChamp(request, PARAM_ID_DESIGNATION)!=null){

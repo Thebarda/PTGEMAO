@@ -137,6 +137,11 @@ public class LocationForm {
 		}
 	}*/
 	
+	/**
+	 * Valide la caution
+	 * @param caution
+	 * @throws Exception
+	 */
 	private void validationCaution(String caution) throws Exception{
 		int nb = Integer.parseInt(caution);
 		if(nb <= 0){
@@ -144,13 +149,22 @@ public class LocationForm {
 		}
 	}
 	
+	/**
+	 * Valide le montant
+	 * @param montant
+	 * @throws Exception
+	 */
 	private void validationMontant(String montant) throws Exception{
 		int nb = Integer.parseInt(montant);
 		if(nb <= 0){
 			throw new Exception("Merci de préciser un montant suéprieur à 0");
 		}
 	}
-
+	
+	/**
+	 * Teste le formulaire
+	 * @param request
+	 */
 	public void testFormulaire(HttpServletRequest request){
 		dateDebut=this.getValeurChamp(request, CHAMP_DATEDEBUT);
 		caution=this.getValeurChamp(request, CHAMP_CAUTION);
@@ -173,6 +187,11 @@ public class LocationForm {
 		}
 	}
 	
+	/**
+	 * Defini la date d'échéance pour une location interne donc à l'année N+1. L'année bisextile est gérée
+	 * @param dateDebut
+	 * @return
+	 */
 	public String setDateFinForm(String dateDebut) {
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		Date date=null;
@@ -205,6 +224,12 @@ public class LocationForm {
 		}
 	}
 	
+	/**
+	 * Defini la date d'échéance pour une location externe. L'année bisextile est gérée
+	 * @param duree
+	 * @param dateDebut
+	 * @return
+	 */
 	public String setDateFinFormByDuree(int duree, String dateDebut){
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		Date dateDeb = null;

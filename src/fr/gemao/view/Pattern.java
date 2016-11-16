@@ -62,6 +62,7 @@ public class Pattern {
 		LOCATION_VALIDATION = MODULE_LOCATION + DROIT_ECRITURE + "/validationLocation",
 		LOCATION_LOCATION_EXTERNE = MODULE_LOCATION + DROIT_ECRITURE + "/LocationExterne",
 		LOCATION_RETOUR = MODULE_LOCATION + DROIT_ECRITURE + "/retourInstrument",
+		LOCATION_LISTER = MODULE_LOCATION + DROIT_ECRITURE + "/listerLocations", 
 
 		// Module matériel
 		MATERIEL_AJOUT = MODULE_MATERIEL + DROIT_ECRITURE + "/AjouterMateriel",

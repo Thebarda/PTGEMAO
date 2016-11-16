@@ -94,8 +94,17 @@ public class LocationCtrl {
 		}
 	}
 	
+	/**
+	 * Retourne le nombre de location
+	 * @return
+	 */
 	public static int getNbLocation(){
 		LocationDAO locDAO = new LocationDAO(DAOFactory.getInstance());
 		return locDAO.getNbLocation();
+	}
+	
+	public static List<Location> getAll(){
+		LocationDAO locDAO = new LocationDAO(DAOFactory.getInstance());
+		return locDAO.getAll();
 	}
 }

@@ -56,6 +56,7 @@ public class JSPFile {
 		LOCATION_EXTERNE = ROOT + REP_LOCATION + "locationExterne.jsp",
 		LOCATION_VALIDATION = ROOT + REP_LOCATION + "validationLocation.jsp",
 		LOCATION_RETOUR = ROOT + REP_LOCATION + "retourInstrument.jsp",
+		LOCATION_LISTER = ROOT + REP_LOCATION + "listerLocations.jsp",
 
 		// Module matériel
 		REP_MATERIEL = "materiel/",
