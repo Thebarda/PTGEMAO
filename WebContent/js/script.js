@@ -79,7 +79,7 @@ document.getElementById("dateEcheance").addEventListener("focus", function(e){
         	document.getElementById("valider").disabled = false;
     	}
     }else{
-    	document.getElementById("dateErreur2").textContent = "Date valide year";
+    	document.getElementById("dateErreur2").textContent = "Date valide";
     	document.getElementById("dateErreur2").style.color = "green";
     	document.getElementById("valider").disabled = false;
     }

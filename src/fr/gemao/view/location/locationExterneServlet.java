@@ -1,7 +1,11 @@
 package fr.gemao.view.location;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -105,6 +109,7 @@ public class locationExterneServlet extends HttpServlet {
 					e.printStackTrace();
 				}*/
 			}
+			
 			LocationCtrl.ajouterLocation(""+session.getAttribute(PARAM_ID_ADHERENT), ""+session.getAttribute(PARAM_ID_DESIGNATION), ""+session.getAttribute("etatDebut"), ""+session.getAttribute(PARAM_DATE_DEBUT), ""+session.getAttribute(PARAM_DATE_FIN), Float.parseFloat(""+session.getAttribute(PARAM_CAUTION)), Float.parseFloat(""+session.getAttribute(PARAM_MONTANT)));
 			response.sendRedirect(request.getContextPath()+Pattern.ACCUEIL);
 		}
@@ -112,6 +117,7 @@ public class locationExterneServlet extends HttpServlet {
 		if(Form.getValeurChamp(request, PARAM_ID_DESIGNATION)!=null){
 			locationForm.testFormulaire(request);
 			if(locationForm.getErreurs().isEmpty()==true){
+				DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 				String idPersonne = Form.getValeurChamp(request, PARAM_ID_ADHERENT);
 				String idMateriel = Form.getValeurChamp(request, PARAM_ID_DESIGNATION);
 				session.setAttribute("PARAM_ID_DESIGNATION",Integer.parseInt(idMateriel));
@@ -128,6 +134,7 @@ public class locationExterneServlet extends HttpServlet {
 				String etatDebut = ""+mat.getEtat().getIdEtat();
 				
 				String dateDebut = Form.getValeurChamp(request, PARAM_DATE_DEBUT);
+				
 				String dateFin = Form.getValeurChamp(request, PARAM_DATE_FIN);
 		        
 				float caution = Float.parseFloat(Form.getValeurChamp(request, PARAM_CAUTION));

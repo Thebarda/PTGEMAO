@@ -1,6 +1,7 @@
 package fr.gemao.view.location;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +28,11 @@ public class ListerLocationServlet extends HttpServlet{
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		List<Location> listeLocations = new ArrayList<>();
-		listeLocations = LocationCtrl.getAll();
+		try {
+			listeLocations = LocationCtrl.getAll();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		request.setAttribute(PARAM_LISTE_LOCATIONS, listeLocations);
 	}
 	

@@ -2,6 +2,7 @@ package fr.gemao.sql;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.List;
 
 public abstract class IDAO<T> {
@@ -63,8 +64,9 @@ public abstract class IDAO<T> {
 	 * Méthode de recherche de toutes les lignes d'une table de la base.
 	 * 
 	 * @return la liste de tous les objets.
+	 * @throws ParseException 
 	 */
-	public abstract List<T> getAll();
+	public abstract List<T> getAll() throws ParseException;
 
 	/**
 	 * Simple méthode utilitaire permettant de faire la correspondance (le
@@ -77,6 +79,7 @@ public abstract class IDAO<T> {
 	 * 
 	 * @return L'objet mappé
 	 * @throws SQLException
+	 * @throws ParseException 
 	 **/
-	protected abstract T map(ResultSet result) throws SQLException;
+	protected abstract T map(ResultSet result) throws SQLException, ParseException;
 }

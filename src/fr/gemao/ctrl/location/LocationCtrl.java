@@ -1,5 +1,6 @@
 package fr.gemao.ctrl.location;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -73,8 +74,9 @@ public class LocationCtrl {
 	 *            la personne ayant loué un materiel. Doit etre issu de la BdD.
 	 * @param materiel
 	 *            le materiel loué. Doit etre issu de la BdD.
+	 * @throws ParseException 
 	 */
-	public static void supprimerLocation(Personne personne, Materiel materiel) {
+	public static void supprimerLocation(Personne personne, Materiel materiel) throws ParseException {
 		if (personne == null) {
 			throw new NullPointerException("L'adherent ne peut etre null");
 		}
@@ -103,7 +105,7 @@ public class LocationCtrl {
 		return locDAO.getNbLocation();
 	}
 	
-	public static List<Location> getAll(){
+	public static List<Location> getAll() throws ParseException{
 		LocationDAO locDAO = new LocationDAO(DAOFactory.getInstance());
 		return locDAO.getAll();
 	}

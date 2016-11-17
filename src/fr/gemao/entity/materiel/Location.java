@@ -1,7 +1,10 @@
 package fr.gemao.entity.materiel;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import fr.gemao.entity.Personne;
 
@@ -156,6 +159,39 @@ public class Location implements Serializable{
 		this.dateEmprunt = dateEmprunt;
 		this.dateRetour = dateRetour;
 		this.dateEcheance = dateEcheance;
+		this.montant = montant;
+		this.caution = caution;
+		this.reparation = reparation;
+	}
+	
+	/**
+	 * Instantiates a new location.
+	 *
+	 * @param personne the personne
+	 * @param materiel the materiel
+	 * @param etatDebut the etat debut
+	 * @param etatFin the etat fin
+	 * @param dateEmprunt the date emprunt
+	 * @param dateRetour the date retour
+	 * @param dateEcheance the date echeance
+	 * @param montant the montant
+	 * @param reparation the reparation
+	 * @throws ParseException 
+	 */
+	public Location(Personne personne, Materiel materiel, Etat etatDebut,
+			Etat etatFin, String dateEmprunt, String dateRetour, String dateEcheance, int caution,
+			float montant, Reparation reparation) throws ParseException {
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		this.personne = personne;
+		this.materiel = materiel;
+		this.etatDebut = etatDebut;
+		this.etatFin = etatFin;
+		Date date = dateFormat.parse(dateEcheance);
+		this.dateEmprunt = date;
+		Date dateRet = new Date();
+		this.dateRetour = dateRet;
+		date = dateFormat.parse(dateEcheance);
+		this.dateEcheance = date;
 		this.montant = montant;
 		this.caution = caution;
 		this.reparation = reparation;

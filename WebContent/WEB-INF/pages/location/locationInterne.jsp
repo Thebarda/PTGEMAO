@@ -74,7 +74,7 @@
   											  <input type="radio" name="imprimer" value="Non"> Non<br>
 				</fieldset>
 				<fieldset class='align-center no-border'>
-						<button href="<c:url value="<%= Pattern.ACCUEIL %>"/>">Annuler</button>
+						<a href="<c:url value="<%= Pattern.ACCUEIL %>"/>">Annuler</a>
 						<input type="submit" value="Valider" />
 				</fieldset>
 			</form>

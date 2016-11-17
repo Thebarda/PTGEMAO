@@ -4,10 +4,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import fr.gemao.entity.adherent.Adherent;
 import fr.gemao.entity.cours.Discipline;
 import fr.gemao.entity.materiel.Location;
 import fr.gemao.entity.materiel.Materiel;
@@ -80,8 +83,32 @@ public class LocationDAO extends IDAO<Location>{
 	}
 
 	@Override
-	public List<Location> getAll() {
-		throw new UnsupportedOperationException("Méthode non implémentée.");
+	public List<Location> getAll() throws ParseException {
+		List<Location> liste = new ArrayList<>();
+
+		Location location = null;
+		Connection connexion = null;
+		PreparedStatement requete = null;
+		ResultSet result = null;
+		String sql = "SELECT * FROM location where dateRetour IS NULL;";
+		try {
+
+			connexion = factory.getConnection();
+			requete = DAOUtilitaires.initialisationRequetePreparee(connexion,
+					sql, false);
+			result = requete.executeQuery();
+
+			while (result.next()) {
+				location = this.map2(result);
+				liste.add(location);
+			}
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			DAOUtilitaires.fermeturesSilencieuses(result, requete, connexion);
+		}
+
+		return liste;
 	}
 	
 	public List<Location> getLocationParAdherent(long idAdherent){
@@ -103,6 +130,23 @@ public class LocationDAO extends IDAO<Location>{
 				result.getInt("caution"),
 				result.getFloat("montant"),
 				idReparation==null?null:factory.getReparationDAO().get(idReparation));
+	}
+	
+	protected Location map2(ResultSet result) throws SQLException, ParseException {
+		Integer idEtatFin = result.getInt("idEtatFin"),
+				idReparation = result.getInt("idReparation");
+		return new Location(
+				factory.getPersonneDAO().get(result.getInt("idPersonne")),
+				factory.getMaterielDAO().get(result.getInt("idMateriel")),
+				factory.getEtatDAO().get(result.getInt("idEtatDebut")),
+				idEtatFin==null?null:factory.getEtatDAO().get(idEtatFin),
+				result.getString("dateEmprunt"),
+				result.getString("dateRetour"),
+				result.getString("dateEcheance"),
+				result.getInt("caution"),
+				result.getFloat("montant"),
+				idReparation==null?null:factory.getReparationDAO().get(idReparation)
+		);
 	}
 
 	@Override
