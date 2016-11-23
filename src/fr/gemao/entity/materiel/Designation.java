@@ -22,7 +22,8 @@ public class Designation implements Serializable{
 	 * @param libelleEtat
 	 *            le libelle de la designation.
 	 */
-	public Designation(int idDesignation, String libelleDesignation) {
+	
+	public Designation(int idDesignation, String libelleDesignation){
 		this.idDesignation = idDesignation;
 		this.libelleDesignation = libelleDesignation;
 	}
@@ -61,6 +62,7 @@ public class Designation implements Serializable{
 		this.idDesignation = idDesignation;
 	}
 
+	
 	@Override
 	public String toString() {
 		return "Designation [idDesignation=" + idDesignation

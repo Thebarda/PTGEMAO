@@ -8,6 +8,17 @@
 
 <c:import url="/inc/header.inc.jsp" />
 <c:import url="/inc/menu.inc.jsp" />
+<script type="text/javascript">
+function autocompletionFamille(selecteurFamille){
+	$(function() {
+		var availableTags = ${requestScope.auto_familles};
+		$(selecteurFamille).autocomplete({
+			source : availableTags
+		});
+	});
+}
+autocompletionFamille("#pers");
+</script>
 
 	<h1>Location externe d'un instrument</h1>
 
@@ -34,23 +45,22 @@
 								</fieldset>
 								<fieldset>
 								<label for="instrument">Instrument : </label>
-									<select name="nomDesignation">
+									<select name="nomDesignation" rows="40">
 										<c:forEach items="${listeMateriel}" var="instrument">
-											<option value="${instrument['idMateriel']}"><c:out
-													value="${instrument['designation']['libelleDesignation']}" /></option>
+											<option value="${instrument.key}"><c:out
+													value="${instrument.value}" /></option>
 										</c:forEach>
 									</select><br><br>
-									<label for="adh">Personne : </label>
-									<select name="adherent">
+									<label for="adh">Personne : </label><input type="text" id="pers" name="adherent">
+									<!--<select name="adherent">
 										<c:forEach items="${listePersonne}" var="pers">
 											<option value="${pers['idPersonne']}"><c:out
 													value="${pers['nom']}" /></option>
 										</c:forEach>
-									</select><br><br>
+									</select>--><br><br>
 									<label>Date d'emprunt : </label><input id="dateEmprunt" type="text" class="datepicker" required='required' name="debutLocation"><span id="dateErreur"></span><br><br>
 									<label>Date d'échéance : </label><input id="dateEcheance" type="text" class="datepicker" required='required' name="finLocation"><span id="dateErreur2"></span><br><br>
-									<label>Caution : </label><input id="caution" type="text" required='required' name="caution"><span id="cautionErreur"></span>
-									<br><br><label>Montant : </label><input id="montant" type="text" required='required' name="montant"><span id="montantErreur"></span>
+									<br><br><label>Montant (par mois) : </label><input id="montant" type="text" required='required' name="montant"><span id="montantErreur"></span>
 									<br><br><label>Date encaissement : </label>
 							</fieldset>
 						</c:otherwise>	

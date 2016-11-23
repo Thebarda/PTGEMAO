@@ -236,4 +236,28 @@ public class PersonneDAO extends IDAO<Personne> {
 
 	}
 
+	public String getIdByNomAndPrenom(String nom, String prenom) {
+		String idPersonne = null;
+		Connection connexion = null;
+		PreparedStatement requete = null;
+		ResultSet result = null;
+		String sql = "SELECT idPersonne FROM `personne` where nom = ? AND prenom = ?;";
+		try {
+
+			connexion = factory.getConnection();
+			requete = DAOUtilitaires.initialisationRequetePreparee(connexion, sql, false, nom, prenom);
+			result = requete.executeQuery();
+
+			while (result.next()) {
+				idPersonne = ""+result.getLong("idPersonne");
+			}
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			DAOUtilitaires.fermeturesSilencieuses(result, requete, connexion);
+		}
+
+		return idPersonne;
+	}
+
 }

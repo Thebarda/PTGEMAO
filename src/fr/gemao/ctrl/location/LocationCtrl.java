@@ -109,4 +109,5 @@ public class LocationCtrl {
 		LocationDAO locDAO = new LocationDAO(DAOFactory.getInstance());
 		return locDAO.getAll();
 	}
+
 }

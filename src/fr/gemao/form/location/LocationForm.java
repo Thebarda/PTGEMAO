@@ -162,10 +162,10 @@ public class LocationForm {
 	}
 	
 	/**
-	 * Teste le formulaire
+	 * Teste le formulaire interne
 	 * @param request
 	 */
-	public void testFormulaire(HttpServletRequest request){
+	public void testFormulaireInterne(HttpServletRequest request){
 		dateDebut=this.getValeurChamp(request, CHAMP_DATEDEBUT);
 		caution=this.getValeurChamp(request, CHAMP_CAUTION);
 		montant=this.getValeurChamp(request, CHAMP_MONTANT);
@@ -180,6 +180,20 @@ public class LocationForm {
 		}catch(Exception e){
 			setErreur(CHAMP_CAUTION, e.getMessage());
 		}
+	}
+	
+	/**
+	 * Teste le formulaire externe
+	 * @param request
+	 */
+	public void testFormulaireExterne(HttpServletRequest request){
+		montant=this.getValeurChamp(request, CHAMP_MONTANT);
+
+		/*try{
+			validationDateDebut(dateDebut);
+		}catch(Exception e){
+			setErreur(CHAMP_DATEDEBUT, e.getMessage());
+		}*/
 		try{
 			validationMontant(montant);
 		}catch(Exception e){

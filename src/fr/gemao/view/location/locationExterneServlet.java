@@ -6,7 +6,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -49,6 +51,7 @@ public class locationExterneServlet extends HttpServlet {
 	private final String PARAM_CAUTION = "caution";
 	private final String PARAM_MONTANT = "montant";
 	private static String CATEGORIE = "categorie";
+	private final String ATTR_AUTO_FAMILLES = "auto_familles";
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -60,7 +63,7 @@ public class locationExterneServlet extends HttpServlet {
 		List<Categorie> listeCategorie = CategorieCtrl.recupererToutesCategories();
 		HttpSession session = request.getSession();
 		if(session.getAttribute(PARAM_ID_CATEGORIE)!=null){
-			List<Materiel> listeMateriel = MaterielCtrl.recupererMaterielByCategorie((int) session.getAttribute(PARAM_ID_CATEGORIE));
+			List<Materiel> listeMateriel = MaterielCtrl.recupereMaterielLouable((int) session.getAttribute(PARAM_ID_CATEGORIE));
 			request.setAttribute(PARAM_LISTE_MATERIEL, listeMateriel);
 		}
 		request.setAttribute(PARAM_LISTE_CATEGORIE, listeCategorie);
@@ -110,15 +113,22 @@ public class locationExterneServlet extends HttpServlet {
 				}*/
 			}
 			
-			LocationCtrl.ajouterLocation(""+session.getAttribute(PARAM_ID_ADHERENT), ""+session.getAttribute(PARAM_ID_DESIGNATION), ""+session.getAttribute("etatDebut"), ""+session.getAttribute(PARAM_DATE_DEBUT), ""+session.getAttribute(PARAM_DATE_FIN), Float.parseFloat(""+session.getAttribute(PARAM_CAUTION)), Float.parseFloat(""+session.getAttribute(PARAM_MONTANT)));
+			LocationCtrl.ajouterLocation(""+session.getAttribute(PARAM_ID_ADHERENT), ""+session.getAttribute(PARAM_ID_DESIGNATION), ""+session.getAttribute("etatDebut"), ""+session.getAttribute(PARAM_DATE_DEBUT), ""+session.getAttribute(PARAM_DATE_FIN), 150.0f, Float.parseFloat(""+session.getAttribute(PARAM_MONTANT)));
+			Materiel materiel = MaterielCtrl.getMaterielById(Integer.parseInt(""+session.getAttribute(PARAM_ID_DESIGNATION)));
+			materiel.setQuantite(materiel.getQuantite()-1);
+			MaterielCtrl.updateEstLouable(Integer.parseInt(""+session.getAttribute(PARAM_ID_DESIGNATION)), materiel.getQuantite());
 			response.sendRedirect(request.getContextPath()+Pattern.ACCUEIL);
 		}
 		
 		if(Form.getValeurChamp(request, PARAM_ID_DESIGNATION)!=null){
-			locationForm.testFormulaire(request);
+			locationForm.testFormulaireExterne(request);
 			if(locationForm.getErreurs().isEmpty()==true){
 				DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-				String idPersonne = Form.getValeurChamp(request, PARAM_ID_ADHERENT);
+				String personne = Form.getValeurChamp(request, PARAM_ID_ADHERENT);
+				String[] tempPers = personne.split(" ");
+				String nomPers = tempPers[0];
+				String prenomPers = tempPers[1];
+				String idPersonne = PersonneCtrl.getIdByNomAndPrenom(nomPers, prenomPers);
 				String idMateriel = Form.getValeurChamp(request, PARAM_ID_DESIGNATION);
 				session.setAttribute("PARAM_ID_DESIGNATION",Integer.parseInt(idMateriel));
 				List<Materiel> mats = MaterielCtrl.recupererMaterielByCategorie(Integer.parseInt(""+session.getAttribute(PARAM_ID_CATEGORIE)));
@@ -137,7 +147,6 @@ public class locationExterneServlet extends HttpServlet {
 				
 				String dateFin = Form.getValeurChamp(request, PARAM_DATE_FIN);
 		        
-				float caution = Float.parseFloat(Form.getValeurChamp(request, PARAM_CAUTION));
 				float montant = Float.parseFloat(Form.getValeurChamp(request, PARAM_MONTANT));
 				
 				String nom = null, prenom = null;
@@ -153,7 +162,6 @@ public class locationExterneServlet extends HttpServlet {
 				session.setAttribute("etatDebut", etatDebut);
 				session.setAttribute(PARAM_DATE_DEBUT, dateDebut);
 				session.setAttribute(PARAM_DATE_FIN, dateFin);
-				session.setAttribute(PARAM_CAUTION, caution);
 				session.setAttribute(PARAM_MONTANT, montant);
 				session.setAttribute(PARAM_ID_ADHERENT, idPersonne);
 				session.setAttribute(PARAM_ID_DESIGNATION, idMateriel);
@@ -175,16 +183,33 @@ public class locationExterneServlet extends HttpServlet {
 			Categorie categorie = CategorieCtrl.recupererCategorie(idCategorie);
 			session.setAttribute(PARAM_ID_CATEGORIE, Integer.parseInt(Form.getValeurChamp(request, CATEGORIE)));
 			session.setAttribute(PARAM_NOM_CATEGORIE, categorie.getLibelleCat());
-			List<Materiel> listeMateriel = MaterielCtrl.recupererMaterielByCategorie((int) session.getAttribute(PARAM_ID_CATEGORIE));
-			List<Personne> listePersonnes = PersonneCtrl.recupererToutesPersonnes();
-			List<Personne> listePers = new ArrayList<Personne>();
-			for(Personne p : listePersonnes){
-				Personne pers = new Personne(p.getIdPersonne(), p.getAdresse(), p.getCommuneNaiss(), p.getNom(), p.getPrenom(), p.getDateNaissance(), p.getTelFixe(), p.getTelPort(), p.getEmail(), p.getCivilite(), false);
-				listePers.add(pers);
+			List<Materiel> listeMateriel = MaterielCtrl.recupereMaterielLouable((int) session.getAttribute(PARAM_ID_CATEGORIE));
+			if(listeMateriel.isEmpty()){
+				session.setAttribute("ListeMatVide", categorie.getLibelleCat());
+				session.setAttribute("errListeVide", true);
+				response.sendRedirect(request.getContextPath()+Pattern.MATERIEL_AJOUT+"?errListeVide=1");
+			}else{
+				Map<Long, String> listeMats = new HashMap<>();
+				for(Materiel m : listeMateriel){
+					listeMats.put(m.getIdMateriel(), ""+m.getDesignation().getLibelleDesignation()+" "+m.getNumSerie()+" "+m.getTypeMat()+" "+m.getDateAchat());
+				}
+				List<Personne> listePersonnes = PersonneCtrl.recupererToutesPersonnes();
+				List<Personne> listePers = new ArrayList<Personne>();
+				for(Personne p : listePersonnes){
+					Personne pers = new Personne(p.getIdPersonne(), p.getAdresse(), p.getCommuneNaiss(), p.getNom(), p.getPrenom(), p.getDateNaissance(), p.getTelFixe(), p.getTelPort(), p.getEmail(), p.getCivilite(), false);
+					listePers.add(pers);
+				}
+				List<Personne> personnes = PersonneCtrl.recupererToutesPersonnes();
+				List<String> listePersonne = new ArrayList<>();
+	
+				for (Personne a : personnes) {
+					listePersonne.add('"' + a.getNom()+" "+ a.getPrenom() + '"');
+				}
+				request.setAttribute(ATTR_AUTO_FAMILLES, listePersonne);
+				request.setAttribute(PARAM_LISTE_MATERIEL, listeMats);
+				request.setAttribute(PARAM_LISTE_PERSONNE, listePers);
+				this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_EXTERNE).forward(request, response);
 			}
-			request.setAttribute(PARAM_LISTE_MATERIEL, listeMateriel);
-			request.setAttribute(PARAM_LISTE_PERSONNE, listePers);
-			this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_EXTERNE).forward(request, response);
 		}
 		
 	}

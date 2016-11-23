@@ -49,6 +49,7 @@ public class AjoutMaterielServlet extends HttpServlet {
 	private static String ERREUR_AJOUT_ETAT = "erreurEtat";
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
 		List<Categorie> listCat = new ArrayList<Categorie>();
 		listCat = new CategorieDAO(DAOFactory.getInstance()).getAll();
 		request.setAttribute("LISTE_CATEGORIE", listCat);
@@ -68,9 +69,10 @@ public class AjoutMaterielServlet extends HttpServlet {
 		List<Fournisseur> listFourn = new ArrayList<Fournisseur>();
 		listFourn = new FournisseurDAO(DAOFactory.getInstance()).getAll();
 		request.setAttribute("LISTE_FOURNISSEUR", listFourn);
-
+		
 		this.getServletContext().getRequestDispatcher(JSPFile.MATERIEL_AJOUT)
 				.forward(request, response);
+		session.removeAttribute("errListeVide");
 	}
 
 	protected void doPost(HttpServletRequest request,
@@ -247,7 +249,6 @@ public class AjoutMaterielServlet extends HttpServlet {
 			
 			session.setAttribute("materiel", materiel);
 			response.sendRedirect(request.getContextPath() + "/ValidationAjoutMaterielServlet");
-			
 			
 		} else {
 			request.setAttribute("form", form);

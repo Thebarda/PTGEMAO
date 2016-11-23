@@ -8,6 +8,17 @@
 
 <c:import url="/inc/header.inc.jsp" />
 <c:import url="/inc/menu.inc.jsp" />
+<script type="text/javascript">
+function autocompletionFamille(selecteurFamille){
+	$(function() {
+		var availableTags = ${requestScope.auto_familles};
+		$(selecteurFamille).autocomplete({
+			source : availableTags
+		});
+	});
+}
+autocompletionFamille("#adh");
+</script>
 
 	<h1>Location interne d'un instrument</h1>
 
@@ -36,21 +47,20 @@
 								<label for="instrument">Instrument : </label>
 									<select name="nomDesignation">
 										<c:forEach items="${listeMateriel}" var="instrument">
-											<option value="${instrument['idMateriel']}"><c:out
-													value="${instrument['designation']['libelleDesignation']}" /></option>
+											<option value="${instrument.key}"><c:out
+													value="${instrument.value}" /></option>
 										</c:forEach>
 									</select><br><br>
-									<label for="adh">Adhérent : </label>
-									<select name="adherent">
+									<label for="adh">Adhérent : </label><input id="adh" type="text" name="adherent">
+									<!-- <select name="adherent">
 										<c:forEach items="${listeAdherent}" var="adh">
 											<option value="${adh['idPersonne']}"><c:out
 													value="${adh['nom']}" /></option>
 										</c:forEach>
-									</select><br><br>
+									</select>--><br><br>
 									<label>Date de la location : </label><input id="dateEmprunt" type="text" class="datepicker" required='required' name="debutLocation"><span id="dateErreur"></span>
 									<br><br><label>Caution : </label><input id="caution" type="text" required='required' name="caution"><span id="cautionErreur"></span>
-									<br><br><label>Montant : </label><input id="montant" type="text" required='required' name="montant"><span id="montantErreur"></span>
-									<br><br><label>Date encaissement : </label>
+									<br><br><label>Date encaissement : TODO</label>
 							</fieldset>
 						</c:otherwise>	
 						</c:choose>

@@ -229,6 +229,57 @@ public class MaterielDAO extends IDAO<Materiel> {
 
 		return liste;
 	}
+	
+	public Materiel getMaterielById(int idMateriel) {
+		Materiel materiel = null;
+		Connection connexion = null;
+		PreparedStatement requete = null;
+		ResultSet result = null;
+		String sql = "SELECT * FROM materiel WHERE idMateriel = ?;";
+		try {
+			connexion = factory.getConnection();
+			requete = DAOUtilitaires.initialisationRequetePreparee(connexion,
+					sql, false, idMateriel);
+			result = requete.executeQuery();
+
+			while (result.next()) {
+				materiel = this.map(result);
+			}
+		} catch (SQLException e1) {
+			throw new DAOException(e1);
+		} finally {
+			DAOUtilitaires.fermeturesSilencieuses(result, requete, connexion);
+		}
+
+		return materiel;
+	}
+	
+	public List<Materiel> getLouableByCategorie(int idCategorie) {
+		List<Materiel> liste = new ArrayList<>();
+
+		Materiel materiel = null;
+		Connection connexion = null;
+		PreparedStatement requete = null;
+		ResultSet result = null;
+		String sql = "SELECT * FROM materiel WHERE quantite > 0 AND idCategorie = ?;";
+		try {
+			connexion = factory.getConnection();
+			requete = DAOUtilitaires.initialisationRequetePreparee(connexion,
+					sql, false, idCategorie);
+			result = requete.executeQuery();
+
+			while (result.next()) {
+				materiel = this.map(result);
+				liste.add(materiel);
+			}
+		} catch (SQLException e1) {
+			throw new DAOException(e1);
+		} finally {
+			DAOUtilitaires.fermeturesSilencieuses(result, requete, connexion);
+		}
+
+		return liste;
+	}
 
 	@Override
 	protected Materiel map(ResultSet result) throws SQLException {
@@ -248,6 +299,27 @@ public class MaterielDAO extends IDAO<Materiel> {
 				result.getBoolean("deplaceConcert"),
 				result.getString("observation"), result.getInt("quantite"),
 				result.getBoolean("estLouable"));
+	}
+
+	public void updateEstLouable(int idMateriel, int estLouable) {
+		Connection connexion = null;
+		PreparedStatement requete = null;
+		ResultSet result = null;
+		String sql = "UPDATE materiel SET quantite=? WHERE idMateriel = ?;";
+		try {
+			connexion = factory.getConnection();
+			requete = DAOUtilitaires.initialisationRequetePreparee(connexion,
+					sql, false, estLouable, idMateriel);
+			int status = requete.executeUpdate();
+			if (status == 0) {
+				throw new DAOException(
+						"La mise à jour de materiel n'a pas eu lieu.");
+			}
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			DAOUtilitaires.fermeturesSilencieuses(result, requete, connexion);
+		}
 	}
 
 }

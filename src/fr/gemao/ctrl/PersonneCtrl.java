@@ -205,4 +205,9 @@ public final class PersonneCtrl {
 
 		return listePersonnes;
 	}
+
+	public static String getIdByNomAndPrenom(String nom, String prenom) {
+		PersonneDAO persDAO = new PersonneDAO(DAOFactory.getInstance());
+		return persDAO.getIdByNomAndPrenom(nom, prenom);
+	}
 }

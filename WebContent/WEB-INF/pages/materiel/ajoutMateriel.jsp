@@ -9,6 +9,9 @@
 <c:import url="/inc/menu.inc.jsp" />
 
 <h1>Ajout d'un matériel</h1>
+<c:if test="${errListeVide}">
+	<p class="offset text-danger">La liste de la catégorie <%= session.getAttribute("ListeMatVide") %> est vide. Veuillez créer un matériel.</p>
+</c:if>
 <form id="ajouterMateriel" action="#" method="post">
 	<fieldset>
 		<legend>Informations générales</legend>

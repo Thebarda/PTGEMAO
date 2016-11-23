@@ -109,6 +109,23 @@ public class MaterielCtrl {
 		return listMaterielByCategorie;
 	}
 	
+	public static List<Materiel> recupereMaterielLouable(int idCategorie){
+		List<Materiel> listMaterielByCategorie = new ArrayList<>();
+		MaterielDAO materielDAO = new MaterielDAO(DAOFactory.getInstance());
+		listMaterielByCategorie = materielDAO.getLouableByCategorie(idCategorie);
+		return listMaterielByCategorie;
+	}
+	
+	public static void updateEstLouable(int idMateriel, int estLouable){
+		MaterielDAO matDAO = new MaterielDAO(DAOFactory.getInstance());
+		matDAO.updateEstLouable(idMateriel, estLouable);
+	}
+	
+	public static Materiel getMaterielById(int idMateriel){
+		MaterielDAO matDAO = new MaterielDAO(DAOFactory.getInstance());
+		return matDAO.getMaterielById(idMateriel);
+	}
+	
 	public void modifierMateriel(Materiel materiel) {
 		if (materiel.getEtat() == null) {
 			throw new NullPointerException("L'etat ne doit pas etre null");
