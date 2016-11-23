@@ -50,7 +50,7 @@ autocompletionFamille("#adh");
 											<option value="${instrument.key}"><c:out
 													value="${instrument.value}" /></option>
 										</c:forEach>
-									</select><br><br>
+									</select><span>(Désignation | Numéro de série | Type de matériel | date d'achat)</span><br><br>
 									<label for="adh">Adhérent : </label><input id="adh" type="text" name="adherent">
 									<!-- <select name="adherent">
 										<c:forEach items="${listeAdherent}" var="adh">

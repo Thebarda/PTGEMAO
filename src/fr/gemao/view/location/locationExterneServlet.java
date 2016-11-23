@@ -134,7 +134,7 @@ public class locationExterneServlet extends HttpServlet {
 				List<Materiel> mats = MaterielCtrl.recupererMaterielByCategorie(Integer.parseInt(""+session.getAttribute(PARAM_ID_CATEGORIE)));
 				Materiel mat=null;
 				for(Materiel m : mats){
-					if(m.getDesignation().getIdDesignation()==Integer.parseInt(idMateriel)){
+					if(m.getIdMateriel()==Integer.parseInt(idMateriel)){
 						mat = m;
 					}
 				}
@@ -189,9 +189,9 @@ public class locationExterneServlet extends HttpServlet {
 				session.setAttribute("errListeVide", true);
 				response.sendRedirect(request.getContextPath()+Pattern.MATERIEL_AJOUT+"?errListeVide=1");
 			}else{
-				Map<Long, String> listeMats = new HashMap<>();
+				Map<Integer, String> listeMats = new HashMap<>();
 				for(Materiel m : listeMateriel){
-					listeMats.put(m.getIdMateriel(), ""+m.getDesignation().getLibelleDesignation()+" "+m.getNumSerie()+" "+m.getTypeMat()+" "+m.getDateAchat());
+					listeMats.put(Integer.parseInt(""+m.getIdMateriel()), ""+m.getDesignation().getLibelleDesignation()+" | "+m.getNumSerie()+" | "+m.getTypeMat()+" | "+m.getDateAchat());
 				}
 				List<Personne> listePersonnes = PersonneCtrl.recupererToutesPersonnes();
 				List<Personne> listePers = new ArrayList<Personne>();

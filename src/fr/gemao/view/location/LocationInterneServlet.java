@@ -134,7 +134,7 @@ public class LocationInterneServlet extends HttpServlet {
 				List<Materiel> mats = MaterielCtrl.recupererMaterielByCategorie(Integer.parseInt(""+session.getAttribute(PARAM_ID_CATEGORIE)));
 				Materiel mat=null;
 				for(Materiel m : mats){
-					if(m.getDesignation().getIdDesignation()==Integer.parseInt(idMateriel)){
+					if(m.getIdMateriel()==Integer.parseInt(idMateriel)){
 						mat = m;
 					}
 				}
@@ -190,7 +190,7 @@ public class LocationInterneServlet extends HttpServlet {
 			}else{
 				Map<Long, String> listeMats = new HashMap<>();
 				for(Materiel m : listeMateriel){
-					listeMats.put(m.getIdMateriel(), ""+m.getDesignation().getLibelleDesignation()+" "+m.getNumSerie()+" "+m.getTypeMat()+" "+m.getDateAchat());
+					listeMats.put(m.getIdMateriel(), ""+m.getDesignation().getLibelleDesignation()+" | "+m.getNumSerie()+" | "+m.getTypeMat()+" | "+m.getDateAchat());
 				}
 				List<Adherent> listeAdherent = AdherentCtrl.recupererTousAdherents();
 				List<Personne> listePersonne = new ArrayList<>();
