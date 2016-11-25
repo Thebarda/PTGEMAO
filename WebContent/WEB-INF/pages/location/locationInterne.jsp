@@ -44,22 +44,17 @@ autocompletionFamille("#adh");
 								<div><span class='text-label'>Catégorie : </span><span><%= session.getAttribute("nomCategorie") %></span></div>
 								</fieldset>
 								<fieldset>
+								<br>
 								<label for="instrument">Instrument : </label>
 									<select name="nomDesignation">
+									<option disabled>Désignation | Numéro de série | Type de matériel | date d'achat | valeur achat | valeur reapprovisionnement | est daplacable | observation</option>
 										<c:forEach items="${listeMateriel}" var="instrument">
 											<option value="${instrument.key}"><c:out
 													value="${instrument.value}" /></option>
 										</c:forEach>
-									</select><span>(Désignation | Numéro de série | Type de matériel | date d'achat)</span><br><br>
-									<label for="adh">Adhérent : </label><input id="adh" type="text" name="adherent">
-									<!-- <select name="adherent">
-										<c:forEach items="${listeAdherent}" var="adh">
-											<option value="${adh['idPersonne']}"><c:out
-													value="${adh['nom']}" /></option>
-										</c:forEach>
-									</select>--><br><br>
-									<label>Date de la location : </label><input id="dateEmprunt" type="text" class="datepicker" required='required' name="debutLocation"><span id="dateErreur"></span>
-									<br><br><label>Caution : </label><input id="caution" type="text" required='required' name="caution"><span id="cautionErreur"></span>
+									</select><br><br>
+									<label for="adh">Adhérent : </label><input id="adh" type="text" name="adherent"><br><br>
+									<label>Date de la location : </label><input id="dateEmprunt" type="text" class="datepicker" required='required' name="debutLocation">
 									<br><br><label>Date encaissement : TODO</label>
 							</fieldset>
 						</c:otherwise>	
@@ -78,8 +73,8 @@ autocompletionFamille("#adh");
 					<label>Adhérent : </label><span id="nomAdherent"><%= session.getAttribute("nomAdherent") %></span><br>
 					<label>Date d'emprunt : </label><span id="debutLocation"><%= session.getAttribute("debutLocation") %></span><br>
 					<label>Date d'echéance : </label><span id="finLocation"><%= session.getAttribute("finLocation") %></span><br>
-					<label>Montant : </label><span id="leMontant"><%= session.getAttribute("montant") %></span><br>
-					<label>Caution : </label><span id="laCaution"><%= session.getAttribute("caution") %></span><br>
+					<label>Montant : </label><span id="leMontant"><%= session.getAttribute("montant") %> euros par an</span><br>
+					<label>Caution : </label><span id="laCaution"><%= session.getAttribute("caution") %> euros</span><br>
 					<label>Imprimer : </label><input type="radio" name="imprimer" value="Oui" checked> Oui
   											  <input type="radio" name="imprimer" value="Non"> Non<br>
 				</fieldset>

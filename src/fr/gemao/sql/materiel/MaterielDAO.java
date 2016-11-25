@@ -261,7 +261,7 @@ public class MaterielDAO extends IDAO<Materiel> {
 		Connection connexion = null;
 		PreparedStatement requete = null;
 		ResultSet result = null;
-		String sql = "SELECT * FROM materiel WHERE quantite > 0 AND idCategorie = ?;";
+		String sql = "SELECT * FROM materiel WHERE estLouable = 1 AND idCategorie = ?;";
 		try {
 			connexion = factory.getConnection();
 			requete = DAOUtilitaires.initialisationRequetePreparee(connexion,
@@ -305,7 +305,7 @@ public class MaterielDAO extends IDAO<Materiel> {
 		Connection connexion = null;
 		PreparedStatement requete = null;
 		ResultSet result = null;
-		String sql = "UPDATE materiel SET quantite=? WHERE idMateriel = ?;";
+		String sql = "UPDATE materiel SET estLouable=? WHERE idMateriel = ?;";
 		try {
 			connexion = factory.getConnection();
 			requete = DAOUtilitaires.initialisationRequetePreparee(connexion,

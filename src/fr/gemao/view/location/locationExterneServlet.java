@@ -112,70 +112,63 @@ public class locationExterneServlet extends HttpServlet {
 					e.printStackTrace();
 				}*/
 			}
-			
-			LocationCtrl.ajouterLocation(""+session.getAttribute(PARAM_ID_ADHERENT), ""+session.getAttribute(PARAM_ID_DESIGNATION), ""+session.getAttribute("etatDebut"), ""+session.getAttribute(PARAM_DATE_DEBUT), ""+session.getAttribute(PARAM_DATE_FIN), 150.0f, Float.parseFloat(""+session.getAttribute(PARAM_MONTANT)));
+			Map<String, String> tarifs = LocationCtrl.recupereTarifsLocation();
+			LocationCtrl.ajouterLocation(""+session.getAttribute(PARAM_ID_ADHERENT), ""+session.getAttribute(PARAM_ID_DESIGNATION), ""+session.getAttribute("etatDebut"), ""+session.getAttribute(PARAM_DATE_DEBUT), ""+session.getAttribute(PARAM_DATE_FIN), Float.parseFloat(""+tarifs.get("caution")), Float.parseFloat(""+tarifs.get("montantLocationExterne")));
 			Materiel materiel = MaterielCtrl.getMaterielById(Integer.parseInt(""+session.getAttribute(PARAM_ID_DESIGNATION)));
-			materiel.setQuantite(materiel.getQuantite()-1);
-			MaterielCtrl.updateEstLouable(Integer.parseInt(""+session.getAttribute(PARAM_ID_DESIGNATION)), materiel.getQuantite());
+			MaterielCtrl.updateEstLouable(Integer.parseInt(""+session.getAttribute(PARAM_ID_DESIGNATION)), 0);
 			response.sendRedirect(request.getContextPath()+Pattern.ACCUEIL);
 		}
 		
 		if(Form.getValeurChamp(request, PARAM_ID_DESIGNATION)!=null){
-			locationForm.testFormulaireExterne(request);
-			if(locationForm.getErreurs().isEmpty()==true){
-				DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-				String personne = Form.getValeurChamp(request, PARAM_ID_ADHERENT);
-				String[] tempPers = personne.split(" ");
-				String nomPers = tempPers[0];
-				String prenomPers = tempPers[1];
-				String idPersonne = PersonneCtrl.getIdByNomAndPrenom(nomPers, prenomPers);
-				String idMateriel = Form.getValeurChamp(request, PARAM_ID_DESIGNATION);
-				session.setAttribute("PARAM_ID_DESIGNATION",Integer.parseInt(idMateriel));
-				List<Materiel> mats = MaterielCtrl.recupererMaterielByCategorie(Integer.parseInt(""+session.getAttribute(PARAM_ID_CATEGORIE)));
-				Materiel mat=null;
-				for(Materiel m : mats){
-					if(m.getIdMateriel()==Integer.parseInt(idMateriel)){
-						mat = m;
-					}
+			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			String personne = Form.getValeurChamp(request, PARAM_ID_ADHERENT);
+			String[] tempPers = personne.split(" ");
+			String nomPers = tempPers[0];
+			String prenomPers = tempPers[1];
+			String idPersonne = PersonneCtrl.getIdByNomAndPrenom(nomPers, prenomPers);
+			String idMateriel = Form.getValeurChamp(request, PARAM_ID_DESIGNATION);
+			session.setAttribute("PARAM_ID_DESIGNATION",Integer.parseInt(idMateriel));
+			List<Materiel> mats = MaterielCtrl.recupererMaterielByCategorie(Integer.parseInt(""+session.getAttribute(PARAM_ID_CATEGORIE)));
+			Materiel mat=null;
+			for(Materiel m : mats){
+				if(m.getIdMateriel()==Integer.parseInt(idMateriel)){
+					mat = m;
 				}
-				
-				String materiel = mat.getDesignation().getLibelleDesignation();
-				
-				String etatDebut = ""+mat.getEtat().getIdEtat();
-				
-				String dateDebut = Form.getValeurChamp(request, PARAM_DATE_DEBUT);
-				
-				String dateFin = Form.getValeurChamp(request, PARAM_DATE_FIN);
-		        
-				float montant = Float.parseFloat(Form.getValeurChamp(request, PARAM_MONTANT));
-				
-				String nom = null, prenom = null;
-				
-				List<Personne> pers = PersonneCtrl.recupererToutesPersonnes();
-				for(Personne per : pers){
-					if(per.getIdPersonne()==Long.parseLong(idPersonne)){
-						nom = per.getNom();
-						prenom = per.getPrenom();
-					}
-				}
-				
-				session.setAttribute("etatDebut", etatDebut);
-				session.setAttribute(PARAM_DATE_DEBUT, dateDebut);
-				session.setAttribute(PARAM_DATE_FIN, dateFin);
-				session.setAttribute(PARAM_MONTANT, montant);
-				session.setAttribute(PARAM_ID_ADHERENT, idPersonne);
-				session.setAttribute(PARAM_ID_DESIGNATION, idMateriel);
-				
-				request.setAttribute("resultat", "yes");
-				
-				session.setAttribute("nomInstrument", materiel);
-				session.setAttribute("nomAdherent", prenom+" "+nom);
-				
-				
-				this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_EXTERNE).forward(request, response);
-			}else{
-				response.sendRedirect(request.getContextPath()+Pattern.ACCUEIL);
 			}
+				
+			String materiel = mat.getDesignation().getLibelleDesignation()+" | "+mat.getNumSerie()+" | "+mat.getTypeMat()+" | "+mat.getDateAchat()+" | "+mat.getValeurAchat()+" | "+mat.getValeurReap()+" | "+mat.isDeplacable()+" | "+mat.getObservation();
+			
+			String etatDebut = ""+mat.getEtat().getIdEtat();
+			
+			String dateDebut = Form.getValeurChamp(request, PARAM_DATE_DEBUT);
+				
+			String dateFin = Form.getValeurChamp(request, PARAM_DATE_FIN);
+				
+			String nom = null, prenom = null;
+				
+			List<Personne> pers = PersonneCtrl.recupererToutesPersonnes();
+			for(Personne per : pers){
+				if(per.getIdPersonne()==Long.parseLong(idPersonne)){
+					nom = per.getNom();
+					prenom = per.getPrenom();
+				}
+			}
+			Map<String, String> tarifs = LocationCtrl.recupereTarifsLocation();
+			session.setAttribute("etatDebut", etatDebut);
+			session.setAttribute(PARAM_DATE_DEBUT, dateDebut);
+			session.setAttribute(PARAM_DATE_FIN, dateFin);
+			session.setAttribute(PARAM_MONTANT, tarifs.get("montantLocationExterne"));
+			session.setAttribute(PARAM_CAUTION, tarifs.get("caution"));
+			session.setAttribute(PARAM_ID_ADHERENT, idPersonne);
+			session.setAttribute(PARAM_ID_DESIGNATION, idMateriel);
+				
+			request.setAttribute("resultat", "yes");
+				
+			session.setAttribute("nomInstrument", materiel);
+			session.setAttribute("nomAdherent", prenom+" "+nom);
+				
+				
+			this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_EXTERNE).forward(request, response);
 		}
 		if(Form.getValeurChamp(request, CATEGORIE)!=null){
 			idCategorie = Integer.parseInt(Form.getValeurChamp(request, CATEGORIE));
@@ -190,8 +183,8 @@ public class locationExterneServlet extends HttpServlet {
 				response.sendRedirect(request.getContextPath()+Pattern.MATERIEL_AJOUT+"?errListeVide=1");
 			}else{
 				Map<Integer, String> listeMats = new HashMap<>();
-				for(Materiel m : listeMateriel){
-					listeMats.put(Integer.parseInt(""+m.getIdMateriel()), ""+m.getDesignation().getLibelleDesignation()+" | "+m.getNumSerie()+" | "+m.getTypeMat()+" | "+m.getDateAchat());
+				for(Materiel mat : listeMateriel){
+					listeMats.put(Integer.parseInt(""+mat.getIdMateriel()), mat.getDesignation().getLibelleDesignation()+" | "+mat.getNumSerie()+" | "+mat.getTypeMat()+" | "+mat.getDateAchat()+" | "+mat.getValeurAchat()+" | "+mat.getValeurReap()+" | "+mat.isDeplacable()+" | "+mat.getObservation());
 				}
 				List<Personne> listePersonnes = PersonneCtrl.recupererToutesPersonnes();
 				List<Personne> listePers = new ArrayList<Personne>();

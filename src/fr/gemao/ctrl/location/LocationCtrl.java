@@ -1,15 +1,23 @@
 package fr.gemao.ctrl.location;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+
+import com.jolbox.bonecp.BoneCP;
 
 import fr.gemao.entity.Personne;
 import fr.gemao.entity.materiel.Etat;
 import fr.gemao.entity.materiel.Location;
 import fr.gemao.entity.materiel.Materiel;
 import fr.gemao.sql.DAOFactory;
+import fr.gemao.sql.exception.DAOConfigurationException;
 import fr.gemao.sql.location.LocationDAO;
 
 /**
@@ -18,6 +26,10 @@ import fr.gemao.sql.location.LocationDAO;
  *
  */
 public class LocationCtrl {
+	private static final String FICHIER_PROPERTIES = "./fr/gemao/tarifs.properties";
+	private static final String PROPERTY_CAUTION = "caution";
+	private static final String PROPERTY_MONTANTLOCATIONINTERNE = "montantLocationInterne";
+	private static final String PROPERTY_MONTANTLOCATIONEXTERNE = "montantLocationExterne";
 	/**
 	 * Permet de rajouter une Location dans la BdD. La date de fin de l'emprun
 	 * est calculée automatiquement en fonction de la duree (en jours).
@@ -109,5 +121,32 @@ public class LocationCtrl {
 		LocationDAO locDAO = new LocationDAO(DAOFactory.getInstance());
 		return locDAO.getAll();
 	}
+	
+	public static Map<String, String> recupereTarifsLocation(){
+		Properties properties = new Properties();
+		String caution;
+		String montantLocationInterne;
+		String montantLocationExterne;
 
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		InputStream fichierProperties = classLoader.getResourceAsStream(FICHIER_PROPERTIES);
+
+		if (fichierProperties == null) {
+			throw new DAOConfigurationException("Le fichier properties " + FICHIER_PROPERTIES + " est introuvable.");
+		}
+		
+		try {
+			properties.load(fichierProperties);
+			caution = properties.getProperty(PROPERTY_CAUTION);
+			montantLocationInterne = properties.getProperty(PROPERTY_MONTANTLOCATIONINTERNE);
+			montantLocationExterne = properties.getProperty(PROPERTY_MONTANTLOCATIONEXTERNE);
+		} catch (IOException e) {
+			throw new DAOConfigurationException("Impossible de charger le fichier properties " + FICHIER_PROPERTIES, e);
+		}
+		Map<String, String> tarif = new HashMap<>();
+		tarif.put("caution", caution);
+		tarif.put("montantLocationInterne", montantLocationInterne);
+		tarif.put("montantLocationExterne", montantLocationExterne);
+		return tarif;
+	}
 }
