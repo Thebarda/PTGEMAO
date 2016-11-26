@@ -117,11 +117,20 @@ public class LocationCtrl {
 		return locDAO.getNbLocation();
 	}
 	
+	/**
+	 * Retourne toutes les locations
+	 * @return List<Location>
+	 * @throws ParseException
+	 */
 	public static List<Location> getAll() throws ParseException{
 		LocationDAO locDAO = new LocationDAO(DAOFactory.getInstance());
 		return locDAO.getAll();
 	}
 	
+	/**
+	 * Récupère le tarif de la caution, du montant pour une location externe / interne via un fichier .properties
+	 * @return Map<String, String>
+	 */
 	public static Map<String, String> recupereTarifsLocation(){
 		Properties properties = new Properties();
 		String caution;

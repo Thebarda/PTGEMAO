@@ -3,6 +3,7 @@ package fr.gemao.view.location;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,8 +84,11 @@ public class LocationInterneServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		int idCategorie;
 		
+		//Ici on va soit imprimer et ajouter la location dans la bdd, soit simplement ajouter la location dans la bdd
 		if(Form.getValeurChamp(request, "imprimer")!=null){
-			if(Form.getValeurChamp(request, "imprimer")=="Oui"){ //impression
+			//Impression
+			if(Form.getValeurChamp(request, "imprimer")=="Oui"){
+				//On charge les éléments nécessaire pour éditer le contrat
 				Personnel connectee = (Personnel)session.getAttribute("sessionObjectPersonnel");
 				char lettreNom = connectee.getNom().charAt(0);
 				char lettrePrenom = connectee.getPrenom().charAt(0);
@@ -103,16 +107,10 @@ public class LocationInterneServlet extends HttpServlet {
 				}
 				int montant = Integer.parseInt(""+session.getAttribute(PARAM_MONTANT));
 				
-				//Generation du report
-				/*String jrxmlFileName = "";
-				String jasperFileName="";
-				try {
-					JasperCompileManager.compileReportToFile(jrxmlFileName, jasperFileName);
-					
-				} catch (JRException e) {
-					e.printStackTrace();
-				}*/
+				//Generation du rapport
+				
 			}
+			
 			Map<String, String> tarifs = LocationCtrl.recupereTarifsLocation();
 			LocationCtrl.ajouterLocation(""+session.getAttribute(PARAM_ID_ADHERENT), ""+session.getAttribute(PARAM_ID_DESIGNATION), ""+session.getAttribute("etatDebut"), ""+session.getAttribute(PARAM_DATE_DEBUT), ""+session.getAttribute(PARAM_DATE_FIN), Float.parseFloat(""+tarifs.get("caution")), Float.parseFloat(""+tarifs.get("montantLocationInterne")));
 			Materiel materiel = MaterielCtrl.getMaterielById(Integer.parseInt(""+session.getAttribute(PARAM_ID_DESIGNATION)));
@@ -120,6 +118,7 @@ public class LocationInterneServlet extends HttpServlet {
 			response.sendRedirect(request.getContextPath()+Pattern.ACCUEIL);
 		}
 		
+		//Traitement du formulaire
 		if(Form.getValeurChamp(request, PARAM_ID_DESIGNATION)!=null){
 			String dateFin = locationForm.setDateFinForm(Form.getValeurChamp(request, PARAM_DATE_DEBUT));
 			String personne = Form.getValeurChamp(request, PARAM_ID_ADHERENT);
@@ -137,7 +136,7 @@ public class LocationInterneServlet extends HttpServlet {
 				}
 			}
 				
-			String materiel = mat.getDesignation().getLibelleDesignation()+" | "+mat.getNumSerie()+" | "+mat.getTypeMat()+" | "+mat.getDateAchat()+" | "+mat.getValeurAchat()+" | "+mat.getValeurReap()+" | "+mat.isDeplacable()+" | "+mat.getObservation();
+			List confirmMat = Arrays.asList(mat.getDesignation().getLibelleDesignation(), mat.getNumSerie(), mat.getTypeMat(), mat.getDateAchat(), mat.getValeurAchat(), mat.getValeurReap(), "Oui", mat.getObservation());
 				
 			String etatDebut = ""+mat.getEtat().getIdEtat();
 				
@@ -163,12 +162,14 @@ public class LocationInterneServlet extends HttpServlet {
 			
 			request.setAttribute("resultat", "yes");
 				
-			session.setAttribute("nomInstrument", materiel);
+			session.setAttribute("nomInstrument", confirmMat);
 			session.setAttribute("nomAdherent", prenom+" "+nom);
 			
 			
 			this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_INTERNE).forward(request, response);
 		}
+		
+		//Génération du formulaire de location
 		if(Form.getValeurChamp(request, CATEGORIE)!=null){
 			idCategorie = Integer.parseInt(Form.getValeurChamp(request, CATEGORIE));
 			CategorieCtrl categorieCtrl = new CategorieCtrl();
@@ -182,9 +183,16 @@ public class LocationInterneServlet extends HttpServlet {
 				response.sendRedirect(request.getContextPath()+Pattern.MATERIEL_AJOUT+"?errListeVide=1");
 				
 			}else{
-				Map<Integer, String> listeMats = new HashMap<>();
+				Map<Integer, List> listeMats = new HashMap<>();
 				for(Materiel mat : listeMateriel){
-					listeMats.put(Integer.parseInt(""+mat.getIdMateriel()), mat.getDesignation().getLibelleDesignation()+" | "+mat.getNumSerie()+" | "+mat.getTypeMat()+" | "+mat.getDateAchat()+" | "+mat.getValeurAchat()+" | "+mat.getValeurReap()+" | "+mat.isDeplacable()+" | "+mat.getObservation());
+					List mats;
+					if(mat.isDeplacable()==true){
+						mats = Arrays.asList(mat.getDesignation().getLibelleDesignation(), mat.getNumSerie(), mat.getTypeMat(), mat.getDateAchat(), mat.getValeurAchat(), mat.getValeurReap(), "Oui", mat.getObservation());
+					}else{
+						mats = Arrays.asList(mat.getDesignation().getLibelleDesignation(), mat.getNumSerie(), mat.getTypeMat(), mat.getDateAchat(), mat.getValeurAchat(), mat.getValeurReap(), "Non", mat.getObservation());
+					}
+					
+					listeMats.put(Integer.parseInt(""+mat.getIdMateriel()), mats);
 				}
 				List<Adherent> listeAdherent = AdherentCtrl.recupererTousAdherents();
 				List<Personne> listePersonne = new ArrayList<>();

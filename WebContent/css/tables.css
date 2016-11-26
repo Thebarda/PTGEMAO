@@ -4,6 +4,7 @@ Copyright 2014 Yahoo! Inc. All rights reserved.
 Licensed under the BSD License.
 https://github.com/yahoo/pure/blob/master/LICENSE.md
 */
+
 .pure-table {
     /* Remove spacing between table cells (from Normalize.css) */
     border-collapse: collapse;
@@ -34,6 +35,7 @@ there's a rowspan on the first cell. Case added to the tests. issue#432 */
 .pure-table td:first-child,
 .pure-table th:first-child {
     border-left-width: 0;
+    width:50rem;
 }
 
 .pure-table thead {

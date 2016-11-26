@@ -46,13 +46,21 @@ autocompletionFamille("#adh");
 								<fieldset>
 								<br>
 								<label for="instrument">Instrument : </label>
-									<select name="nomDesignation">
-									<option disabled>Désignation | Numéro de série | Type de matériel | date d'achat | valeur achat | valeur reapprovisionnement | est daplacable | observation</option>
+									<br>
+									<table class="tablesorter-blue  pure-table">
+										<thead>
+											<tr><th>Désignation</th><th>Numéro de série</th><th>Type de matériel</th><th>date d'achat</th><th>valeur achat</th><th>valeur reapprovisionnement</th><th>est déplacable</th><th>observation</th><th>Choix</th></tr>
+										</thead>
 										<c:forEach items="${listeMateriel}" var="instrument">
-											<option value="${instrument.key}"><c:out
-													value="${instrument.value}" /></option>
+											<tr>
+											<c:forEach items="${instrument.value}" var="mat">
+												<td><c:out value="${mat}"></c:out></td>
+											</c:forEach>
+												<td><input type="radio" name="nomDesignation" value="${instrument.key }" checked>Choisir</td>
+											</tr>
 										</c:forEach>
-									</select><br><br>
+									</table>
+									<br>
 									<label for="adh">Adhérent : </label><input id="adh" type="text" name="adherent"><br><br>
 									<label>Date de la location : </label><input id="dateEmprunt" type="text" class="datepicker" required='required' name="debutLocation">
 									<br><br><label>Date encaissement : TODO</label>
@@ -60,6 +68,7 @@ autocompletionFamille("#adh");
 						</c:otherwise>	
 						</c:choose>
 				<fieldset class='align-center no-border'>
+					<a href="<c:url value="<%= Pattern.ACCUEIL %>"/>">Annuler</a>
 					<input id="valider" type="submit" value="Valider" />
 				</fieldset>
 			</form>
@@ -69,7 +78,17 @@ autocompletionFamille("#adh");
 				<fieldset>
 					<legend>Validation des informations</legend>
 					<label>Categorie : </label><span id="nomCategorie"><%= session.getAttribute("nomCategorie") %></span><br>
-					<label>Instrument : </label><span id="nomInstrument"><%= session.getAttribute("nomInstrument") %></span><br>
+					<label>Instrument : </label>
+					<table class="tablesorter-blue  pure-table">
+						<thead>
+							<tr><th>Désignation</th><th>Numéro de série</th><th>Type de matériel</th><th>date d'achat</th><th>valeur achat</th><th>valeur reapprovisionnement</th><th>est déplacable</th><th>observation</th></tr>
+						</thead>
+						<tr>
+							<c:forEach items="${nomInstrument}" var="mat">
+								<td><c:out value="${mat}"></c:out></td>
+							</c:forEach>
+						</tr>
+					</table><br>
 					<label>Adhérent : </label><span id="nomAdherent"><%= session.getAttribute("nomAdherent") %></span><br>
 					<label>Date d'emprunt : </label><span id="debutLocation"><%= session.getAttribute("debutLocation") %></span><br>
 					<label>Date d'echéance : </label><span id="finLocation"><%= session.getAttribute("finLocation") %></span><br>

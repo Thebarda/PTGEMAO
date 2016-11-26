@@ -83,6 +83,11 @@ public class MaterielCtrl {
 		new MaterielDAO(DAOFactory.getInstance()).create(materiel);		
 	}
 	
+	/**
+	 * Récupérer le matériel par id
+	 * @param idMateriel
+	 * @return Materiel
+	 */
 	public Materiel recupererMateriel(int idMateriel) {
 		if (idMateriel <= 0 ) {
 			throw new IllegalArgumentException("Id incorrect");
@@ -93,6 +98,10 @@ public class MaterielCtrl {
 		return materielDAO.get(idMateriel);
 	}
 	
+	/**
+	 * Récupère tout le matériel de la bdd
+	 * @return List<Materiel>
+	 */
 	public List<Materiel> recupererTousMateriels() {
 		List<Materiel> listeMateriel = new ArrayList<Materiel>();
 		MaterielDAO materielDAO = new MaterielDAO(DAOFactory.getInstance());
@@ -102,6 +111,11 @@ public class MaterielCtrl {
 		return listeMateriel;
 	}
 	
+	/**
+	 * Recupère les matériels en fonction d'une catégorie
+	 * @param idCategorie
+	 * @return List<Materiel>
+	 */
 	public static List<Materiel> recupererMaterielByCategorie(int idCategorie){
 		List<Materiel> listMaterielByCategorie = new ArrayList<>();
 		MaterielDAO materielDAO = new MaterielDAO(DAOFactory.getInstance());
@@ -109,6 +123,11 @@ public class MaterielCtrl {
 		return listMaterielByCategorie;
 	}
 	
+	/**
+	 * Recupère les matériels louable
+	 * @param idCategorie
+	 * @return List<Materiel>
+	 */
 	public static List<Materiel> recupereMaterielLouable(int idCategorie){
 		List<Materiel> listMaterielByCategorie = new ArrayList<>();
 		MaterielDAO materielDAO = new MaterielDAO(DAOFactory.getInstance());
@@ -116,16 +135,30 @@ public class MaterielCtrl {
 		return listMaterielByCategorie;
 	}
 	
+	/**
+	 * Modifie la louabilité du matériel
+	 * @param idMateriel
+	 * @param estLouable
+	 */
 	public static void updateEstLouable(int idMateriel, int estLouable){
 		MaterielDAO matDAO = new MaterielDAO(DAOFactory.getInstance());
 		matDAO.updateEstLouable(idMateriel, estLouable);
 	}
 	
+	/**
+	 * Retourne le matériel en fonction de l'id
+	 * @param idMateriel
+	 * @return Materiel
+	 */
 	public static Materiel getMaterielById(int idMateriel){
 		MaterielDAO matDAO = new MaterielDAO(DAOFactory.getInstance());
 		return matDAO.getMaterielById(idMateriel);
 	}
 	
+	/**
+	 * Modifie le matériel
+	 * @param materiel
+	 */
 	public void modifierMateriel(Materiel materiel) {
 		if (materiel.getEtat() == null) {
 			throw new NullPointerException("L'etat ne doit pas etre null");
