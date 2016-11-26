@@ -1,19 +1,49 @@
 package fr.gemao.view.location;
 
+import java.awt.Desktop;
+import java.awt.Graphics;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.print.Doc;
+import javax.print.DocFlavor;
+import javax.print.DocPrintJob;
+import javax.print.PrintException;
+import javax.print.PrintService;
+import javax.print.PrintServiceLookup;
+import javax.print.SimpleDoc;
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.attribute.PrintServiceAttribute;
+import javax.print.attribute.standard.Sides;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfWriter;
 
 import fr.gemao.ctrl.PersonneCtrl;
 import fr.gemao.ctrl.adherent.AdherentCtrl;
@@ -38,7 +68,7 @@ import fr.gemao.view.util.AutocompletionFamille;
  * Servlet implementation class locationInstrumentServlet
  */
 @WebServlet(Pattern.LOCATION_LOCATION_INTERNE)
-public class LocationInterneServlet extends HttpServlet {
+public class LocationInterneServlet extends HttpServlet implements Printable {
 	private static final long serialVersionUID = 1L;
 
 	private final String PARAM_ID_CATEGORIE = "idCategorie";
@@ -87,7 +117,8 @@ public class LocationInterneServlet extends HttpServlet {
 		//Ici on va soit imprimer et ajouter la location dans la bdd, soit simplement ajouter la location dans la bdd
 		if(Form.getValeurChamp(request, "imprimer")!=null){
 			//Impression
-			if(Form.getValeurChamp(request, "imprimer")=="Oui"){
+			String imprimer = Form.getValeurChamp(request, "imprimer");
+			if(imprimer.equals("Oui")){
 				//On charge les éléments nécessaire pour éditer le contrat
 				Personnel connectee = (Personnel)session.getAttribute("sessionObjectPersonnel");
 				char lettreNom = connectee.getNom().charAt(0);
@@ -97,19 +128,72 @@ public class LocationInterneServlet extends HttpServlet {
 				String[] adh = adherent.split(" ");
 				String nom = adh[0];
 				String prenom = adh[1];
-				String instrument = ""+session.getAttribute("nomInstrument");
+				List instruments = (List) session.getAttribute("nomInstrument");
+				String instrument = (String) instruments.get(0);
 				String marqueType = "";
+				Date date = new Date();
 				List<Materiel> materiels = MaterielCtrl.recupererMaterielByCategorie(Integer.parseInt(""+session.getAttribute(PARAM_ID_CATEGORIE)));
 				for(Materiel mat : materiels){
-					if(mat.getDesignation().getIdDesignation()==Integer.parseInt(""+session.getAttribute(PARAM_ID_DESIGNATION))){
+					if(mat.getIdMateriel()==Long.parseLong(""+session.getAttribute(PARAM_ID_DESIGNATION))){
 						marqueType = mat.getTypeMat();
 					}
 				}
 				int montant = Integer.parseInt(""+session.getAttribute(PARAM_MONTANT));
 				
 				//Generation du rapport
-				
+				Document document = new Document(PageSize.A4);
+			    try {
+			      PdfWriter pdf = PdfWriter.getInstance(document,
+			          new FileOutputStream(new File("ContratLocationInterne"+nom+""+prenom+""+numeroLocation+".pdf")));
+			      pdf.setViewerPreferences(PdfWriter.PageLayoutSinglePage | PdfWriter.PageModeUseThumbs);
+			      document.open();
+			      Font font = FontFactory.getFont("Comic Sans MS", 15);
+			      Font font2 = FontFactory.getFont("Comic Sans MS", 18);
+			      Font font3 = FontFactory.getFont("Comic Sans MS", Font.BOLD, 13);
+			      document.add(new Paragraph("10 rue de la gare\n18570 LA CHAPELLE SAINT URSIN \n\n\n\n"));
+
+			      Paragraph paragraph = new Paragraph(" Contrat de location : ANA "+date.getYear()+"-"+lettrePrenom+""+lettreNom+"-"+date.getMonth(), font2);
+			      
+			      paragraph.setAlignment(Element.ALIGN_CENTER);
+			      document.add(paragraph);
+			      
+			      paragraph = new Paragraph("Nom : "+nom, font2);
+			      paragraph.setAlignment(Element.ALIGN_CENTER);
+			      document.add(paragraph);
+			      
+			      paragraph = new Paragraph("Prénom : "+prenom, font2);
+			      paragraph.setAlignment(Element.ALIGN_CENTER);
+			      document.add(paragraph);
+			      
+			      paragraph = new Paragraph("Instrument : "+instrument, font2);
+			      paragraph.setAlignment(Element.ALIGN_CENTER);
+			      document.add(paragraph);
+			      
+			      paragraph = new Paragraph("Marque Type : "+marqueType, font2);
+			      paragraph.setAlignment(Element.ALIGN_CENTER);
+			      document.add(paragraph);
+			      
+			      paragraph = new Paragraph("N° : "+numeroLocation+"\n\n\n\n", font2);
+			      paragraph.setAlignment(Element.ALIGN_CENTER);
+			      document.add(paragraph);
+			      
+			      document.add(new Paragraph("L’ANACROUSE  loue cet instrument en bon état, il appartient au titulaire de la location d’en assurer l’entretien et notamment de le faire réviser avant restitution. \nLes éventuels frais de remise en état découverts après restitution seront à la charge du titulaire du présent contrat. \nCe contrat est conclu pour une durée d’une année scolaire contre la somme de 20 €.\n\n", font));
+			      document.add(new Paragraph("Période location couverte "+session.getAttribute(PARAM_DATE_DEBUT)+" au "+session.getAttribute(PARAM_DATE_FIN)+"\n\n", font));
+			      document.add(new Paragraph("Fait à La Chapelle Saint Ursin le "+date.getDate()+"/"+date.getMonth()+"/"+date.getYear()+" en double exemplaire\n\n", font));
+			      document.add(new Paragraph("Le régisseur de l'anacrous                    Le titulaire du contrat (ou son représentant légal)\n\n", font));
+			      document.add(new Paragraph(""+connectee.getPrenom()+" "+connectee.getNom(), font));
+			      document.add(new Paragraph("Nota : cette location est renouvelable dans le respect du principe suivant : priorité sera donnée au débutant.", font));
+			    } catch (DocumentException de) {
+			      de.printStackTrace();
+			    } catch (IOException ioe) {
+			      ioe.printStackTrace();
+			    }
+
+			    document.close();
+			    Desktop desktop = Desktop.getDesktop();
+				desktop.print(new File("ContratLocationInterne"+nom+""+prenom+""+numeroLocation+".pdf"));
 			}
+			
 			
 			Map<String, String> tarifs = LocationCtrl.recupereTarifsLocation();
 			LocationCtrl.ajouterLocation(""+session.getAttribute(PARAM_ID_ADHERENT), ""+session.getAttribute(PARAM_ID_DESIGNATION), ""+session.getAttribute("etatDebut"), ""+session.getAttribute(PARAM_DATE_DEBUT), ""+session.getAttribute(PARAM_DATE_FIN), Float.parseFloat(""+tarifs.get("caution")), Float.parseFloat(""+tarifs.get("montantLocationInterne")));
@@ -213,6 +297,12 @@ public class LocationInterneServlet extends HttpServlet {
 			}
 		}
 		
+	}
+
+	@Override
+	public int print(Graphics arg0, PageFormat arg1, int arg2) throws PrinterException {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

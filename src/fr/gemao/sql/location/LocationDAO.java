@@ -159,14 +159,16 @@ public class LocationDAO extends IDAO<Location>{
 		Connection connexion = null;
 		PreparedStatement requete = null;
 		ResultSet result = null;
-		String sql = "SELECT COUNT(idPersonne) FROM location";
+		String sql = "SELECT COUNT(idPersonne) AS nbLoc FROM location";
 		int res=0;
 		try {
 			connexion = factory.getConnection();
 			requete = DAOUtilitaires.initialisationRequetePreparee(connexion,
 					sql, false);
 			result = requete.executeQuery();
-			res= result.getInt(0);
+			while (result.next()) {
+				res = result.getInt("nbLoc");
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
