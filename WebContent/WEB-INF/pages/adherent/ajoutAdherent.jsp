@@ -24,7 +24,9 @@ autocompletionFamille("#famille");
 
 
 <h1>Ajout d'un adhérent</h1>
-
+<c:if test="${errAdhVide}">
+	<p class="offset text-danger">La liste d'adhérent est vide. Veuillez ajouter un adhérent</p>
+</c:if>
 <c:if test="${errDate}">
 	<p class="offset text-danger">La date d'inscription doit être antérieure à aujourd'hui et postérieure à la date de naissance.</p>
 </c:if>

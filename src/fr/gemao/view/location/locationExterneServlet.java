@@ -129,10 +129,14 @@ public class locationExterneServlet extends HttpServlet {
 				int montant = Integer.parseInt(""+session.getAttribute(PARAM_MONTANT));
 				
 				//Generation du rapport
+				File rep = new File("contratsLocationExterne");
+				if(!rep.exists()){
+					rep.mkdir();
+				}
 				Document document = new Document(PageSize.A4);
 			    try {
 			      PdfWriter pdf = PdfWriter.getInstance(document,
-			          new FileOutputStream(new File("ContratLocationExterne"+nom+""+prenom+""+numeroLocation+".pdf")));
+			          new FileOutputStream(new File("contratsLocationExterne\\ContratLocationExterne"+nom+""+prenom+""+numeroLocation+".pdf")));
 			      pdf.setViewerPreferences(PdfWriter.PageLayoutSinglePage | PdfWriter.PageModeUseThumbs);
 			      document.open();
 			      Font font = FontFactory.getFont("Comic Sans MS", 15);
@@ -184,7 +188,7 @@ public class locationExterneServlet extends HttpServlet {
 			    document.close();
 			
 			    Desktop desktop = Desktop.getDesktop();
-			    desktop.print(new File("ContratLocationExterne"+nom+""+prenom+""+numeroLocation+".pdf"));
+			    desktop.print(new File("contratsLocationExterne\\ContratLocationExterne"+nom+""+prenom+""+numeroLocation+".pdf"));
 			}
 			
 			Map<String, String> tarifs = LocationCtrl.recupereTarifsLocation();

@@ -67,6 +67,7 @@ public class AjoutAdherentServlet extends HttpServlet {
 		}
 
 		this.getServletContext().getRequestDispatcher(JSPFile.ADHERENT_AJOUT_ADHERENT).forward(request, response);
+		session.removeAttribute("errAdhVide");
 	}
 
 	/**

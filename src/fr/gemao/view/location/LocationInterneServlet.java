@@ -141,10 +141,14 @@ public class LocationInterneServlet extends HttpServlet implements Printable {
 				int montant = Integer.parseInt(""+session.getAttribute(PARAM_MONTANT));
 				
 				//Generation du rapport
+				File rep = new File("contratsLocationInterne");
+				if(!rep.exists()){
+					rep.mkdir();
+				}
 				Document document = new Document(PageSize.A4);
 			    try {
 			      PdfWriter pdf = PdfWriter.getInstance(document,
-			          new FileOutputStream(new File("ContratLocationInterne"+nom+""+prenom+""+numeroLocation+".pdf")));
+			          new FileOutputStream(new File("contratsLocationInterne\\ContratLocationInterne"+nom+""+prenom+""+numeroLocation+".pdf")));
 			      pdf.setViewerPreferences(PdfWriter.PageLayoutSinglePage | PdfWriter.PageModeUseThumbs);
 			      document.open();
 			      Font font = FontFactory.getFont("Comic Sans MS", 15);
@@ -191,7 +195,7 @@ public class LocationInterneServlet extends HttpServlet implements Printable {
 
 			    document.close();
 			    Desktop desktop = Desktop.getDesktop();
-				desktop.print(new File("ContratLocationInterne"+nom+""+prenom+""+numeroLocation+".pdf"));
+				desktop.print(new File("contratsLocationInterne\\ContratLocationInterne"+nom+""+prenom+""+numeroLocation+".pdf"));
 			}
 			
 			
@@ -279,21 +283,27 @@ public class LocationInterneServlet extends HttpServlet implements Printable {
 					listeMats.put(Integer.parseInt(""+mat.getIdMateriel()), mats);
 				}
 				List<Adherent> listeAdherent = AdherentCtrl.recupererTousAdherents();
-				List<Personne> listePersonne = new ArrayList<>();
-				for(Adherent a : listeAdherent){
-					Personne pers = new Personne(a.getIdPersonne(), a.getAdresse(), a.getCommuneNaiss(), a.getNom(), a.getPrenom(), a.getDateNaissance(), a.getTelFixe(), a.getTelPort(), a.getEmail(), a.getCivilite(), a.isDroitImage());
-					listePersonne.add(pers);
-				}
-				List<Adherent> adherents = AdherentCtrl.recupererTousAdherents();
-				List<String> listAdherents = new ArrayList<>();
+				if(listeAdherent.isEmpty()){
+					session.setAttribute("errAdhVide", true);
+					response.sendRedirect(request.getContextPath()+Pattern.ADHERENT_AJOUT+"?errAdherent=1");
+				}else{
+					List<Personne> listePersonne = new ArrayList<>();
+					for(Adherent a : listeAdherent){
+						Personne pers = new Personne(a.getIdPersonne(), a.getAdresse(), a.getCommuneNaiss(), a.getNom(), a.getPrenom(), a.getDateNaissance(), a.getTelFixe(), a.getTelPort(), a.getEmail(), a.getCivilite(), a.isDroitImage());
+						listePersonne.add(pers);
+					}
+					List<Adherent> adherents = AdherentCtrl.recupererTousAdherents();
+					List<String> listAdherents = new ArrayList<>();
 
-				for (Adherent a : adherents) {
-					listAdherents.add('"' + a.getNom()+" "+ a.getPrenom() + '"');
+					for (Adherent a : adherents) {
+						listAdherents.add('"' + a.getNom()+" "+ a.getPrenom() + '"');
+					}
+					request.setAttribute(ATTR_AUTO_FAMILLES, listAdherents);
+					request.setAttribute(PARAM_LISTE_MATERIEL, listeMats);
+					request.setAttribute(PARAM_LISTE_ADHERENT, listePersonne);
+					this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_INTERNE).forward(request, response);
 				}
-				request.setAttribute(ATTR_AUTO_FAMILLES, listAdherents);
-				request.setAttribute(PARAM_LISTE_MATERIEL, listeMats);
-				request.setAttribute(PARAM_LISTE_ADHERENT, listePersonne);
-				this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_INTERNE).forward(request, response);
+				
 			}
 		}
 		
