@@ -3,8 +3,10 @@ package fr.gemao.view.location;
 import java.awt.Desktop;
 import java.awt.Graphics;
 import java.awt.print.PageFormat;
+import java.awt.print.Pageable;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -44,6 +46,10 @@ import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.qoppa.pdf.PDFException;
+import com.qoppa.pdf.PDFPermissionException;
+import com.qoppa.pdf.PrintSettings;
+import com.qoppa.pdfPrint.PDFPrint;
 
 import fr.gemao.ctrl.PersonneCtrl;
 import fr.gemao.ctrl.adherent.AdherentCtrl;
@@ -193,9 +199,21 @@ public class LocationInterneServlet extends HttpServlet implements Printable {
 			      ioe.printStackTrace();
 			    }
 
-			    document.close();
+			    /*document.close();
 			    Desktop desktop = Desktop.getDesktop();
-				desktop.print(new File("contratsLocationInterne\\ContratLocationInterne"+nom+""+prenom+""+numeroLocation+".pdf"));
+				desktop.print(new File("contratsLocationInterne\\ContratLocationInterne"+nom+""+prenom+""+numeroLocation+".pdf"));*/
+			    PDFPrint pdfPrint = null;
+				try {
+					pdfPrint = new PDFPrint("contratsLocationInterne\\ContratLocationInterne"+nom+""+prenom+""+numeroLocation+".pdf", null);
+				} catch (PDFException e1) {
+					e1.printStackTrace();
+				}
+			    try {
+					pdfPrint.print(new PrintSettings());
+				} catch (PDFPermissionException | PrinterException e) {
+					e.printStackTrace();
+				}
+			
 			}
 			
 			
