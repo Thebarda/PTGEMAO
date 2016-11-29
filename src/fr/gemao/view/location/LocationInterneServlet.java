@@ -134,10 +134,10 @@ public class LocationInterneServlet extends HttpServlet implements Printable {
 			      document.open();
 			      Font font = FontFactory.getFont("Comic Sans MS", 15);
 			      Font font2 = FontFactory.getFont("Comic Sans MS", 18);
-			      Font font3 = FontFactory.getFont("Comic Sans MS", Font.BOLD, 13);
+			      Font font3 = FontFactory.getFont("Comic Sans MS", 12);
 			      document.add(new Paragraph("10 rue de la gare\n18570 LA CHAPELLE SAINT URSIN \n\n\n\n"));
 
-			      Paragraph paragraph = new Paragraph(" Contrat de location : ANA "+date.getYear()+"-"+lettrePrenom+""+lettreNom+"-"+date.getMonth(), font2);
+			      Paragraph paragraph = new Paragraph(" Contrat de location : ANA "+date.getYear()+"-"+lettrePrenom+""+lettreNom+"-"+numeroLocation, font2);
 			      
 			      paragraph.setAlignment(Element.ALIGN_CENTER);
 			      document.add(paragraph);
@@ -158,14 +158,15 @@ public class LocationInterneServlet extends HttpServlet implements Printable {
 			      paragraph.setAlignment(Element.ALIGN_CENTER);
 			      document.add(paragraph);
 			      
-			      paragraph = new Paragraph("N° : "+numeroLocation+"\n\n\n\n", font2);
+			      paragraph = new Paragraph("N° : "+numeroLocation+"\n\n", font2);
 			      paragraph.setAlignment(Element.ALIGN_CENTER);
 			      document.add(paragraph);
-			      
+			      int annee = 1900+date.getYear();
+			      int mois = 1 + date.getMonth();
 			      document.add(new Paragraph("L’ANACROUSE  loue cet instrument en bon état, il appartient au titulaire de la location d’en assurer l’entretien et notamment de le faire réviser avant restitution. \nLes éventuels frais de remise en état découverts après restitution seront à la charge du titulaire du présent contrat. \nCe contrat est conclu pour une durée d’une année scolaire contre la somme de 20 €.\n\n", font));
 			      document.add(new Paragraph("Période location couverte "+session.getAttribute(PARAM_DATE_DEBUT)+" au "+session.getAttribute(PARAM_DATE_FIN)+"\n\n", font));
-			      document.add(new Paragraph("Fait à La Chapelle Saint Ursin le "+date.getDate()+"/"+date.getMonth()+"/"+date.getYear()+" en double exemplaire\n\n", font));
-			      document.add(new Paragraph("Le régisseur de l'anacrous                    Le titulaire du contrat (ou son représentant légal)\n\n", font));
+			      document.add(new Paragraph("Fait à La Chapelle Saint Ursin le "+date.getDate()+"/"+mois+"/"+annee+" en double exemplaire\n\n", font));
+			      document.add(new Paragraph("Le régisseur de l'anacrous                    Le titulaire du contrat (ou son représentant légal)\n\n\n\n", font3));
 			      document.add(new Paragraph(""+connectee.getPrenom()+" "+connectee.getNom(), font));
 			      document.add(new Paragraph("Nota : cette location est renouvelable dans le respect du principe suivant : priorité sera donnée au débutant.", font));
 			    } catch (DocumentException de) {
