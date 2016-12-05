@@ -110,8 +110,8 @@ public class locationExterneServlet extends HttpServlet {
 				int numeroLocation = LocationCtrl.getNbLocation();
 				String adherent = ""+session.getAttribute("nomAdherent");
 				String[] adh = adherent.split(" ");
-				String nom = adh[0];
-				String prenom = adh[1];
+				String nom = adh[1];
+				String prenom = adh[0];
 				String adresse = "";
 				List<Personne> personnes = PersonneCtrl.recupererToutesPersonnes();
 				for(Personne p : personnes){

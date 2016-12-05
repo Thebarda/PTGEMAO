@@ -109,8 +109,8 @@ public class LocationInterneServlet extends HttpServlet implements Printable {
 				int numeroLocation = LocationCtrl.getNbLocation();
 				String adherent = ""+session.getAttribute("nomAdherent");
 				String[] adh = adherent.split(" ");
-				String nom = adh[0];
-				String prenom = adh[1];
+				String nom = adh[1];
+				String prenom = adh[0];
 				List instruments = (List) session.getAttribute("nomInstrument");
 				String instrument = (String) instruments.get(0);
 				String marqueType = "";
