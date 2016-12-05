@@ -123,6 +123,8 @@ public class locationExterneServlet extends HttpServlet {
 				String instrument = (String) instruments.get(0);
 				String marqueType = "";
 				Date date = new Date();
+				int annee = 1900+date.getYear();
+			      int mois = 1 + date.getMonth();
 				List<Materiel> materiels = MaterielCtrl.recupererMaterielByCategorie(Integer.parseInt(""+session.getAttribute(PARAM_ID_CATEGORIE)));
 				for(Materiel mat : materiels){
 					if(mat.getIdMateriel()==Long.parseLong(""+session.getAttribute(PARAM_ID_DESIGNATION))){
@@ -147,7 +149,7 @@ public class locationExterneServlet extends HttpServlet {
 			      Font font3 = FontFactory.getFont("Comic Sans MS", 12);
 			      document.add(new Paragraph("10 rue de la gare\n18570 LA CHAPELLE SAINT URSIN \n\n\n\n"));
 
-			      Paragraph paragraph = new Paragraph(" Contrat de location : ANA "+date.getYear()+"-"+lettrePrenom+""+lettreNom+"-"+numeroLocation, font2);
+			      Paragraph paragraph = new Paragraph(" Contrat de location : ANA "+annee+"-"+lettrePrenom+""+lettreNom+"-"+numeroLocation, font2);
 			      
 			      paragraph.setAlignment(Element.ALIGN_CENTER);
 			      document.add(paragraph);
@@ -175,8 +177,7 @@ public class locationExterneServlet extends HttpServlet {
 			      paragraph = new Paragraph("N° : "+numeroLocation+"\n\n", font2);
 			      paragraph.setAlignment(Element.ALIGN_CENTER);
 			      document.add(paragraph);
-			      int annee = 1900+date.getYear();
-			      int mois = 1 + date.getMonth();
+			      
 			      document.add(new Paragraph("L’ANACROUSE  loue cet instrument  en bon état, il appartient au titulaire de la location d’en assurer l’entretien.\nLes éventuels frais de remise en état découverts après restitution seront à la charge du titulaire du présent contrat et éventuellement pris sur la caution (non encaissée) préalable à la location. La caution est fixée à 150 € payable par chèque.\nCe contrat est conclu pour une durée de trois mois renouvelables contre la somme de 15 € par mois.\n\n", font));
 			      document.add(new Paragraph("Période location couverte "+session.getAttribute(PARAM_DATE_DEBUT)+" au "+session.getAttribute(PARAM_DATE_FIN)+"\n\n", font));
 			      document.add(new Paragraph("Fait à La Chapelle Saint Ursin le "+date.getDate()+"/"+mois+"/"+annee+" en double exemplaire\n\n", font));

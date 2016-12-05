@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Comparator;
 import java.util.Date;
 
 import fr.gemao.entity.Personne;
@@ -12,7 +13,7 @@ import fr.gemao.entity.Personne;
 /**
  * The Class Location.
  */
-public class Location implements Serializable{
+public class Location implements Serializable, Comparable<Location>{
 	/**
 	 * 
 	 */
@@ -278,7 +279,23 @@ public class Location implements Serializable{
 		this.dateEcheance = dateEcheance;
 	}
 
-	
+	public int getCaution(){
+		return this.caution;
+	}
+
+	@Override
+	public int compareTo(Location loc) {
+		DateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
+		int res = 0;
+		try {
+			Date thisEmprunt = sdf.parse(this.getDateEmprunt());
+			Date emprunt = sdf.parse(loc.getDateEmprunt());
+			res = thisEmprunt.compareTo(emprunt);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
 	
 	
 }

@@ -163,4 +163,11 @@ public class LocationCtrl {
 		tarif.put("montantLocationExterne", montantLocationExterne);
 		return tarif;
 	}
+
+
+	public static String getTypeLocation(Location location) {
+		LocationDAO locDAO = new LocationDAO(DAOFactory.getInstance());
+		return locDAO.getTypeLocation(Integer.parseInt(""+location.getPersonne().getIdPersonne()));
+	}
+
 }

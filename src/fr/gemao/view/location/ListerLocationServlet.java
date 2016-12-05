@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +25,7 @@ import fr.gemao.entity.materiel.Etat;
 import fr.gemao.entity.materiel.Location;
 import fr.gemao.entity.materiel.Materiel;
 import fr.gemao.entity.materiel.Reparation;
+import fr.gemao.entity.materiel.TypeLocation;
 import fr.gemao.view.JSPFile;
 import fr.gemao.view.Pattern;
 
@@ -38,8 +41,23 @@ public class ListerLocationServlet extends HttpServlet{
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		//Liste locations normale
 		List<Location> locations = LocationCtrl.getAllAll();
-		System.out.println(locations);
+		List<TypeLocation> typeLocations = new ArrayList<>();
+		for(Location loc : locations){
+			typeLocations.add(new TypeLocation(loc));
+		}
+		
+		//Liste locations triées pas date d'emprunt
+		List<Location> locationsDate = LocationCtrl.getAllAll();
+		Collections.sort(locationsDate);
+		List<TypeLocation> date = new ArrayList<>();
+		for(Location loc : locationsDate){
+			date.add(new TypeLocation(loc));
+		}
+		
+		request.setAttribute("date", date);
+		request.setAttribute("typeLocations", typeLocations);
 		this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_LISTER).forward(request, response);
 	}
 	

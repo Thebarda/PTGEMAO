@@ -185,7 +185,7 @@ public class LocationDAO extends IDAO<Location>{
 		Connection connexion = null;
 		PreparedStatement requete = null;
 		ResultSet result = null;
-		String sql = "SELECT * FROM location;";
+		String sql = "SELECT * FROM location l INNER JOIN personne p ON l.idPersonne=p.idPersonne ORDER BY p.nom ;";
 		try {
 			connexion = factory.getConnection();
 			requete = DAOUtilitaires.initialisationRequetePreparee(connexion,
@@ -204,4 +204,31 @@ public class LocationDAO extends IDAO<Location>{
 
 		return liste;
 	}
+
+
+	public String getTypeLocation(int idPersonne) {
+		Location location = null;
+		String type = "";
+		Connection connexion = null;
+		PreparedStatement requete = null;
+		ResultSet result = null;
+		String sql = "SELECT idPersonne FROM adherent where idPersonne = ?;";
+		try {
+			connexion = factory.getConnection();
+			requete = DAOUtilitaires.initialisationRequetePreparee(connexion,
+					sql, false, idPersonne);
+			result = requete.executeQuery();
+			if(!result.next()){
+				type="Externe";
+			}else{
+				type="Interne";
+			}
+		} catch (SQLException e1) {
+			throw new DAOException(e1);
+		} finally {
+			DAOUtilitaires.fermeturesSilencieuses(result, requete, connexion);
+		}
+		return type;
+	}
+
 }
