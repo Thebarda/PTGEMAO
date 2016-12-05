@@ -122,9 +122,14 @@ public class LocationCtrl {
 	 * @return List<Location>
 	 * @throws ParseException
 	 */
-	public static List<Location> getAll() throws ParseException{
+	public static List<Location> getAll() {
 		LocationDAO locDAO = new LocationDAO(DAOFactory.getInstance());
 		return locDAO.getAll();
+	}
+	
+	public static List<Location> getAllAll() {
+		LocationDAO locDAO = new LocationDAO(DAOFactory.getInstance());
+		return locDAO.getAllAll();
 	}
 	
 	/**

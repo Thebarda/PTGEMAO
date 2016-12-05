@@ -34,10 +34,12 @@ import fr.gemao.ctrl.PersonneCtrl;
 import fr.gemao.ctrl.adherent.AdherentCtrl;
 import fr.gemao.ctrl.location.LocationCtrl;
 import fr.gemao.ctrl.materiel.CategorieCtrl;
+import fr.gemao.ctrl.materiel.EtatCtrl;
 import fr.gemao.ctrl.materiel.MaterielCtrl;
 import fr.gemao.entity.Personne;
 import fr.gemao.entity.adherent.Adherent;
 import fr.gemao.entity.materiel.Categorie;
+import fr.gemao.entity.materiel.Etat;
 import fr.gemao.entity.materiel.Materiel;
 import fr.gemao.entity.personnel.Personnel;
 import fr.gemao.form.location.LocationForm;
@@ -257,10 +259,11 @@ public class LocationInterneServlet extends HttpServlet implements Printable {
 				Map<Integer, List> listeMats = new HashMap<>();
 				for(Materiel mat : listeMateriel){
 					List mats;
+					Etat etat = EtatCtrl.getAllByMat(Integer.parseInt(""+mat.getIdMateriel()));
 					if(mat.isDeplacable()==true){
-						mats = Arrays.asList(mat.getDesignation().getLibelleDesignation(), mat.getNumSerie(), mat.getTypeMat(), mat.getDateAchat(), mat.getValeurAchat(), mat.getValeurReap(), "Oui", mat.getObservation());
+						mats = Arrays.asList(mat.getDesignation().getLibelleDesignation(), mat.getNumSerie(), mat.getTypeMat(), mat.getDateAchat(), mat.getValeurAchat(), mat.getValeurReap(), "Oui", mat.getObservation(), etat.getLibelleEtat());
 					}else{
-						mats = Arrays.asList(mat.getDesignation().getLibelleDesignation(), mat.getNumSerie(), mat.getTypeMat(), mat.getDateAchat(), mat.getValeurAchat(), mat.getValeurReap(), "Non", mat.getObservation());
+						mats = Arrays.asList(mat.getDesignation().getLibelleDesignation(), mat.getNumSerie(), mat.getTypeMat(), mat.getDateAchat(), mat.getValeurAchat(), mat.getValeurReap(), "Non", mat.getObservation(), etat.getLibelleEtat());
 					}
 					
 					listeMats.put(Integer.parseInt(""+mat.getIdMateriel()), mats);

@@ -49,7 +49,7 @@ autocompletionFamille("#adh");
 									<br>
 									<table class="tablesorter-blue  pure-table">
 										<thead>
-											<tr><th>Désignation</th><th>Numéro de série</th><th>Type de matériel</th><th>date d'achat</th><th>valeur achat</th><th>valeur reapprovisionnement</th><th>est déplacable</th><th>observation</th><th>Choix</th></tr>
+											<tr><th>Désignation</th><th>Numéro de série</th><th>Type de matériel</th><th>date d'achat</th><th>valeur achat</th><th>valeur reapprovisionnement</th><th>est déplacable</th><th>observation</th><th>Etat</th><th>Choix</th></tr>
 										</thead>
 										<c:forEach items="${listeMateriel}" var="instrument">
 											<tr>
@@ -81,7 +81,7 @@ autocompletionFamille("#adh");
 					<label>Instrument : </label>
 					<table class="tablesorter-blue  pure-table">
 						<thead>
-							<tr><th>Désignation</th><th>Numéro de série</th><th>Type de matériel</th><th>date d'achat</th><th>valeur achat</th><th>valeur reapprovisionnement</th><th>est déplacable</th><th>observation</th></tr>
+							<tr><th>Désignation</th><th>Numéro de série</th><th>Type de matériel</th><th>date d'achat</th><th>valeur achat</th><th>valeur reapprovisionnement</th><th>est déplacable</th><th>observation</th><th>Etat</th></tr>
 						</thead>
 						<tr>
 							<c:forEach items="${nomInstrument}" var="mat">

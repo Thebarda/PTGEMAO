@@ -170,5 +170,27 @@ public class EtatDAO extends IDAO<Etat> {
 
 		return new Etat(result.getInt("idEtat"), result.getString("libelle"));
 	}
+	public Etat getAllByMat(int idMateriel) {
 
+		Etat etat = null;
+		Connection connexion = null;
+		PreparedStatement requete = null;
+		ResultSet result = null;
+		String sql = "SELECT * FROM etat e JOIN materiel m ON e.idEtat=m.idEtat WHERE m.idMateriel= ?;";
+		try {
+			connexion = DAOFactory.getInstance().getConnection();
+			requete = DAOUtilitaires.initialisationRequetePreparee(connexion,
+					sql, true, idMateriel);
+			result = requete.executeQuery();
+
+			while (result.next()) {
+				etat = this.map(result);
+			}
+		} catch (SQLException e1) {
+			throw new DAOException(e1);
+		} finally {
+			DAOUtilitaires.fermeturesSilencieuses(result, requete, connexion);
+		}
+		return etat;
+	}
 }

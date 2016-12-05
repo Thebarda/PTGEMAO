@@ -25,6 +25,7 @@ import fr.gemao.sql.cours.NiveauDAO;
 import fr.gemao.sql.cours.ProfDAO;
 import fr.gemao.sql.cours.SalleDAO;
 import fr.gemao.sql.exception.DAOConfigurationException;
+import fr.gemao.sql.location.LocationDAO;
 import fr.gemao.sql.materiel.CategorieDAO;
 import fr.gemao.sql.materiel.DesignationDAO;
 import fr.gemao.sql.materiel.EtatDAO;
@@ -187,6 +188,10 @@ public class DAOFactory {
 
 	public PersonnelDAO getPersonnelDAO() {
 		return new PersonnelDAO(this);
+	}
+	
+	public LocationDAO getLocationDAO(){
+		return new LocationDAO(this);
 	}
 
 	public ResponsabiliteDAO getResponsabiliteDAO() {

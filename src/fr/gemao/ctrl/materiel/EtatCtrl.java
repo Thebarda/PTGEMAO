@@ -98,4 +98,9 @@ public class EtatCtrl {
 		
 		return etatDAO.getAll();
 	}
+	
+	public static Etat getAllByMat(int idMateriel){
+		EtatDAO etatDAO = new EtatDAO(DAOFactory.getInstance());
+		return etatDAO.getAllByMat(idMateriel);
+	}
 }

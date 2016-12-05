@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -83,7 +85,7 @@ public class LocationDAO extends IDAO<Location>{
 	}
 
 	@Override
-	public List<Location> getAll() throws ParseException {
+	public List<Location> getAll() {
 		List<Location> liste = new ArrayList<>();
 
 		Location location = null;
@@ -99,7 +101,7 @@ public class LocationDAO extends IDAO<Location>{
 			result = requete.executeQuery();
 
 			while (result.next()) {
-				location = this.map2(result);
+				location = this.map(result);
 				liste.add(location);
 			}
 		} catch (SQLException e) {
@@ -124,29 +126,29 @@ public class LocationDAO extends IDAO<Location>{
 				factory.getMaterielDAO().get(result.getInt("idMateriel")),
 				factory.getEtatDAO().get(result.getInt("idEtatDebut")),
 				idEtatFin==null?null:factory.getEtatDAO().get(idEtatFin),
-				result.getDate("dateEmprunt"),
-				result.getDate("dateRetour"),
-				result.getDate("dateEcheance"),
-				result.getInt("caution"),
-				result.getFloat("montant"),
-				idReparation==null?null:factory.getReparationDAO().get(idReparation));
-	}
-	
-	protected Location map2(ResultSet result) throws SQLException, ParseException {
-		Integer idEtatFin = result.getInt("idEtatFin"),
-				idReparation = result.getInt("idReparation");
-		return new Location(
-				factory.getPersonneDAO().get(result.getInt("idPersonne")),
-				factory.getMaterielDAO().get(result.getInt("idMateriel")),
-				factory.getEtatDAO().get(result.getInt("idEtatDebut")),
-				idEtatFin==null?null:factory.getEtatDAO().get(idEtatFin),
 				result.getString("dateEmprunt"),
 				result.getString("dateRetour"),
 				result.getString("dateEcheance"),
 				result.getInt("caution"),
 				result.getFloat("montant"),
-				idReparation==null?null:factory.getReparationDAO().get(idReparation)
-		);
+				idReparation==null?null:factory.getReparationDAO().get(idReparation));
+	}
+	
+	protected Location map2(ResultSet result) throws SQLException {
+		Integer idEtatFin = result.getInt("idEtatFin"),
+				idReparation = result.getInt("idReparation");
+		String dateRetour = result.getString("dateRetour");
+			return new Location(
+					factory.getPersonneDAO().get(result.getInt("idPersonne")),
+					factory.getMaterielDAO().get(result.getInt("idMateriel")),
+					factory.getEtatDAO().get(result.getInt("idEtatDebut")),
+					idEtatFin==null?null:factory.getEtatDAO().get(idEtatFin),
+					result.getString("dateEmprunt"),
+					dateRetour==null?null:dateRetour,
+					result.getString("dateEcheance"),
+					result.getInt("caution"),
+					result.getFloat("montant"),
+					idReparation==null?null:factory.getReparationDAO().get(idReparation));
 	}
 
 	@Override
@@ -175,5 +177,31 @@ public class LocationDAO extends IDAO<Location>{
 		}
 		return res;
 	}
+	
+	public List<Location> getAllAll() {
+		List<Location> liste = new ArrayList<>();
 
+		Location location = null;
+		Connection connexion = null;
+		PreparedStatement requete = null;
+		ResultSet result = null;
+		String sql = "SELECT * FROM location;";
+		try {
+			connexion = factory.getConnection();
+			requete = DAOUtilitaires.initialisationRequetePreparee(connexion,
+					sql, false);
+			result = requete.executeQuery();
+
+			while (result.next()) {
+				location = this.map(result);
+				liste.add(location);
+			}
+		} catch (SQLException e1) {
+			throw new DAOException(e1);
+		} finally {
+			DAOUtilitaires.fermeturesSilencieuses(result, requete, connexion);
+		}
+
+		return liste;
+	}
 }

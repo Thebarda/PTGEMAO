@@ -31,13 +31,13 @@ public class Location implements Serializable{
 	private Etat etatFin;
 	
 	/** The date emprunt. */
-	private Date dateEmprunt;
+	private String dateEmprunt;
 	
 	/** The date retour. */
-	private Date dateRetour;
+	private String dateRetour;
 	
 	/** The duree. */
-	private Date dateEcheance;
+	private String dateEcheance;
 	
 	/** The montant. */
 	private float montant;
@@ -150,7 +150,7 @@ public class Location implements Serializable{
 	 * @param reparation the reparation
 	 */
 	public Location(Personne personne, Materiel materiel, Etat etatDebut,
-			Etat etatFin, Date dateEmprunt, Date dateRetour, Date dateEcheance, int caution,
+			Etat etatFin, String dateEmprunt, String dateRetour, String dateEcheance, int caution,
 			float montant, Reparation reparation) {
 		this.personne = personne;
 		this.materiel = materiel;
@@ -164,39 +164,6 @@ public class Location implements Serializable{
 		this.reparation = reparation;
 	}
 	
-	/**
-	 * Instantiates a new location.
-	 *
-	 * @param personne the personne
-	 * @param materiel the materiel
-	 * @param etatDebut the etat debut
-	 * @param etatFin the etat fin
-	 * @param dateEmprunt the date emprunt
-	 * @param dateRetour the date retour
-	 * @param dateEcheance the date echeance
-	 * @param montant the montant
-	 * @param reparation the reparation
-	 * @throws ParseException 
-	 */
-	public Location(Personne personne, Materiel materiel, Etat etatDebut,
-			Etat etatFin, String dateEmprunt, String dateRetour, String dateEcheance, int caution,
-			float montant, Reparation reparation) throws ParseException {
-		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		this.personne = personne;
-		this.materiel = materiel;
-		this.etatDebut = etatDebut;
-		this.etatFin = etatFin;
-		Date date = dateFormat.parse(dateEcheance);
-		this.dateEmprunt = date;
-		Date dateRet = new Date();
-		this.dateRetour = dateRet;
-		date = dateFormat.parse(dateEcheance);
-		this.dateEcheance = date;
-		this.montant = montant;
-		this.caution = caution;
-		this.reparation = reparation;
-	}
-
 	/**
 	 * Gets the montant.
 	 *
@@ -256,7 +223,7 @@ public class Location implements Serializable{
 	 *
 	 * @return the date emprunt
 	 */
-	public Date getDateEmprunt() {
+	public String getDateEmprunt() {
 		return dateEmprunt;
 	}
 
@@ -265,7 +232,7 @@ public class Location implements Serializable{
 	 *
 	 * @return the date retour
 	 */
-	public Date getDateRetour() {
+	public String getDateRetour() {
 		return dateRetour;
 	}
 
@@ -295,19 +262,19 @@ public class Location implements Serializable{
 		this.etatFin = etatFin;
 	}
 
-	public void setDateEmprunt(Date dateEmprunt) {
+	public void setDateEmprunt(String dateEmprunt) {
 		this.dateEmprunt = dateEmprunt;
 	}
 
-	public void setDateRetour(Date dateRetour) {
+	public void setDateRetour(String dateRetour) {
 		this.dateRetour = dateRetour;
 	}
 
-	public Date getDateEcheance() {
+	public String getDateEcheance() {
 		return dateEcheance;
 	}
 
-	public void setDateEcheance(Date dateEcheance) {
+	public void setDateEcheance(String dateEcheance) {
 		this.dateEcheance = dateEcheance;
 	}
 
