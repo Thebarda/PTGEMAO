@@ -43,21 +43,27 @@ public class ListerLocationServlet extends HttpServlet{
 			throws ServletException, IOException {
 		//Liste locations normale
 		List<Location> locations = LocationCtrl.getAllAll();
-		List<TypeLocation> typeLocations = new ArrayList<>();
-		for(Location loc : locations){
-			typeLocations.add(new TypeLocation(loc));
+		if(locations.isEmpty()){
+			String vide = "La liste des locations est vide";
+			request.setAttribute("vide", vide);
+		}else{
+			List<TypeLocation> typeLocations = new ArrayList<>();
+			for(Location loc : locations){
+				typeLocations.add(new TypeLocation(loc));
+			}
+			
+			//Liste locations triées pas date d'emprunt
+			Collections.sort(locations);
+			List<TypeLocation> date = new ArrayList<>();
+			for(Location loc : locations){
+				date.add(new TypeLocation(loc));
+			}
+			request.setAttribute("date", date);
+			request.setAttribute("typeLocations", typeLocations);
 		}
 		
-		//Liste locations triées pas date d'emprunt
-		List<Location> locationsDate = LocationCtrl.getAllAll();
-		Collections.sort(locationsDate);
-		List<TypeLocation> date = new ArrayList<>();
-		for(Location loc : locationsDate){
-			date.add(new TypeLocation(loc));
-		}
 		
-		request.setAttribute("date", date);
-		request.setAttribute("typeLocations", typeLocations);
+		
 		this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_LISTER).forward(request, response);
 	}
 	
