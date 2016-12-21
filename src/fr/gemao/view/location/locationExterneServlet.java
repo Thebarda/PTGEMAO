@@ -30,8 +30,6 @@ import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.qoppa.pdf.PDFException;
-import com.qoppa.pdfPrint.PDFPrint;
 
 import fr.gemao.ctrl.PersonneCtrl;
 import fr.gemao.ctrl.location.LocationCtrl;
@@ -213,47 +211,48 @@ public class locationExterneServlet extends HttpServlet {
 			String idPersonne = PersonneCtrl.getIdByNomAndPrenom(nomPers, prenomPers);
 			String idMateriel = Form.getValeurChamp(request, PARAM_ID_DESIGNATION);
 			session.setAttribute("PARAM_ID_DESIGNATION",Integer.parseInt(idMateriel));
-			List<Materiel> mats = MaterielCtrl.recupererMaterielByCategorie(Integer.parseInt(""+session.getAttribute(PARAM_ID_CATEGORIE)));
-			Materiel mat=null;
-			for(Materiel m : mats){
-				if(m.getIdMateriel()==Integer.parseInt(idMateriel)){
-					mat = m;
+			List<Personne> personnes = PersonneCtrl.recupererToutesPersonnes();
+				List<Materiel> mats = MaterielCtrl.recupererMaterielByCategorie(Integer.parseInt(""+session.getAttribute(PARAM_ID_CATEGORIE)));
+				Materiel mat=null;
+				for(Materiel m : mats){
+					if(m.getIdMateriel()==Integer.parseInt(idMateriel)){
+						mat = m;
+					}
 				}
-			}
+					
+				List confirmMat = Arrays.asList(mat.getDesignation().getLibelleDesignation(), mat.getNumSerie(), mat.getTypeMat(), mat.getDateAchat(), mat.getValeurAchat(), mat.getValeurReap(), "Oui", mat.getObservation());
 				
-			List confirmMat = Arrays.asList(mat.getDesignation().getLibelleDesignation(), mat.getNumSerie(), mat.getTypeMat(), mat.getDateAchat(), mat.getValeurAchat(), mat.getValeurReap(), "Oui", mat.getObservation());
-			
-			String etatDebut = ""+mat.getEtat().getIdEtat();
-			
-			String dateDebut = Form.getValeurChamp(request, PARAM_DATE_DEBUT);
+				String etatDebut = ""+mat.getEtat().getIdEtat();
 				
-			String dateFin = Form.getValeurChamp(request, PARAM_DATE_FIN);
-				
-			String nom = null, prenom = null;
-				
-			List<Personne> pers = PersonneCtrl.recupererToutesPersonnes();
-			for(Personne per : pers){
-				if(per.getIdPersonne()==Long.parseLong(idPersonne)){
-					nom = per.getNom();
-					prenom = per.getPrenom();
+				String dateDebut = Form.getValeurChamp(request, PARAM_DATE_DEBUT);
+					
+				String dateFin = Form.getValeurChamp(request, PARAM_DATE_FIN);
+					
+				String nom = null, prenom = null;
+					
+				List<Personne> pers = PersonneCtrl.recupererToutesPersonnes();
+				for(Personne per : pers){
+					if(per.getIdPersonne()==Long.parseLong(idPersonne)){
+						nom = per.getNom();
+						prenom = per.getPrenom();
+					}
 				}
-			}
-			Map<String, String> tarifs = LocationCtrl.recupereTarifsLocation();
-			session.setAttribute("etatDebut", etatDebut);
-			session.setAttribute(PARAM_DATE_DEBUT, dateDebut);
-			session.setAttribute(PARAM_DATE_FIN, dateFin);
-			session.setAttribute(PARAM_MONTANT, tarifs.get("montantLocationExterne"));
-			session.setAttribute(PARAM_CAUTION, tarifs.get("caution"));
-			session.setAttribute(PARAM_ID_ADHERENT, idPersonne);
-			session.setAttribute(PARAM_ID_DESIGNATION, idMateriel);
-				
-			request.setAttribute("resultat", "yes");
-				
-			session.setAttribute("nomInstrument", confirmMat);
-			session.setAttribute("nomAdherent", prenom+" "+nom);
-				
-				
-			this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_EXTERNE).forward(request, response);
+				Map<String, String> tarifs = LocationCtrl.recupereTarifsLocation();
+				session.setAttribute("etatDebut", etatDebut);
+				session.setAttribute(PARAM_DATE_DEBUT, dateDebut);
+				session.setAttribute(PARAM_DATE_FIN, dateFin);
+				session.setAttribute(PARAM_MONTANT, tarifs.get("montantLocationExterne"));
+				session.setAttribute(PARAM_CAUTION, tarifs.get("caution"));
+				session.setAttribute(PARAM_ID_ADHERENT, idPersonne);
+				session.setAttribute(PARAM_ID_DESIGNATION, idMateriel);
+					
+				request.setAttribute("resultat", "yes");
+					
+				session.setAttribute("nomInstrument", confirmMat);
+				session.setAttribute("nomAdherent", prenom+" "+nom);
+					
+					
+				this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_EXTERNE).forward(request, response);
 		}
 		
 		//Génération du formulaire

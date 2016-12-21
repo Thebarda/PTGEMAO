@@ -6,11 +6,13 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
+import fr.gemao.ctrl.PersonneCtrl;
+import fr.gemao.entity.Personne;
 import fr.gemao.form.util.Form;
 
 public class LocationForm {
@@ -159,6 +161,16 @@ public class LocationForm {
 		if(nb <= 0){
 			throw new Exception("Merci de préciser un montant suéprieur à 0");
 		}
+	}
+	
+	public boolean validationPersonne(String nom, String prenom){
+		List<Personne> personnes = PersonneCtrl.recupererToutesPersonnes();
+		for(Personne pers : personnes){
+			if((pers.getPrenom().equals(prenom))&&(pers.getNom().equals(nom))){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	/**

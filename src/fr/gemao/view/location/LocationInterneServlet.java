@@ -203,45 +203,46 @@ public class LocationInterneServlet extends HttpServlet implements Printable {
 			String idPersonne = PersonneCtrl.getIdByNomAndPrenom(nomPers, prenomPers);
 			String idMateriel = Form.getValeurChamp(request, PARAM_ID_DESIGNATION);
 			session.setAttribute("PARAM_ID_DESIGNATION",Integer.parseInt(idMateriel));
-			List<Materiel> mats = MaterielCtrl.recupererMaterielByCategorie(Integer.parseInt(""+session.getAttribute(PARAM_ID_CATEGORIE)));
-			Materiel mat=null;
-			for(Materiel m : mats){
-				if(m.getIdMateriel()==Integer.parseInt(idMateriel)){
-					mat = m;
+			List<Personne> personnes = PersonneCtrl.recupererToutesPersonnes();
+				List<Materiel> mats = MaterielCtrl.recupererMaterielByCategorie(Integer.parseInt(""+session.getAttribute(PARAM_ID_CATEGORIE)));
+				Materiel mat=null;
+				for(Materiel m : mats){
+					if(m.getIdMateriel()==Integer.parseInt(idMateriel)){
+						mat = m;
+					}
 				}
-			}
-				
-			List confirmMat = Arrays.asList(mat.getDesignation().getLibelleDesignation(), mat.getNumSerie(), mat.getTypeMat(), mat.getDateAchat(), mat.getValeurAchat(), mat.getValeurReap(), "Oui", mat.getObservation());
-				
-			String etatDebut = ""+mat.getEtat().getIdEtat();
-				
-			String dateDebut = Form.getValeurChamp(request, PARAM_DATE_DEBUT);
-				
-			String nom = null, prenom = null;
-				
-			List<Adherent> adhs = AdherentCtrl.recupererTousAdherents();
-			for(Adherent adh : adhs){
-				if(adh.getIdPersonne()==Long.parseLong(idPersonne)){
-					nom = adh.getNom();
-					prenom = adh.getPrenom();
+					
+				List confirmMat = Arrays.asList(mat.getDesignation().getLibelleDesignation(), mat.getNumSerie(), mat.getTypeMat(), mat.getDateAchat(), mat.getValeurAchat(), mat.getValeurReap(), "Oui", mat.getObservation());
+					
+				String etatDebut = ""+mat.getEtat().getIdEtat();
+					
+				String dateDebut = Form.getValeurChamp(request, PARAM_DATE_DEBUT);
+					
+				String nom = null, prenom = null;
+					
+				List<Adherent> adhs = AdherentCtrl.recupererTousAdherents();
+				for(Adherent adh : adhs){
+					if(adh.getIdPersonne()==Long.parseLong(idPersonne)){
+						nom = adh.getNom();
+						prenom = adh.getPrenom();
+					}
 				}
-			}
-			Map<String, String> tarifs = LocationCtrl.recupereTarifsLocation();
-			session.setAttribute("etatDebut", etatDebut);
-			session.setAttribute(PARAM_DATE_DEBUT, dateDebut);
-			session.setAttribute(PARAM_DATE_FIN, dateFin);
-			session.setAttribute(PARAM_CAUTION, tarifs.get("caution"));
-			session.setAttribute(PARAM_MONTANT, tarifs.get("montantLocationInterne"));
-			session.setAttribute(PARAM_ID_ADHERENT, idPersonne);
-			session.setAttribute(PARAM_ID_DESIGNATION, idMateriel);
-			
-			request.setAttribute("resultat", "yes");
+				Map<String, String> tarifs = LocationCtrl.recupereTarifsLocation();
+				session.setAttribute("etatDebut", etatDebut);
+				session.setAttribute(PARAM_DATE_DEBUT, dateDebut);
+				session.setAttribute(PARAM_DATE_FIN, dateFin);
+				session.setAttribute(PARAM_CAUTION, tarifs.get("caution"));
+				session.setAttribute(PARAM_MONTANT, tarifs.get("montantLocationInterne"));
+				session.setAttribute(PARAM_ID_ADHERENT, idPersonne);
+				session.setAttribute(PARAM_ID_DESIGNATION, idMateriel);
 				
-			session.setAttribute("nomInstrument", confirmMat);
-			session.setAttribute("nomAdherent", prenom+" "+nom);
-			
-			
-			this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_INTERNE).forward(request, response);
+				request.setAttribute("resultat", "yes");
+					
+				session.setAttribute("nomInstrument", confirmMat);
+				session.setAttribute("nomAdherent", prenom+" "+nom);
+				
+				
+				this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_INTERNE).forward(request, response);
 		}
 		
 		//Génération du formulaire de location
