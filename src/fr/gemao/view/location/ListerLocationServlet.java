@@ -16,6 +16,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import fr.gemao.ctrl.adherent.AdherentCtrl;
 import fr.gemao.ctrl.location.LocationCtrl;
@@ -27,6 +28,7 @@ import fr.gemao.entity.materiel.Location;
 import fr.gemao.entity.materiel.Materiel;
 import fr.gemao.entity.materiel.Reparation;
 import fr.gemao.entity.materiel.TypeLocation;
+import fr.gemao.form.util.Form;
 import fr.gemao.view.JSPFile;
 import fr.gemao.view.Pattern;
 
@@ -35,6 +37,8 @@ public class ListerLocationServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 
 	private final String PARAM_LISTE_LOCATIONS = "listeLocations";
+	private final static String PARAM_SET_LOCATION = "setLocation";
+	private final static String PARAM_YEAR = "year";
 	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -42,6 +46,7 @@ public class ListerLocationServlet extends HttpServlet{
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		HttpSession session = request.getSession();
 		//Liste locations normale
 		List<Location> locations = LocationCtrl.getAllAll();
 		if(locations.isEmpty()){
@@ -61,7 +66,7 @@ public class ListerLocationServlet extends HttpServlet{
 				annee.add(year);
 				year--;
 			}
-			request.setAttribute("date", annee);
+			session.setAttribute("date", annee);
 			request.setAttribute("typeLocations", typeLocations);
 		}
 		
@@ -76,6 +81,23 @@ public class ListerLocationServlet extends HttpServlet{
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+		if(Form.getValeurChamp(request, PARAM_SET_LOCATION)!=null){
+			String setLocation = Form.getValeurChamp(request, PARAM_SET_LOCATION);
+			if(setLocation.equals("allLocs")){
+				//Toutes les locations
+				List<Location>locations = LocationCtrl.getAllAll();
+				List<TypeLocation> typeLocations = new ArrayList<>();
+				for(Location loc : locations){
+					typeLocations.add(new TypeLocation(loc));
+				}
+				request.setAttribute("typeLocations", typeLocations);
+			}else{
+				//L'année courante
+			}
+		}
+		if(Form.getValeurChamp(request, PARAM_YEAR)!=null){
+			//L'année choisie
+		}
+		this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_LISTER).forward(request, response);
 	}
 }

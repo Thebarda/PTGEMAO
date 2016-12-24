@@ -16,22 +16,20 @@
 <c:choose >
 	<c:when test="${empty vide }">
 		<br>
-		<form class="offset" method="post" action="#">
-			Toutes les locations : <input type="checkbox" name="allLoc">
+		<form class="offset" method="post" action="#" id="form1">
+			Toutes les locations : <input type="radio" name="setLocation" value="allLocs" onclick="document.getElementById('form1').submit()"><br>
+			Année courante : <input type="radio"  name="setLocation" value="currentYear" onclick="document.getElementById('form1').submit()"><br>
 		</form>
-		<form class="offset" method="post" action="#">
-			Année courante : <input type="checkbox" name="currentYear">
-		</form>
-		<form class="offset" method="post" action="#">
+		<form method="post" action="#" id="form2">	
 			Choisir l'année : 
-			<select name="year">
+			<select name="year" onchange="document.getElementById('form2').submit()">
 				<c:forEach items="${date }" var="year">
 					<option value="${year }"><c:out value="${year }"></c:out></option>
 				</c:forEach>
 			</select>
 		</form>
 		<br>
-		<table class='tablesorter-blue  pure-table' id="tableNom">
+		<table class="offset" class='tablesorter-blue  pure-table' id="tableNom">
 			<thead>
 				<tr>
 					<th>Nom</th>
