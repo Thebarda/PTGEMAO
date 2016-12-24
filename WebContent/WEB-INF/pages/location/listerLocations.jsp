@@ -12,11 +12,24 @@
 
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<h1>Liste des location</h1>
+<h1>Liste des locations</h1>
 <c:choose >
 	<c:when test="${empty vide }">
 		<br>
-		<div class="offset"><span>Trier par date : </span><input type="checkbox" id="changeTable"></div>
+		<form class="offset" method="post" action="#">
+			Toutes les locations : <input type="checkbox" name="allLoc">
+		</form>
+		<form class="offset" method="post" action="#">
+			Année courante : <input type="checkbox" name="currentYear">
+		</form>
+		<form class="offset" method="post" action="#">
+			Choisir l'année : 
+			<select name="year">
+				<c:forEach items="${date }" var="year">
+					<option value="${year }"><c:out value="${year }"></c:out></option>
+				</c:forEach>
+			</select>
+		</form>
 		<br>
 		<table class='tablesorter-blue  pure-table' id="tableNom">
 			<thead>
@@ -47,39 +60,6 @@
 			<td><c:out value="${loc.getLocation().getEtatDebut().getLibelleEtat() }"></c:out></td>
 		</tr>
 		</c:forEach>
-		</table>
-
-		<table class='tablesorter-blue  pure-table' id="tableDate">
-			<thead>
-				<tr>
-					<th>Nom</th>
-					<th>Prénom</th>
-					<th>Instrument</th>
-					<th>Type Location</th>
-					<th>Date d'emprunt</th>
-					<th>Date d'échéance</th>
-					<th>Date de retour</th>
-					<th>Caution</th>
-					<th>Montant</th>
-					<th>Etat début</th>
-				</tr>
-			</thead>
-			<tbody>
-		<c:forEach items="${date }" var="loc">
-		<tr>
-			<td><c:out value="${loc.getLocation().getPersonne().getNom() }"></c:out></td>
-			<td><c:out value="${loc.getLocation().getPersonne().getPrenom() }"></c:out></td>
-			<td><c:out value="${loc.getLocation().getMateriel().getTypeMat() }"></c:out></td>
-			<td><c:out value="${loc.getTypeLocation() }"></c:out></td>
-			<td><c:out value="${loc.getLocation().getDateEmprunt() }"></c:out></td>
-			<td><c:out value="${loc.getLocation().getDateEcheance() }"></c:out></td>
-			<td><c:out value="${loc.getLocation().getDateRetour() }"></c:out></td>
-			<td><c:out value="${loc.getLocation().getCaution() }"></c:out></td>
-			<td><c:out value="${loc.getLocation().getMontant() }"></c:out></td>
-			<td><c:out value="${loc.getLocation().getEtatDebut().getLibelleEtat() }"></c:out></td>
-		</tr>
-		</c:forEach>
-		</tbody>
 		</table>
 	</c:when>
 	<c:otherwise>

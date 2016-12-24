@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,12 +54,14 @@ public class ListerLocationServlet extends HttpServlet{
 			}
 			
 			//Liste locations triées pas date d'emprunt
-			Collections.sort(locations);
-			List<TypeLocation> date = new ArrayList<>();
-			for(Location loc : locations){
-				date.add(new TypeLocation(loc));
+			List<Integer> annee = new ArrayList<>();
+			Date date = new Date();
+			int year = 1900+date.getYear();
+			for(int i=0;i<8;i++){
+				annee.add(year);
+				year--;
 			}
-			request.setAttribute("date", date);
+			request.setAttribute("date", annee);
 			request.setAttribute("typeLocations", typeLocations);
 		}
 		
