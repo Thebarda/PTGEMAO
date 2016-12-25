@@ -213,42 +213,6 @@ public class LocationForm {
 		}
 	}
 	
-	/**
-	 * Defini la date d'échéance pour une location interne donc à l'année N+1. L'année bisextile est gérée
-	 * @param dateDebut
-	 * @return
-	 */
-	public String setDateFinForm(String dateDebut) {
-		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		Date date=null;
-		try {
-			date = dateFormat.parse(dateDebut);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		Calendar c = Calendar.getInstance();
-		c.setTime(date);
-		String fin="";
-		if((date.getYear()%4==0)&&((date.getYear()%400==0)||(date.getYear()%10!=0))&&(date.getMonth()==2)){
-			c.add(Calendar.YEAR, 1);
-			int month = 1+c.getTime().getMonth();
-			int year = 1900+c.getTime().getYear();
-			if(date.getDate()==29){
-				 fin = ""+01+"/"+month+"/"+year;
-			}else{
-				fin = ""+date.getDate()+"/"+month+"/"+year;
-			}
-			dateFin = fin;
-			return fin;
-		}else{
-			c.add(Calendar.YEAR, 1);
-			int month = 1+c.getTime().getMonth();
-			int year = 1900+c.getTime().getYear();
-			fin = ""+c.getTime().getDate()+"/"+month+"/"+year;
-			dateFin = fin;
-			return fin;
-		}
-	}
 	
 	/**
 	 * Defini la date d'échéance pour une location externe. L'année bisextile est gérée
@@ -264,43 +228,11 @@ public class LocationForm {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		String fin="";
-		int sommeMois = duree + dateDeb.getMonth();
-		if(sommeMois>12){
-			if((dateDeb.getYear()%4==0)&&((dateDeb.getYear()%400==0)||(dateDeb.getYear()%10!=0))&&(sommeMois%12==2)){
-				sommeMois = sommeMois%12;
-				int year = 1990+dateDeb.getYear()+1;
-				dateDeb.setMonth(sommeMois);
-				int mois = sommeMois;
-				if(dateDeb.getDate()==29){
-					mois = mois+1;
-					fin = ""+01+"/"+mois+"/"+year;
-				}else{
-					fin = ""+dateDeb.getDate()+"/"+mois+"/"+year;
-				}
-			}else{
-				int mois = (sommeMois%12)+1;
-				int year = dateDeb.getYear()+1900;
-				fin = ""+dateDeb.getDate()+"/"+mois+"/"+year;
-			}
-		}else{
-			if((dateDeb.getYear()%4==0)&&((dateDeb.getYear()%400==0)||(dateDeb.getYear()%10!=0))&&(sommeMois%12==2)){
-				sommeMois = sommeMois%12;
-				int year = 1990+dateDeb.getYear();
-				dateDeb.setMonth(sommeMois);
-				int mois = sommeMois;
-				if(dateDeb.getDate()==29){
-					mois = mois+1;
-					fin = ""+01+"/"+mois+"/"+year;
-				}else{
-					fin = ""+dateDeb.getDate()+"/"+mois+"/"+year;
-				}
-			}else{
-				int mois = (sommeMois%12)+1;
-				int year = dateDeb.getYear()+1900;
-				fin = ""+dateDeb.getDate()+"/"+mois+"/"+year;
-			}
-		}
-		return fin;
+		Calendar c = Calendar.getInstance();
+		c.setTime(dateDeb);
+		c.add(Calendar.MONTH, duree);
+		Date dateFin = c.getTime();
+		String result = ""+dateFin.getDate()+"/"+(dateFin.getMonth()+1)+"/"+(dateFin.getYear()+1900);
+		return result;
 	}
 }

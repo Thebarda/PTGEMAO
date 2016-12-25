@@ -195,7 +195,7 @@ public class LocationInterneServlet extends HttpServlet implements Printable {
 		
 		//Traitement du formulaire
 		if(Form.getValeurChamp(request, PARAM_ID_DESIGNATION)!=null){
-			String dateFin = locationForm.setDateFinForm(Form.getValeurChamp(request, PARAM_DATE_DEBUT));
+			String dateFin = locationForm.setDateFinFormByDuree(12,Form.getValeurChamp(request, PARAM_DATE_DEBUT));
 			String personne = Form.getValeurChamp(request, PARAM_ID_ADHERENT);
 			String[] tempPers = personne.split(" ");
 			String nomPers = tempPers[0];

@@ -226,7 +226,8 @@ public class locationExterneServlet extends HttpServlet {
 				
 				String dateDebut = Form.getValeurChamp(request, PARAM_DATE_DEBUT);
 					
-				String dateFin = Form.getValeurChamp(request, PARAM_DATE_FIN);
+				LocationForm locForm = new LocationForm();
+				String dateFin = locForm.setDateFinFormByDuree(3, dateDebut);
 					
 				String nom = null, prenom = null;
 					
