@@ -20,7 +20,7 @@
 			Toutes les locations : <input type="radio" name="setLocation" value="allLocs" onclick="document.getElementById('form1').submit()"><br>
 			Année courante : <input type="radio"  name="setLocation" value="currentYear" onclick="document.getElementById('form1').submit()"><br>
 		</form>
-		<form method="post" action="#" id="form2">	
+		<form method="post" action="#" id="form2" class="offset">	
 			Choisir l'année : 
 			<select name="year" onchange="document.getElementById('form2').submit()">
 				<c:forEach items="${date }" var="year">
@@ -29,7 +29,7 @@
 			</select>
 		</form>
 		<br>
-		<table class="offset" class='tablesorter-blue  pure-table' id="tableNom">
+		<table class='tablesorter-blue  pure-table offset' id="tableNom">
 			<thead>
 				<tr>
 					<th>Nom</th>

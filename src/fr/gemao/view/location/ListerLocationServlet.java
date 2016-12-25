@@ -48,7 +48,7 @@ public class ListerLocationServlet extends HttpServlet{
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		//Liste locations normale
-		List<Location> locations = LocationCtrl.getAllAll();
+		List<Location> locations = LocationCtrl.getAll();
 		if(locations.isEmpty()){
 			String vide = "La liste des locations est vide";
 			request.setAttribute("vide", vide);
@@ -81,23 +81,33 @@ public class ListerLocationServlet extends HttpServlet{
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		List<Location>locations = new ArrayList<>();
 		if(Form.getValeurChamp(request, PARAM_SET_LOCATION)!=null){
 			String setLocation = Form.getValeurChamp(request, PARAM_SET_LOCATION);
 			if(setLocation.equals("allLocs")){
 				//Toutes les locations
-				List<Location>locations = LocationCtrl.getAllAll();
-				List<TypeLocation> typeLocations = new ArrayList<>();
-				for(Location loc : locations){
-					typeLocations.add(new TypeLocation(loc));
-				}
-				request.setAttribute("typeLocations", typeLocations);
+				locations = LocationCtrl.getAllAll();
+				
 			}else{
 				//L'année courante
+				Date date = new Date();
+				int year = 1900+date.getYear();
+				locations = LocationCtrl.getLocsByYear(year);
 			}
 		}
+		
 		if(Form.getValeurChamp(request, PARAM_YEAR)!=null){
 			//L'année choisie
+			String tmpYear = Form.getValeurChamp(request, PARAM_YEAR);
+			int year = Integer.parseInt(tmpYear);
+			locations = LocationCtrl.getLocsByYear(year);
 		}
+		
+		List<TypeLocation> typeLocations = new ArrayList<>();
+		for(Location loc : locations){
+			typeLocations.add(new TypeLocation(loc));
+		}
+		request.setAttribute("typeLocations", typeLocations);
 		this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_LISTER).forward(request, response);
 	}
 }

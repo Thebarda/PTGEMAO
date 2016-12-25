@@ -231,4 +231,32 @@ public class LocationDAO extends IDAO<Location>{
 		return type;
 	}
 
+
+	public List<Location> getLocsByYear(int year) {
+		List<Location> liste = new ArrayList<>();
+
+		Location location = null;
+		Connection connexion = null;
+		PreparedStatement requete = null;
+		ResultSet result = null;
+		String sql = "SELECT * FROM location l INNER JOIN personne p ON l.idPersonne=p.idPersonne WHERE LOCATE(?,dateEmprunt) ORDER BY p.nom ;";
+		try {
+			connexion = factory.getConnection();
+			requete = DAOUtilitaires.initialisationRequetePreparee(connexion,
+					sql, false, year);
+			result = requete.executeQuery();
+
+			while (result.next()) {
+				location = this.map(result);
+				liste.add(location);
+			}
+		} catch (SQLException e1) {
+			throw new DAOException(e1);
+		} finally {
+			DAOUtilitaires.fermeturesSilencieuses(result, requete, connexion);
+		}
+
+		return liste;
+	}
+
 }

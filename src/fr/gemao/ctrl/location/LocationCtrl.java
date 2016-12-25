@@ -170,4 +170,10 @@ public class LocationCtrl {
 		return locDAO.getTypeLocation(Integer.parseInt(""+location.getPersonne().getIdPersonne()));
 	}
 
+
+	public static List<Location> getLocsByYear(int year) {
+		LocationDAO locDAO = new LocationDAO(DAOFactory.getInstance());
+		return locDAO.getLocsByYear(year);
+	}
+
 }
