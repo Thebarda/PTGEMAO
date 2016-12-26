@@ -13,22 +13,22 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <h1>Liste des locations</h1>
-<c:choose >
-	<c:when test="${empty vide }">
-		<br>
-		<form class="offset" method="post" action="#" id="form1">
-			Toutes les locations : <input type="radio" name="setLocation" value="allLocs" onclick="document.getElementById('form1').submit()"><br>
-			Année courante : <input type="radio"  name="setLocation" value="currentYear" onclick="document.getElementById('form1').submit()"><br>
-		</form>
-		<form method="post" action="#" id="form2" class="offset">	
-			Choisir l'année : 
-			<select name="year" onchange="document.getElementById('form2').submit()">
-				<c:forEach items="${date }" var="year">
-					<option value="${year }"><c:out value="${year }"></c:out></option>
-				</c:forEach>
-			</select>
-		</form>
-		<br>
+	<br>
+	<form class="offset" method="post" action="#" id="form1">
+		Toutes les locations : <input type="radio" name="setLocation" value="allLocs" onclick="document.getElementById('form1').submit()"><br>
+		Année courante : <input type="radio"  name="setLocation" value="currentYear" onclick="document.getElementById('form1').submit()"><br>
+	</form>
+	<form method="post" action="#" id="form2" class="offset">	
+		Choisir l'année : 
+		<select name="year" onchange="document.getElementById('form2').submit()">
+			<c:forEach items="${date }" var="year">
+				<option value="${year }"><c:out value="${year }"></c:out></option>
+			</c:forEach>
+		</select>
+	</form>
+	<br>
+	<c:choose >
+		<c:when test="${empty vide }">
 		<table class='tablesorter-blue  pure-table offset' id="tableNom">
 			<thead>
 				<tr>

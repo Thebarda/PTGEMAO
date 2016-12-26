@@ -122,6 +122,7 @@ public class LocationDAO extends IDAO<Location>{
 		Integer idEtatFin = result.getInt("idEtatFin"),
 				idReparation = result.getInt("idReparation");
 		return new Location(
+				result.getInt("id_loc"),
 				factory.getPersonneDAO().get(result.getInt("idPersonne")),
 				factory.getMaterielDAO().get(result.getInt("idMateriel")),
 				factory.getEtatDAO().get(result.getInt("idEtatDebut")),
@@ -139,6 +140,7 @@ public class LocationDAO extends IDAO<Location>{
 				idReparation = result.getInt("idReparation");
 		String dateRetour = result.getString("dateRetour");
 			return new Location(
+					result.getInt("id_loc"),
 					factory.getPersonneDAO().get(result.getInt("idPersonne")),
 					factory.getMaterielDAO().get(result.getInt("idMateriel")),
 					factory.getEtatDAO().get(result.getInt("idEtatDebut")),

@@ -19,6 +19,9 @@ public class Location implements Serializable, Comparable<Location>{
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	/** The id */
+	private int id;
+	
 	/** The personne. */
 	private Personne personne;
 	
@@ -48,31 +51,16 @@ public class Location implements Serializable, Comparable<Location>{
 	/** The reparation. */
 	private Reparation reparation;
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
+	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((dateEmprunt == null) ? 0 : dateEmprunt.hashCode());
-		result = prime * result
-				+ ((dateRetour == null) ? 0 : dateRetour.hashCode());
-		result = prime * result
-				+ ((etatDebut == null) ? 0 : etatDebut.hashCode());
-		result = prime * result + ((etatFin == null) ? 0 : etatFin.hashCode());
-		result = prime * result
-				+ ((materiel == null) ? 0 : materiel.hashCode());
-		result = prime * result + Float.floatToIntBits(montant);
-		result = prime * result
-				+ ((personne == null) ? 0 : personne.hashCode());
+		result = prime * result + id;
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -82,43 +70,7 @@ public class Location implements Serializable, Comparable<Location>{
 		if (getClass() != obj.getClass())
 			return false;
 		Location other = (Location) obj;
-		if (dateEmprunt == null) {
-			if (other.dateEmprunt != null)
-				return false;
-		} else if (!dateEmprunt.equals(other.dateEmprunt))
-			return false;
-		if (dateRetour == null) {
-			if (other.dateRetour != null)
-				return false;
-		} else if (!dateRetour.equals(other.dateRetour))
-			return false;
-		if (dateEcheance == null) {
-			if (other.dateEcheance != null)
-				return false;
-		} else if (!dateRetour.equals(other.dateRetour))
-			return false;
-		if (etatDebut == null) {
-			if (other.etatDebut != null)
-				return false;
-		} else if (!etatDebut.equals(other.etatDebut))
-			return false;
-		if (etatFin == null) {
-			if (other.etatFin != null)
-				return false;
-		} else if (!etatFin.equals(other.etatFin))
-			return false;
-		if (materiel == null) {
-			if (other.materiel != null)
-				return false;
-		} else if (!materiel.equals(other.materiel))
-			return false;
-		if (Float.floatToIntBits(montant) != Float
-				.floatToIntBits(other.montant))
-			return false;
-		if (personne == null) {
-			if (other.personne != null)
-				return false;
-		} else if (!personne.equals(other.personne))
+		if (id != other.id)
 			return false;
 		return true;
 	}
@@ -128,7 +80,7 @@ public class Location implements Serializable, Comparable<Location>{
 	 */
 	@Override
 	public String toString() {
-		return "Location [personne=" + personne + ", materiel=" + materiel
+		return "Location [ id="+id+", personne=" + personne + ", materiel=" + materiel
 				+ ", etatDebut=" + etatDebut + ", etatFin=" + etatFin
 				+ ", dateEmprunt=" + dateEmprunt + ", dateRetour=" + dateRetour
 				+ ", dateEcheance=" + dateEcheance + ", montant=" + montant + "]";
@@ -150,9 +102,10 @@ public class Location implements Serializable, Comparable<Location>{
 	 * @param montant the montant
 	 * @param reparation the reparation
 	 */
-	public Location(Personne personne, Materiel materiel, Etat etatDebut,
+	public Location(int id, Personne personne, Materiel materiel, Etat etatDebut,
 			Etat etatFin, String dateEmprunt, String dateRetour, String dateEcheance, int caution,
 			float montant, Reparation reparation) {
+		this.id = id;
 		this.personne = personne;
 		this.materiel = materiel;
 		this.etatDebut = etatDebut;
@@ -281,6 +234,14 @@ public class Location implements Serializable, Comparable<Location>{
 
 	public int getCaution(){
 		return this.caution;
+	}
+	
+	public int getId(){
+		return this.id;
+	}
+	
+	public void setId(int id){
+		this.id = id;
 	}
 
 	@Override

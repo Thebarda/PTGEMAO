@@ -87,7 +87,6 @@ public class ListerLocationServlet extends HttpServlet{
 			if(setLocation.equals("allLocs")){
 				//Toutes les locations
 				locations = LocationCtrl.getAllAll();
-				
 			}else{
 				//L'année courante
 				Date date = new Date();
@@ -102,12 +101,17 @@ public class ListerLocationServlet extends HttpServlet{
 			int year = Integer.parseInt(tmpYear);
 			locations = LocationCtrl.getLocsByYear(year);
 		}
-		
-		List<TypeLocation> typeLocations = new ArrayList<>();
-		for(Location loc : locations){
-			typeLocations.add(new TypeLocation(loc));
+		//La liste de location est vide ou non
+		if(locations.isEmpty()){
+			String vide = "La liste des locations est vide";
+			request.setAttribute("vide", vide);
+		}else{
+			List<TypeLocation> typeLocations = new ArrayList<>();
+			for(Location loc : locations){
+				typeLocations.add(new TypeLocation(loc));
+			}
+			request.setAttribute("typeLocations", typeLocations);
 		}
-		request.setAttribute("typeLocations", typeLocations);
 		this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_LISTER).forward(request, response);
 	}
 }
