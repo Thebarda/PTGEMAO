@@ -261,4 +261,22 @@ public class LocationDAO extends IDAO<Location>{
 		return liste;
 	}
 
+
+	public void updateRetourLocation(int id, String dateRetour, int etatFin) {
+		Connection connexion = null;
+		PreparedStatement requete = null;
+		int result = 0;
+		String sql = "UPDATE location set dateRetour=?, idEtatFin=? WHERE id_loc=?";
+		try {
+			connexion = factory.getConnection();
+			requete = DAOUtilitaires.initialisationRequetePreparee(connexion,
+					sql, false, dateRetour, etatFin, id);
+			result = requete.executeUpdate();
+		} catch (SQLException e1) {
+			throw new DAOException(e1);
+		} finally {
+			DAOUtilitaires.fermeturesSilencieuses(requete, connexion);
+		}
+	}
+
 }

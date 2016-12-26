@@ -58,6 +58,15 @@
 				<span><c:out value="${dateRetour }"></c:out></span>
 			</div>
 		</fieldset>
+		<fieldset>
+			<legend>Etat de fin</legend>
+			<label>Etat de fin : </label>
+			<select name="etatFin">
+				<c:forEach items="${etats }" var="etat">
+					<option value="${etat.getIdEtat() }"><c:out value="${etat.getLibelleEtat() }"></c:out></option>
+				</c:forEach>
+			</select>
+		</fieldset>
 		<fieldset class='align-center no-border'>
 			<input type="reset" value="Annuler"/>
 			<input type="submit" value="Valider"/>

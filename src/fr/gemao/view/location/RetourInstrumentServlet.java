@@ -12,8 +12,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import fr.gemao.ctrl.location.LocationCtrl;
+import fr.gemao.ctrl.materiel.EtatCtrl;
+import fr.gemao.ctrl.materiel.MaterielCtrl;
+import fr.gemao.entity.materiel.Etat;
 import fr.gemao.entity.materiel.Location;
+import fr.gemao.entity.materiel.Materiel;
 import fr.gemao.entity.materiel.TypeLocation;
+import fr.gemao.form.util.Form;
 import fr.gemao.view.JSPFile;
 import fr.gemao.view.Pattern;
 
@@ -25,6 +30,9 @@ public class RetourInstrumentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private static final String ERREUR = "erreur";
     private static final String ID = "id_loc";
+    private static final String PARAM_ETATFIN = "etatFin";
+    private static final String DATERETOUR = "dateRetour";
+    private static final String LOCATION = "location";
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -42,6 +50,8 @@ public class RetourInstrumentServlet extends HttpServlet {
 				}
 			}
 			TypeLocation typeLocation = new TypeLocation(location);
+			List<Etat> etats = EtatCtrl.getListeEtat();
+			
 			String typeLoc = typeLocation.getTypeLocation();
 			String categorie = location.getMateriel().getCategorie().getLibelleCat();
 			String designation = location.getMateriel().getDesignation().getLibelleDesignation();
@@ -54,6 +64,7 @@ public class RetourInstrumentServlet extends HttpServlet {
 			String dateRetour = ""+date.getDate()+"/"+(date.getMonth()+1)+"/"+(date.getYear()+1900);
 			
 			session.setAttribute(ID, idLoc);
+			session.setAttribute(LOCATION, location);
 			request.setAttribute("typeLocation", typeLoc);
 			request.setAttribute("categorie", categorie);
 			request.setAttribute("designation", designation);
@@ -63,6 +74,7 @@ public class RetourInstrumentServlet extends HttpServlet {
 			request.setAttribute("dateEmprunt", dateEmprunt);
 			request.setAttribute("dateEcheance", dateEcheance);
 			session.setAttribute("dateRetour", dateRetour);
+			request.setAttribute("etats", etats);
 			this.getServletContext().getRequestDispatcher( JSPFile.LOCATION_RETOUR ).forward( request, response );
 		}
 	}
@@ -71,7 +83,18 @@ public class RetourInstrumentServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		this.getServletContext().getRequestDispatcher( JSPFile.LOCATION_RETOUR ).forward( request, response );
+		HttpSession session = request.getSession();
+		if(Form.getValeurChamp(request, PARAM_ETATFIN)!= null){
+			int idEtatFin = Integer.parseInt(Form.getValeurChamp(request, PARAM_ETATFIN));
+			int id = Integer.parseInt(""+session.getAttribute(ID));
+			String dateRetour = ""+session.getAttribute(DATERETOUR);
+			int etatFin = Integer.parseInt(""+Form.getValeurChamp(request, PARAM_ETATFIN));
+			Location loc = (Location) session.getAttribute(LOCATION);
+			LocationCtrl.updateRetourLocation(id, dateRetour, etatFin);
+			Materiel mat = loc.getMateriel();
+			MaterielCtrl.updateEstLouable(Integer.parseInt(""+loc.getMateriel().getIdMateriel()), 1);
+		}
+		response.sendRedirect(request.getContextPath()+Pattern.ACCUEIL);
 	}
 
 }

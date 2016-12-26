@@ -176,4 +176,10 @@ public class LocationCtrl {
 		return locDAO.getLocsByYear(year);
 	}
 
+
+	public static void updateRetourLocation(int id, String dateRetour, int etatFin) {
+		LocationDAO locDAO = new LocationDAO(DAOFactory.getInstance());
+		locDAO.updateRetourLocation(id, dateRetour, etatFin);
+	}
+
 }
