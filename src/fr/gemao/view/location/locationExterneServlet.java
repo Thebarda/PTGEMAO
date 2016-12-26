@@ -100,102 +100,100 @@ public class locationExterneServlet extends HttpServlet {
 		if(Form.getValeurChamp(request, "imprimer")!=null){
 			//Impression
 			String imprimer = Form.getValeurChamp(request, "imprimer");
-			if(imprimer.equals("Oui")){ 
-				//On charge les éléments nécessaire pour éditer le contrat
-				Personnel connectee = (Personnel)session.getAttribute("sessionObjectPersonnel");
-				char lettreNom = connectee.getNom().charAt(0);
-				char lettrePrenom = connectee.getPrenom().charAt(0);
-				int numeroLocation = LocationCtrl.getNbLocation();
-				String adherent = ""+session.getAttribute("nomAdherent");
-				String[] adh = adherent.split(" ");
-				String nom = adh[1];
-				String prenom = adh[0];
-				String adresse = "";
-				List<Personne> personnes = PersonneCtrl.recupererToutesPersonnes();
-				for(Personne p : personnes){
-					if((p.getNom().equals(nom))&&(p.getPrenom().equals(prenom))){
-						adresse = p.getAdresse().getNumRue()+" "+p.getAdresse().getNomRue()+" "+p.getAdresse().getCommune().getCodePostal()+" "+p.getAdresse().getCommune().getNomCommune();
-					}
+		
+			//On charge les éléments nécessaire pour éditer le contrat
+			Personnel connectee = (Personnel)session.getAttribute("sessionObjectPersonnel");
+			char lettreNom = connectee.getNom().charAt(0);
+			char lettrePrenom = connectee.getPrenom().charAt(0);
+			int numeroLocation = LocationCtrl.getNbLocation();
+			String adherent = ""+session.getAttribute("nomAdherent");
+			String[] adh = adherent.split(" ");
+			String nom = adh[1];
+			String prenom = adh[0];
+			String adresse = "";
+			List<Personne> personnes = PersonneCtrl.recupererToutesPersonnes();
+			for(Personne p : personnes){
+				if((p.getNom().equals(nom))&&(p.getPrenom().equals(prenom))){
+					adresse = p.getAdresse().getNumRue()+" "+p.getAdresse().getNomRue()+" "+p.getAdresse().getCommune().getCodePostal()+" "+p.getAdresse().getCommune().getNomCommune();
 				}
-				List instruments = (List) session.getAttribute("nomInstrument");
-				String instrument = (String) instruments.get(0);
-				String marqueType = "";
-				Date date = new Date();
-				int annee = 1900+date.getYear();
-			      int mois = 1 + date.getMonth();
-				List<Materiel> materiels = MaterielCtrl.recupererMaterielByCategorie(Integer.parseInt(""+session.getAttribute(PARAM_ID_CATEGORIE)));
-				for(Materiel mat : materiels){
-					if(mat.getIdMateriel()==Long.parseLong(""+session.getAttribute(PARAM_ID_DESIGNATION))){
-						marqueType = mat.getTypeMat();
-					}
+			}
+			List instruments = (List) session.getAttribute("nomInstrument");
+			String instrument = (String) instruments.get(0);
+			String marqueType = "";
+			Date date = new Date();
+			int annee = 1900+date.getYear();
+		      int mois = 1 + date.getMonth();
+			List<Materiel> materiels = MaterielCtrl.recupererMaterielByCategorie(Integer.parseInt(""+session.getAttribute(PARAM_ID_CATEGORIE)));
+			for(Materiel mat : materiels){
+				if(mat.getIdMateriel()==Long.parseLong(""+session.getAttribute(PARAM_ID_DESIGNATION))){
+					marqueType = mat.getTypeMat();
 				}
-				int montant = Integer.parseInt(""+session.getAttribute(PARAM_MONTANT));
-				
-				//Generation du rapport
-				File rep = new File("contratsLocationExterne");
-				if(!rep.exists()){
-					rep.mkdir();
-				}
-				Document document = new Document(PageSize.A4);
-			    try {
-			      PdfWriter pdf = PdfWriter.getInstance(document,
-			          new FileOutputStream(new File("contratsLocationExterne\\ContratLocationExterne"+nom+""+prenom+""+numeroLocation+".pdf")));
-			      pdf.setViewerPreferences(PdfWriter.PageLayoutSinglePage | PdfWriter.PageModeUseThumbs);
-			      document.open();
-			      Font font = FontFactory.getFont("Comic Sans MS", 15);
-			      Font font2 = FontFactory.getFont("Comic Sans MS", 18);
-			      Font font3 = FontFactory.getFont("Comic Sans MS", 12);
-			      document.add(new Paragraph("10 rue de la gare\n18570 LA CHAPELLE SAINT URSIN \n\n\n\n"));
-
-			      Paragraph paragraph = new Paragraph(" Contrat de location : ANA "+annee+"-"+lettrePrenom+""+lettreNom+"-"+numeroLocation, font2);
-			      
-			      paragraph.setAlignment(Element.ALIGN_CENTER);
-			      document.add(paragraph);
-			      
-			      paragraph = new Paragraph("Nom : "+nom, font2);
-			      paragraph.setAlignment(Element.ALIGN_CENTER);
-			      document.add(paragraph);
-			      
-			      paragraph = new Paragraph("Prénom : "+prenom, font2);
-			      paragraph.setAlignment(Element.ALIGN_CENTER);
-			      document.add(paragraph);
-			      
-			      paragraph = new Paragraph("Adresse : "+adresse, font2);
-			      paragraph.setAlignment(Element.ALIGN_CENTER);
-			      document.add(paragraph);
-			      
-			      paragraph = new Paragraph("Instrument : "+instrument, font2);
-			      paragraph.setAlignment(Element.ALIGN_CENTER);
-			      document.add(paragraph);
-			      
-			      paragraph = new Paragraph("Marque Type : "+marqueType, font2);
-			      paragraph.setAlignment(Element.ALIGN_CENTER);
-			      document.add(paragraph);
-			      
-			      paragraph = new Paragraph("N° : "+numeroLocation+"\n\n", font2);
-			      paragraph.setAlignment(Element.ALIGN_CENTER);
-			      document.add(paragraph);
-			      
-			      document.add(new Paragraph("L’ANACROUSE  loue cet instrument  en bon état, il appartient au titulaire de la location d’en assurer l’entretien.\nLes éventuels frais de remise en état découverts après restitution seront à la charge du titulaire du présent contrat et éventuellement pris sur la caution (non encaissée) préalable à la location. La caution est fixée à 150 € payable par chèque.\nCe contrat est conclu pour une durée de trois mois renouvelables contre la somme de 15 € par mois.\n\n", font));
-			      document.add(new Paragraph("Période location couverte "+session.getAttribute(PARAM_DATE_DEBUT)+" au "+session.getAttribute(PARAM_DATE_FIN)+"\n\n", font));
-			      document.add(new Paragraph("Fait à La Chapelle Saint Ursin le "+date.getDate()+"/"+mois+"/"+annee+" en double exemplaire\n\n", font));
-			      document.add(new Paragraph("Le régisseur de l'anacrous                    Le titulaire du contrat (ou son représentant légal)\n\n\n\n", font3));
-			      document.add(new Paragraph(""+connectee.getPrenom()+" "+connectee.getNom(), font));
-			      document.add(new Paragraph("Nota : cette location est renouvelable dans le respect du principe suivant : priorité sera donnée au débutant.", font));
-			    } catch (DocumentException de) {
-			      de.printStackTrace();
-			    } catch (IOException ioe) {
-			      ioe.printStackTrace();
-			    }
-
-			    document.close();
+			}
+			int montant = Integer.parseInt(""+session.getAttribute(PARAM_MONTANT));
 			
+			//Generation du rapport
+			File rep = new File("contratsLocationExterne");
+			if(!rep.exists()){
+				rep.mkdir();
+			}
+			Document document = new Document(PageSize.A4);
+		    try {
+		      PdfWriter pdf = PdfWriter.getInstance(document,
+		          new FileOutputStream(new File("contratsLocationExterne\\ContratLocationExterne"+nom+""+prenom+""+numeroLocation+".pdf")));
+		      pdf.setViewerPreferences(PdfWriter.PageLayoutSinglePage | PdfWriter.PageModeUseThumbs);
+		      document.open();
+		      Font font = FontFactory.getFont("Comic Sans MS", 15);
+		      Font font2 = FontFactory.getFont("Comic Sans MS", 18);
+		      Font font3 = FontFactory.getFont("Comic Sans MS", 12);
+		      document.add(new Paragraph("10 rue de la gare\n18570 LA CHAPELLE SAINT URSIN \n\n\n\n"));
+		      Paragraph paragraph = new Paragraph(" Contrat de location : ANA "+annee+"-"+lettrePrenom+""+lettreNom+"-"+numeroLocation, font2);
+		      
+		      paragraph.setAlignment(Element.ALIGN_CENTER);
+		      document.add(paragraph);
+		      
+		      paragraph = new Paragraph("Nom : "+nom, font2);
+		      paragraph.setAlignment(Element.ALIGN_CENTER);
+		      document.add(paragraph);
+		      
+		      paragraph = new Paragraph("Prénom : "+prenom, font2);
+		      paragraph.setAlignment(Element.ALIGN_CENTER);
+		      document.add(paragraph);
+		      
+		      paragraph = new Paragraph("Adresse : "+adresse, font2);
+		      paragraph.setAlignment(Element.ALIGN_CENTER);
+		      document.add(paragraph);
+		      
+		      paragraph = new Paragraph("Instrument : "+instrument, font2);
+		      paragraph.setAlignment(Element.ALIGN_CENTER);
+		      document.add(paragraph);
+		      
+		      paragraph = new Paragraph("Marque Type : "+marqueType, font2);
+		      paragraph.setAlignment(Element.ALIGN_CENTER);
+		      document.add(paragraph);
+		      
+		      paragraph = new Paragraph("N° : "+numeroLocation+"\n\n", font2);
+		      paragraph.setAlignment(Element.ALIGN_CENTER);
+		      document.add(paragraph);
+		      
+		      document.add(new Paragraph("L’ANACROUSE  loue cet instrument  en bon état, il appartient au titulaire de la location d’en assurer l’entretien.\nLes éventuels frais de remise en état découverts après restitution seront à la charge du titulaire du présent contrat et éventuellement pris sur la caution (non encaissée) préalable à la location. La caution est fixée à 150 € payable par chèque.\nCe contrat est conclu pour une durée de trois mois renouvelables contre la somme de 15 € par mois.\n\n", font));
+		      document.add(new Paragraph("Période location couverte "+session.getAttribute(PARAM_DATE_DEBUT)+" au "+session.getAttribute(PARAM_DATE_FIN)+"\n\n", font));
+		      document.add(new Paragraph("Fait à La Chapelle Saint Ursin le "+date.getDate()+"/"+mois+"/"+annee+" en double exemplaire\n\n", font));
+		      document.add(new Paragraph("Le régisseur de l'anacrous                    Le titulaire du contrat (ou son représentant légal)\n\n\n\n", font3));
+		      document.add(new Paragraph(""+connectee.getPrenom()+" "+connectee.getNom(), font));
+		      document.add(new Paragraph("Nota : cette location est renouvelable dans le respect du principe suivant : priorité sera donnée au débutant.", font));
+		    } catch (DocumentException de) {
+		      de.printStackTrace();
+		    } catch (IOException ioe) {
+		      ioe.printStackTrace();
+		    }
+		    document.close();
+			if(imprimer.equals("Oui")){ 
 			    Desktop desktop = Desktop.getDesktop();
 			    desktop.print(new File("contratsLocationExterne\\ContratLocationExterne"+nom+""+prenom+""+numeroLocation+".pdf"));
 			}
 			
 			Map<String, String> tarifs = LocationCtrl.recupereTarifsLocation();
-			LocationCtrl.ajouterLocation(""+session.getAttribute(PARAM_ID_ADHERENT), ""+session.getAttribute(PARAM_ID_DESIGNATION), ""+session.getAttribute("etatDebut"), ""+session.getAttribute(PARAM_DATE_DEBUT), ""+session.getAttribute(PARAM_DATE_FIN), Float.parseFloat(""+tarifs.get("caution")), Float.parseFloat(""+tarifs.get("montantLocationExterne")));
+			LocationCtrl.ajouterLocation(""+session.getAttribute(PARAM_ID_ADHERENT), ""+session.getAttribute(PARAM_ID_DESIGNATION), ""+session.getAttribute("etatDebut"), ""+session.getAttribute(PARAM_DATE_DEBUT), ""+session.getAttribute(PARAM_DATE_FIN), Float.parseFloat(""+tarifs.get("caution")), Float.parseFloat(""+tarifs.get("montantLocationExterne")), "contratsLocationExterne\\ContratLocationExterne"+nom+""+prenom+""+numeroLocation+".pdf");
 			Materiel materiel = MaterielCtrl.getMaterielById(Integer.parseInt(""+session.getAttribute(PARAM_ID_DESIGNATION)));
 			MaterielCtrl.updateEstLouable(Integer.parseInt(""+session.getAttribute(PARAM_ID_DESIGNATION)), 0);
 			response.sendRedirect(request.getContextPath()+Pattern.ACCUEIL);

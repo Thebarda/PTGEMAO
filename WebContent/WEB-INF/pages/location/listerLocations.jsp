@@ -43,7 +43,7 @@
 					<th>Caution</th>
 					<th>Montant</th>
 					<th>Etat début</th>
-					<th>Retour</th>
+					<th>Options</th>
 				</tr>
 			</thead>
 		<c:forEach items="${typeLocations }" var="loc">
@@ -59,7 +59,9 @@
 			<td><c:out value="${loc.getLocation().getMontant() }"></c:out></td>
 			<td><c:out value="${loc.getLocation().getEtatDebut().getLibelleEtat() }"></c:out></td>
 			<td><a href="<c:url value="<%= Pattern.LOCATION_RETOUR %>"/>?id=<c:out value="${loc.getLocation().getId()}" />"
-					title='Enregistrer un retour'><img src="/ressources/images/retour.jpg" alt="Retour"/></a> </td>
+					title='Enregistrer un retour'><img src="<c:url value="/ressources/images/retour.jpg"/>" alt="Enregistrer un retour"></a>
+					<a href="<c:url value="<%= Pattern.LOCATION_IMPRIMER %>"/>?id=<c:out value="${loc.getLocation().getId()}" />"
+					title='Imprimer le contrat de location'><img src="<c:url value="/ressources/images/print.jpg"/>" alt="Imprimer le contrat de location"></a> </td>
 		</tr>
 		</c:forEach>
 		</table>

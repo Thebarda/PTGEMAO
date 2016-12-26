@@ -51,7 +51,8 @@ public class Location implements Serializable, Comparable<Location>{
 	/** The reparation. */
 	private Reparation reparation;
 
-	
+	/** The nom du contrat. */
+	private String nomContrat;
 
 	@Override
 	public int hashCode() {
@@ -104,7 +105,7 @@ public class Location implements Serializable, Comparable<Location>{
 	 */
 	public Location(int id, Personne personne, Materiel materiel, Etat etatDebut,
 			Etat etatFin, String dateEmprunt, String dateRetour, String dateEcheance, int caution,
-			float montant, Reparation reparation) {
+			float montant, Reparation reparation, String nomContrat) {
 		this.id = id;
 		this.personne = personne;
 		this.materiel = materiel;
@@ -116,6 +117,7 @@ public class Location implements Serializable, Comparable<Location>{
 		this.montant = montant;
 		this.caution = caution;
 		this.reparation = reparation;
+		this.nomContrat = nomContrat;
 	}
 	
 	/**
@@ -244,6 +246,14 @@ public class Location implements Serializable, Comparable<Location>{
 		this.id = id;
 	}
 
+	public String getNomContrat(){
+		return this.nomContrat;
+	}
+	
+	public void setNomContrat(String nomContrat){
+		this.nomContrat = nomContrat;
+	}
+	
 	@Override
 	public int compareTo(Location loc) {
 		DateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");

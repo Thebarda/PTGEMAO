@@ -324,3 +324,8 @@ body {
 #parametres i {
 	font-size: 1.8rem;
 }
+
+.retour{
+	background-image: url('../ressources/images/arrow.png');
+	position: relative;
+}

@@ -30,13 +30,13 @@ public class LocationDAO extends IDAO<Location>{
 	
 
 	public boolean create(String idPersonne, String idMateriel,
-			String etatDebut, String dateEmprunt, String dateFin, float caution, float montant) {
+			String etatDebut, String dateEmprunt, String dateFin, float caution, float montant, String nomContrat) {
 		Connection connexion = null;
 		PreparedStatement requete = null;
 		ResultSet result = null;
 		String sql = "INSERT INTO location(idPersonne, idMateriel, idEtatDebut, idEtatFin, "
-				+ "idReparation, dateEmprunt,dateEcheance, dateRetour, caution, montant) VALUES "
-				+ "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+				+ "idReparation, dateEmprunt,dateEcheance, dateRetour, caution, montant, nomContrat) VALUES "
+				+ "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 		try {
 			connexion = factory.getConnection();
 			requete = DAOUtilitaires.initialisationRequetePreparee(connexion,
@@ -50,7 +50,8 @@ public class LocationDAO extends IDAO<Location>{
 					dateFin,
 					null,
 					caution,
-					montant
+					montant,
+					nomContrat
 			);
 
 			int status = requete.executeUpdate();
@@ -132,7 +133,8 @@ public class LocationDAO extends IDAO<Location>{
 				result.getString("dateEcheance"),
 				result.getInt("caution"),
 				result.getFloat("montant"),
-				idReparation==null?null:factory.getReparationDAO().get(idReparation));
+				idReparation==null?null:factory.getReparationDAO().get(idReparation),
+				result.getString("nomContrat"));
 	}
 	
 	protected Location map2(ResultSet result) throws SQLException {
@@ -150,7 +152,8 @@ public class LocationDAO extends IDAO<Location>{
 					result.getString("dateEcheance"),
 					result.getInt("caution"),
 					result.getFloat("montant"),
-					idReparation==null?null:factory.getReparationDAO().get(idReparation));
+					idReparation==null?null:factory.getReparationDAO().get(idReparation),
+					result.getString("nomContrat"));
 	}
 
 	@Override
@@ -279,4 +282,24 @@ public class LocationDAO extends IDAO<Location>{
 		}
 	}
 
+	public String getNomContratById(int id){
+		Connection connexion = null;
+		PreparedStatement requete = null;
+		ResultSet result = null;
+		String sql = "SELECT nomContrat FROM location WHERE id_loc=?";
+		String res= null;
+		try {
+			connexion = factory.getConnection();
+			requete = DAOUtilitaires.initialisationRequetePreparee(connexion,
+					sql, false, id);
+			result = requete.executeQuery();
+			while (result.next()) {
+				res = result.getString("nomContrat");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return res;
+	}
 }
