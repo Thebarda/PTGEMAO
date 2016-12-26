@@ -29,6 +29,7 @@
 	<br>
 	<c:choose >
 		<c:when test="${empty vide }">
+		<form method="post" action="#">
 		<table class='tablesorter-blue  pure-table offset' id="tableNom">
 			<thead>
 				<tr>
@@ -42,6 +43,7 @@
 					<th>Caution</th>
 					<th>Montant</th>
 					<th>Etat début</th>
+					<th>Retour</th>
 				</tr>
 			</thead>
 		<c:forEach items="${typeLocations }" var="loc">
@@ -56,9 +58,12 @@
 			<td><c:out value="${loc.getLocation().getCaution() }"></c:out></td>
 			<td><c:out value="${loc.getLocation().getMontant() }"></c:out></td>
 			<td><c:out value="${loc.getLocation().getEtatDebut().getLibelleEtat() }"></c:out></td>
+			<td><a href="<c:url value="<%= Pattern.LOCATION_RETOUR %>"/>?id=<c:out value="${loc.getLocation().getId()}" />"
+					title='Enregistrer un retour'><img src="/ressources/images/retour.jpg" alt="Retour"/></a> </td>
 		</tr>
 		</c:forEach>
 		</table>
+		</form>
 	</c:when>
 	<c:otherwise>
 		<h2 class="align-center"><%= request.getAttribute("vide") %></h2>

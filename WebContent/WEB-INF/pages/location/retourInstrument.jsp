@@ -9,56 +9,53 @@
 <c:import url="/inc/header.inc.jsp" />
 <c:import url="/inc/menu.inc.jsp" />
 	<form id="retour" method="post" action="#">
-		<h1>Enregistrer le retour d'un instrument</h1>	
+		<h1>Enregistrer le retour d'un instrument</h1>
+		<fieldset>
+			<legend>Location</legend>
+			<div>
+				<label for="typeLocation">Type de location : </label>
+				<span><c:out value="${typeLocation }"></c:out></span>
+			</div>
+		</fieldset>
 		<fieldset>
 			<legend>Instrument</legend>
 			<div>
 				<label for="categorie">Catégorie :</label>
-				<span>** A remplir automatiquement **</span>
+				<span><c:out value="${categorie }"></c:out></span>
 			</div>
 			<div>
 				<label for="designation">Désignation :</label>
-				<span>** A remplir automatiquement **</span>
+				<span><c:out value="${designation }"></c:out></span>
 			</div>
 			<div>
 				<label for="etat">Etat :</label>
-				<span>** A remplir automatiquement **</span>
+				<span><c:out value="${etat }"></c:out></span>
 			</div>
 		</fieldset>
 		<fieldset>
 			<legend>Adhérent</legend>
 			<div>
 				<label for="adherentNom">Nom :</label>
-				<span>** A remplir automatiquement **</span>
+				<span><c:out value="${nomAdh }"></c:out></span>
 			</div>
 			<div>
 				<label for="adherentPrenom">Prenom :</label>
-				<span>** A remplir automatiquement **</span>
+				<span><c:out value="${prenomAdh }"></c:out></span>
 			</div>
-			<div>
-				<label for="reparation">Réparation : </label>
-				<span>
-					<label for="reparationOui">Oui</label>
-					<input type="radio" checked="checked" name="reparation" value="oui"/>
-					<label for="reparationNon">Non</label>
-					<input type="radio" checked="checked" name="reparation" value="non"/>
-				</span>
-			</div>
-			Nom réparateur,date réparation?
 		</fieldset>
 		<fieldset>
 			<legend>Dates</legend>
 			<div>
 				<label for="datedeb">Date d'emprunt :</label>
-				<span>** A remplir automatiquement **</span>
+				<span><c:out value="${dateEmprunt }"></c:out></span>
 			</div>
 			<div>
-				<label for="datefin">Date limite de retour :</label>
-				<span>** A remplir automatiquement **</span>
+				<label for="datefin">Date d'échéance :</label>
+				<span><c:out value="${dateEcheance }"></c:out></span>
 			</div>
 			<div>
 				<label for="dateRetourEffectif">Date de retour :</label>
-				<span>** A remplir automatiquement (input avec date du jour par défaut) **</span>
+				<span><c:out value="${dateRetour }"></c:out></span>
 			</div>
 		</fieldset>
 		<fieldset class='align-center no-border'>
