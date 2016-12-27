@@ -62,7 +62,8 @@ public class ListerLocationServlet extends HttpServlet{
 			List<Integer> annee = new ArrayList<>();
 			Date date = new Date();
 			int year = 1900+date.getYear();
-			for(int i=0;i<8;i++){
+			year--;
+			while(year>=1998){
 				annee.add(year);
 				year--;
 			}
@@ -88,7 +89,7 @@ public class ListerLocationServlet extends HttpServlet{
 				//Toutes les locations
 				locations = LocationCtrl.getAllAll();
 			}else{
-				//L'année courante
+				//L'annï¿½e courante
 				Date date = new Date();
 				int year = 1900+date.getYear();
 				locations = LocationCtrl.getLocsByYear(year);
@@ -96,7 +97,7 @@ public class ListerLocationServlet extends HttpServlet{
 		}
 		
 		if(Form.getValeurChamp(request, PARAM_YEAR)!=null){
-			//L'année choisie
+			//L'annï¿½e choisie
 			String tmpYear = Form.getValeurChamp(request, PARAM_YEAR);
 			int year = Integer.parseInt(tmpYear);
 			locations = LocationCtrl.getLocsByYear(year);

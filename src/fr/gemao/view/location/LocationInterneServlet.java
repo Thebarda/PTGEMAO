@@ -149,7 +149,7 @@ public class LocationInterneServlet extends HttpServlet implements Printable {
 		      paragraph.setAlignment(Element.ALIGN_CENTER);
 		      document.add(paragraph);
 		      
-		      paragraph = new Paragraph("PrÃ©nom : "+prenom, font2);
+		      paragraph = new Paragraph("Prénom : "+prenom, font2);
 		      paragraph.setAlignment(Element.ALIGN_CENTER);
 		      document.add(paragraph);
 		      
@@ -161,16 +161,16 @@ public class LocationInterneServlet extends HttpServlet implements Printable {
 		      paragraph.setAlignment(Element.ALIGN_CENTER);
 		      document.add(paragraph);
 		      
-		      paragraph = new Paragraph("NÂ° : "+numeroLocation+"\n\n", font2);
+		      paragraph = new Paragraph("N° : "+numeroLocation+"\n\n", font2);
 		      paragraph.setAlignment(Element.ALIGN_CENTER);
 		      document.add(paragraph);
 		      
-		      document.add(new Paragraph("Lâ€™ANACROUSE  loue cet instrument en bon Ã©tat, il appartient au titulaire de la location dâ€™en assurer lâ€™entretien et notamment de le faire rÃ©viser avant restitution. \nLes Ã©ventuels frais de remise en Ã©tat dÃ©couverts aprÃ¨s restitution seront Ã  la charge du titulaire du prÃ©sent contrat. \nCe contrat est conclu pour une durÃ©e dâ€™une annÃ©e scolaire contre la somme de 20 â‚¬.\n\n", font));
-		      document.add(new Paragraph("PÃ©riode location couverte "+session.getAttribute(PARAM_DATE_DEBUT)+" au "+session.getAttribute(PARAM_DATE_FIN)+"\n\n", font));
-		      document.add(new Paragraph("Fait Ã  La Chapelle Saint Ursin le "+date.getDate()+"/"+mois+"/"+annee+" en double exemplaire\n\n", font));
-		      document.add(new Paragraph("Le rÃ©gisseur de l'anacrous                    Le titulaire du contrat (ou son reprÃ©sentant lÃ©gal)\n\n\n\n", font3));
+		      document.add(new Paragraph("L'ANACROUSE  loue cet instrument en bon état, il appartient au titulaire de la location d'en assurer l'entretien et notamment de le faire réviser avant restitution. \nLes éventuels frais de remise en état découverts après restitution seront à  la charge du titulaire du présent contrat. \nCe contrat est conclu pour une durée d'une année scolaire contre la somme de 20 €.\n\n", font));
+		      document.add(new Paragraph("Période location couverte "+session.getAttribute(PARAM_DATE_DEBUT)+" au "+session.getAttribute(PARAM_DATE_FIN)+"\n\n", font));
+		      document.add(new Paragraph("Fait à La Chapelle Saint Ursin le "+date.getDate()+"/"+mois+"/"+annee+" en double exemplaire\n\n", font));
+		      document.add(new Paragraph("Le régisseur de l'anacrous                    Le titulaire du contrat (ou son représentant légal)\n\n\n\n", font3));
 		      document.add(new Paragraph(""+connectee.getPrenom()+" "+connectee.getNom(), font));
-		      document.add(new Paragraph("Nota : cette location est renouvelable dans le respect du principe suivant : prioritÃ© sera donnÃ©e au dÃ©butant.", font));
+		      document.add(new Paragraph("Nota : cette location est renouvelable dans le respect du principe suivant : priorité sera donnée au débutant.", font));
 		    } catch (DocumentException de) {
 		      de.printStackTrace();
 		    } catch (IOException ioe) {

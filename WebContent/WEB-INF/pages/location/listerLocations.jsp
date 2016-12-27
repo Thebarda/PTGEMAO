@@ -21,6 +21,7 @@
 	<form method="post" action="#" id="form2" class="offset">	
 		Choisir l'année : 
 		<select name="year" onchange="document.getElementById('form2').submit()">
+			<option></option>
 			<c:forEach items="${date }" var="year">
 				<option value="${year }"><c:out value="${year }"></c:out></option>
 			</c:forEach>

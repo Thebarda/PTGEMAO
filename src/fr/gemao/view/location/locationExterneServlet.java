@@ -175,7 +175,7 @@ public class locationExterneServlet extends HttpServlet {
 		      paragraph.setAlignment(Element.ALIGN_CENTER);
 		      document.add(paragraph);
 		      
-		      document.add(new Paragraph("L’ANACROUSE  loue cet instrument  en bon état, il appartient au titulaire de la location d’en assurer l’entretien.\nLes éventuels frais de remise en état découverts après restitution seront à la charge du titulaire du présent contrat et éventuellement pris sur la caution (non encaissée) préalable à la location. La caution est fixée à 150 € payable par chèque.\nCe contrat est conclu pour une durée de trois mois renouvelables contre la somme de 15 € par mois.\n\n", font));
+		      document.add(new Paragraph("L’ANACROUSE  loue cet instrument  en bon état, il appartient au titulaire de la location d’en assurer l’entretien.\nLes éventuels frais de remise en état découverts après restitution seront à la charge du titulaire du présent contrat et éventuellement pris sur la caution (non encaissée) préalable à la location. La caution est fixée à 120 € payable par chèque.\nCe contrat est conclu pour une durée de trois mois renouvelables contre la somme de 15 € par mois.\n\n", font));
 		      document.add(new Paragraph("Période location couverte "+session.getAttribute(PARAM_DATE_DEBUT)+" au "+session.getAttribute(PARAM_DATE_FIN)+"\n\n", font));
 		      document.add(new Paragraph("Fait à La Chapelle Saint Ursin le "+date.getDate()+"/"+mois+"/"+annee+" en double exemplaire\n\n", font));
 		      document.add(new Paragraph("Le régisseur de l'anacrous                    Le titulaire du contrat (ou son représentant légal)\n\n\n\n", font3));
