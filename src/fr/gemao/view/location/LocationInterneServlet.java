@@ -188,7 +188,8 @@ public class LocationInterneServlet extends HttpServlet implements Printable {
 			LocationCtrl.ajouterLocation(""+session.getAttribute(PARAM_ID_ADHERENT), ""+session.getAttribute(PARAM_ID_DESIGNATION), ""+session.getAttribute("etatDebut"), ""+session.getAttribute(PARAM_DATE_DEBUT), ""+session.getAttribute(PARAM_DATE_FIN), Float.parseFloat(""+tarifs.get("caution")), Float.parseFloat(""+tarifs.get("montantLocationInterne")), "contratsLocationInterne\\ContratLocationInterne"+nom+""+prenom+""+numeroLocation+".pdf");
 			Materiel materiel = MaterielCtrl.getMaterielById(Integer.parseInt(""+session.getAttribute(PARAM_ID_DESIGNATION)));
 			MaterielCtrl.updateEstLouable(Integer.parseInt(""+session.getAttribute(PARAM_ID_DESIGNATION)), 0);
-			response.sendRedirect(request.getContextPath()+Pattern.ACCUEIL);
+			request.setAttribute("validation", "Location enregistrée !");
+			this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_INTERNE).forward(request, response);
 		}
 		
 		//Traitement du formulaire

@@ -69,7 +69,7 @@
 		</form>
 	</c:when>
 	<c:otherwise>
-		<h2 class="align-center"><%= request.getAttribute("vide") %></h2>
+		<h2 class="align-center text-danger"><%= request.getAttribute("vide") %></h2>
 	</c:otherwise>
 </c:choose>
 <script src="<c:url value="/js/ListerLocations.js"/>"></script>

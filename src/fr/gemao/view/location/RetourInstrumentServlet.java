@@ -84,6 +84,7 @@ public class RetourInstrumentServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
+		//Traitement du formulaire
 		if(Form.getValeurChamp(request, PARAM_ETATFIN)!= null){
 			int idEtatFin = Integer.parseInt(Form.getValeurChamp(request, PARAM_ETATFIN));
 			int id = Integer.parseInt(""+session.getAttribute(ID));
@@ -94,7 +95,8 @@ public class RetourInstrumentServlet extends HttpServlet {
 			Materiel mat = loc.getMateriel();
 			MaterielCtrl.updateEstLouable(Integer.parseInt(""+loc.getMateriel().getIdMateriel()), 1);
 		}
-		response.sendRedirect(request.getContextPath()+Pattern.ACCUEIL);
+		request.setAttribute("validation", "Retour de l'instrument enregistré !");
+		this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_INTERNE).forward(request, response);
 	}
 
 }

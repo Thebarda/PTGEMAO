@@ -8,6 +8,8 @@
 
 <c:import url="/inc/header.inc.jsp" />
 <c:import url="/inc/menu.inc.jsp" />
+<c:choose>
+<c:when test="${empty validation }">
 	<form id="retour" method="post" action="#">
 		<h1>Enregistrer le retour d'un instrument</h1>
 		<fieldset>
@@ -72,5 +74,10 @@
 			<input type="submit" value="Valider"/>
 		</fieldset>
 	</form>
-
+</c:when>
+	<c:otherwise>
+		<p class="offset text-success"><%= request.getAttribute("validation") %></p><br>
+		<a class="offset btn" href="<c:url value="<%= Pattern.ACCUEIL %>"/>">Retour</a>
+	</c:otherwise>
+</c:choose>
 <c:import url="/inc/footer.inc.jsp" />

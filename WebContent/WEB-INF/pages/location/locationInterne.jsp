@@ -21,7 +21,8 @@ autocompletionFamille("#adh");
 </script>
 
 	<h1>Location interne d'un instrument</h1>
-
+<c:choose>
+<c:when test="${empty validation }">
 	<c:choose >
 		<c:when test="${empty resultat}">
 			<form id="location" method="post" action="#">
@@ -104,6 +105,10 @@ autocompletionFamille("#adh");
 			</form>
 		</c:otherwise>
 	</c:choose>
-	
-
+	</c:when>
+	<c:otherwise>
+		<p class="offset text-success"><%= request.getAttribute("validation") %></p><br>
+		<a class="offset btn" href="<c:url value="<%= Pattern.ACCUEIL %>"/>">Retour</a>
+	</c:otherwise>
+</c:choose>
 <c:import url="/inc/footer.inc.jsp" />
