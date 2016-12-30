@@ -88,11 +88,14 @@ public class ListerLocationServlet extends HttpServlet{
 			if(setLocation.equals("allLocs")){
 				//Toutes les locations
 				locations = LocationCtrl.getAllAll();
-			}else{
+			}else if(setLocation.equals("currentYear")){
 				//L'ann�e courante
 				Date date = new Date();
 				int year = 1900+date.getYear();
 				locations = LocationCtrl.getLocsByYear(year);
+			}else{
+				//Locations en cours
+				locations = LocationCtrl.getAll();
 			}
 		}
 		

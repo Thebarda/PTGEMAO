@@ -15,6 +15,7 @@
 <h1>Liste des locations</h1>
 	<br>
 	<form class="offset" method="post" action="#" id="form1">
+		Locations en cours : <input type="radio" name="setLocation" value="currentLocs" onclick="document.getElementById('form1').submit()"><br>
 		Toutes les locations : <input type="radio" name="setLocation" value="allLocs" onclick="document.getElementById('form1').submit()"><br>
 		Année courante : <input type="radio"  name="setLocation" value="currentYear" onclick="document.getElementById('form1').submit()"><br>
 	</form>
@@ -31,7 +32,7 @@
 	<c:choose >
 		<c:when test="${empty vide }">
 		<form method="post" action="#">
-		<table class='tablesorter-blue  pure-table offset' id="tableNom">
+		<table class='tablesorter-blue  pure-table' id="tableNom">
 			<thead>
 				<tr>
 					<th>Nom</th>
