@@ -96,7 +96,7 @@ public class RetourInstrumentServlet extends HttpServlet {
 			MaterielCtrl.updateEstLouable(Integer.parseInt(""+loc.getMateriel().getIdMateriel()), 1);
 		}
 		request.setAttribute("validation", "Retour de l'instrument enregistré !");
-		this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_INTERNE).forward(request, response);
+		this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_RETOUR).forward(request, response);
 	}
 
 }

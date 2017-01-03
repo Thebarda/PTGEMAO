@@ -8,10 +8,11 @@
 
 <c:import url="/inc/header.inc.jsp" />
 <c:import url="/inc/menu.inc.jsp" />
+<h1>Enregistrer le retour d'un instrument</h1>
 <c:choose>
 <c:when test="${empty validation }">
 	<form id="retour" method="post" action="#">
-		<h1>Enregistrer le retour d'un instrument</h1>
+		
 		<fieldset>
 			<legend>Location</legend>
 			<div>

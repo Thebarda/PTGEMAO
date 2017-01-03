@@ -101,7 +101,8 @@ public class LocationInterneServlet extends HttpServlet implements Printable {
 		if(Form.getValeurChamp(request, "imprimer")!=null){
 			//Impression
 			String imprimer = Form.getValeurChamp(request, "imprimer");
-			//On charge les Ã©lÃ©ments nÃ©cessaire pour Ã©diter le contrat
+		
+			//On charge les éléments nécessaire pour éditer le contrat
 			Personnel connectee = (Personnel)session.getAttribute("sessionObjectPersonnel");
 			char lettreNom = connectee.getNom().charAt(0);
 			char lettrePrenom = connectee.getPrenom().charAt(0);
@@ -110,10 +111,16 @@ public class LocationInterneServlet extends HttpServlet implements Printable {
 			String[] adh = adherent.split(" ");
 			String nom = adh[1];
 			String prenom = adh[0];
+			String adresse = "";
+			List<Personne> personnes = PersonneCtrl.recupererToutesPersonnes();
+			for(Personne p : personnes){
+				if((p.getNom().equals(nom))&&(p.getPrenom().equals(prenom))){
+					adresse = p.getAdresse().getNumRue()+" "+p.getAdresse().getNomRue()+" "+p.getAdresse().getCommune().getCodePostal()+" "+p.getAdresse().getCommune().getNomCommune();
+				}
+			}
 			List instruments = (List) session.getAttribute("nomInstrument");
 			String instrument = (String) instruments.get(0);
 			String marqueType = "";
-			
 			Date date = new Date();
 			int annee = 1900+date.getYear();
 		      int mois = 1 + date.getMonth();
@@ -130,10 +137,10 @@ public class LocationInterneServlet extends HttpServlet implements Printable {
 			if(!rep.exists()){
 				rep.mkdir();
 			}
-		    	Document document = new Document(PageSize.A4);
-			  try {
-			  PdfWriter pdf = PdfWriter.getInstance(document,
-	          new FileOutputStream(new File("contratsLocationInterne\\ContratLocationInterne"+nom+""+prenom+""+numeroLocation+".pdf")));
+			Document document = new Document(PageSize.A4);
+		    try {
+		      PdfWriter pdf = PdfWriter.getInstance(document,
+		          new FileOutputStream(new File("contratsLocationInterne\\ContratLocationInterne"+nom+""+prenom+""+numeroLocation+".pdf")));
 		      pdf.setViewerPreferences(PdfWriter.PageLayoutSinglePage | PdfWriter.PageModeUseThumbs);
 		      document.open();
 		      Font font = FontFactory.getFont("Comic Sans MS", 15);
@@ -153,6 +160,10 @@ public class LocationInterneServlet extends HttpServlet implements Printable {
 		      paragraph.setAlignment(Element.ALIGN_CENTER);
 		      document.add(paragraph);
 		      
+		      paragraph = new Paragraph("Adresse : "+adresse, font2);
+		      paragraph.setAlignment(Element.ALIGN_CENTER);
+		      document.add(paragraph);
+		      
 		      paragraph = new Paragraph("Instrument : "+instrument, font2);
 		      paragraph.setAlignment(Element.ALIGN_CENTER);
 		      document.add(paragraph);
@@ -165,7 +176,7 @@ public class LocationInterneServlet extends HttpServlet implements Printable {
 		      paragraph.setAlignment(Element.ALIGN_CENTER);
 		      document.add(paragraph);
 		      
-		      document.add(new Paragraph("L'ANACROUSE  loue cet instrument en bon état, il appartient au titulaire de la location d'en assurer l'entretien et notamment de le faire réviser avant restitution. \nLes éventuels frais de remise en état découverts après restitution seront à  la charge du titulaire du présent contrat. \nCe contrat est conclu pour une durée d'une année scolaire contre la somme de 20 €.\n\n", font));
+		      document.add(new Paragraph("L’ANACROUSE  loue cet instrument  en bon état, il appartient au titulaire de la location d’en assurer l’entretien.\nLes éventuels frais de remise en état découverts après restitution seront à la charge du titulaire du présent contrat et éventuellement pris sur la caution (non encaissée) préalable à la location. La caution est fixée à 120 € payable par chèque.\nCe contrat est conclu pour une durée de trois mois renouvelables contre la somme de 20€ par an.\n\n", font));
 		      document.add(new Paragraph("Période location couverte "+session.getAttribute(PARAM_DATE_DEBUT)+" au "+session.getAttribute(PARAM_DATE_FIN)+"\n\n", font));
 		      document.add(new Paragraph("Fait à La Chapelle Saint Ursin le "+date.getDate()+"/"+mois+"/"+annee+" en double exemplaire\n\n", font));
 		      document.add(new Paragraph("Le régisseur de l'anacrous                    Le titulaire du contrat (ou son représentant légal)\n\n\n\n", font3));
@@ -176,13 +187,11 @@ public class LocationInterneServlet extends HttpServlet implements Printable {
 		    } catch (IOException ioe) {
 		      ioe.printStackTrace();
 		    }
-			document.close();
-			if(imprimer.equals("Oui")){
+		    document.close();
+			if(imprimer.equals("Oui")){ 
 			    Desktop desktop = Desktop.getDesktop();
-				desktop.print(new File("contratsLocationInterne\\ContratLocationInterne"+nom+""+prenom+""+numeroLocation+".pdf"));
-			
+			    desktop.print(new File("contratsLocationInterne\\ContratLocationInterne"+nom+""+prenom+""+numeroLocation+".pdf"));
 			}
-			
 			
 			Map<String, String> tarifs = LocationCtrl.recupereTarifsLocation();
 			LocationCtrl.ajouterLocation(""+session.getAttribute(PARAM_ID_ADHERENT), ""+session.getAttribute(PARAM_ID_DESIGNATION), ""+session.getAttribute("etatDebut"), ""+session.getAttribute(PARAM_DATE_DEBUT), ""+session.getAttribute(PARAM_DATE_FIN), Float.parseFloat(""+tarifs.get("caution")), Float.parseFloat(""+tarifs.get("montantLocationInterne")), "contratsLocationInterne\\ContratLocationInterne"+nom+""+prenom+""+numeroLocation+".pdf");
