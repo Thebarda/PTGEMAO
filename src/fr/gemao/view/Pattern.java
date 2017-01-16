@@ -65,6 +65,7 @@ public class Pattern {
 		LOCATION_LISTER = MODULE_LOCATION + DROIT_ECRITURE + "/listerLocations",
 		LOCATION_IMPRIMER = MODULE_LOCATION + DROIT_ECRITURE + "/imprimLocation",
 		LOCATION_CONTRAT_LISTER = MODULE_LOCATION + DROIT_ECRITURE + "/listerContratsLocation", 
+		COMPTABILITE_ENSEIGNEMENT = MODULE_LOCATION + DROIT_ECRITURE + "/ComptabiliteEnseignement",
 
 		// Module matériel
 		MATERIEL_AJOUT = MODULE_MATERIEL + DROIT_ECRITURE + "/AjouterMateriel",
@@ -92,7 +93,7 @@ public class Pattern {
 		COURS_AJOUTEDT = "/cours/AjouterEmploiDuTemps",
 		
 		//Module comptabilité enseignement
-		COMPTABILITE_ENSEIGNEMENT = MODULE_COMPTABILITE_ENSEIGNEMENT + DROIT_ECRITURE + "/ComptabiliteEnseignement",
+		
 
 		// Module Planning
 		PLANNING_AFFICHER = MODULE_PLANNING + "/AfficherPlanning",
