@@ -64,7 +64,7 @@ public class Pattern {
 		LOCATION_RETOUR = MODULE_LOCATION + DROIT_ECRITURE + "/retourInstrument",
 		LOCATION_LISTER = MODULE_LOCATION + DROIT_ECRITURE + "/listerLocations",
 		LOCATION_IMPRIMER = MODULE_LOCATION + DROIT_ECRITURE + "/imprimLocation",
-		LOCATION_CONTRAT_LISTER = MODULE_LOCATION + DROIT_ECRITURE + "/listerContratsLocation", 
+		LOCATION_CONTRAT_LISTER = MODULE_LOCATION + "/listerContratsLocation", 
 		COMPTABILITE_ENSEIGNEMENT = MODULE_LOCATION + DROIT_ECRITURE + "/ComptabiliteEnseignement",
 
 		// Module matériel
