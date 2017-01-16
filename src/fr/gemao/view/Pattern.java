@@ -92,7 +92,7 @@ public class Pattern {
 		COURS_AJOUTEDT = "/cours/AjouterEmploiDuTemps",
 		
 		//Module comptabilité enseignement
-		COMPTABILITE_ENSEIGNEMENT = MODULE_COMPTABILITE_ENSEIGNEMENT + DROIT_ECRITURE + "/ComptabiliteEnseignement",
+		COMPTABILITE_ENSEIGNEMENT = MODULE_COMPTABILITE_ENSEIGNEMENT + DROIT_ECRITURE + "//ComptabiliteEnseignement",
 
 		// Module Planning
 		PLANNING_AFFICHER = MODULE_PLANNING + "/AfficherPlanning",

@@ -132,9 +132,7 @@
 							<h2>Comptabilité enseignement</h2>
 							<a class="mp-back" href="#">Retour</a>
 							<ul>
-								<c:if test="${sessionScope.sessionObjectPersonnel.profil.recupererTypeDroit('Location') == 'Lecture/écriture' }">
 								<li><a href="<c:url value="<%= Pattern.COMPTABILITE_ENSEIGNEMENT %>"/>">Comptabilité enseignement</a></li>
-								</c:if>
 						</div>
 					</li>
 					<c:if test="${sessionScope.sessionObjectPersonnel.profil.recupererTypeDroit('Administration') != 'Aucun' }">
