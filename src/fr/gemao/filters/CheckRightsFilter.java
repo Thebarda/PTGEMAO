@@ -86,7 +86,7 @@ public class CheckRightsFilter implements Filter {
 				nomModule = "Location";
 			}
 			if(nomModule.equals("ComptabiliteEnseignement")){
-				nomModule = "ComptabiliteEnseignement";
+				nomModule = "Location";
 			}
 			if(partiesModule.length == 2){
 				// Si le droit d'écriture doit être renseigné
