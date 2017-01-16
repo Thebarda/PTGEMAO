@@ -8,5 +8,5 @@
 
 <c:import url="/inc/header.inc.jsp" />
 <c:import url="/inc/menu.inc.jsp" />
-
+<h1>Compotabilité enseignement</h1>
 <c:import url="/inc/footer.inc.jsp" />

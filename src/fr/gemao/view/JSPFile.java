@@ -114,6 +114,6 @@ public class JSPFile {
 		COURS_MODIFIER = ROOT + REP_COURS + "modifierCours.jsp",
 		COURS_CREER = ROOT + REP_COURS + "creerCours.jsp",
 	
-		REP_COMPTABILITE_ENSEIGNEMENT = "ComptabiliteEnseignement/",
+		REP_COMPTABILITE_ENSEIGNEMENT = "ComptableEnseignement/",
 		COMPTABILITE_ENSEIGNEMENT = ROOT + REP_COMPTABILITE_ENSEIGNEMENT + "ComptabiliteEnseignement.jsp";
 }

@@ -133,6 +133,7 @@
 							<a class="mp-back" href="#">Retour</a>
 							<ul>
 								<li><a href="<c:url value="<%= Pattern.COMPTABILITE_ENSEIGNEMENT %>"/>">Comptabilité enseignement</a></li>
+							</ul>
 						</div>
 					</li>
 					<c:if test="${sessionScope.sessionObjectPersonnel.profil.recupererTypeDroit('Administration') != 'Aucun' }">
