@@ -13,3 +13,5 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <h1>Liste des contrats</h1>
+
+<c:import url="/inc/footer.inc.jsp" />
