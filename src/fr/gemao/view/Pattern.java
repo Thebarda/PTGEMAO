@@ -10,6 +10,7 @@ public class Pattern {
 		MODULE_PERSONNEL = "/Personnel",
 		MODULE_COURS = "/Cours",
 		MODULE_PLANNING = "/Planning",
+		MODULE_COMPTABILITE_ENSEIGNEMENT="/ComptabiliteEnseignement",
 
 		// Droit
 		DROIT_ECRITURE = "-w",
@@ -89,6 +90,9 @@ public class Pattern {
 
 		// Module Cours
 		COURS_AJOUTEDT = "/cours/AjouterEmploiDuTemps",
+		
+		//Module comptabilité enseignement
+		COMPTABILITE_ENSEIGNEMENT = MODULE_COMPTABILITE_ENSEIGNEMENT + DROIT_ECRITURE + "ComptabiliteEnseignement",
 
 		// Module Planning
 		PLANNING_AFFICHER = MODULE_PLANNING + "/AfficherPlanning",

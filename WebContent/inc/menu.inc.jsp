@@ -125,7 +125,18 @@
 								<li class="icon icon-arrow-left"><a href="<c:url value="<%= Pattern.SALLE_LISTER %>"/>">Salles</a>
 								</li>
 							</ul>
-						</div></li>
+						</div>
+					</li>
+					<li class="icon icon-arrow-left"><a href="#">Comptabilité enseignement</a>
+						<div class="mp-level">
+							<h2>Comptabilité enseignement</h2>
+							<a class="mp-back" href="#">Retour</a>
+							<ul>
+								<c:if test="${sessionScope.sessionObjectPersonnel.profil.recupererTypeDroit('Location') == 'Lecture/écriture' }">
+								<li><a href="<c:url value="<%= Pattern.COMPTABILITE_ENSEIGNEMENT %>"/>">Comptabilité enseignement</a></li>
+								</c:if>
+						</div>
+					</li>
 					<c:if test="${sessionScope.sessionObjectPersonnel.profil.recupererTypeDroit('Administration') != 'Aucun' }">
 					<li class="icon icon-arrow-left"><a href="#">Administration</a>
 						<div class="mp-level">

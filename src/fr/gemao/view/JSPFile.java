@@ -112,5 +112,8 @@ public class JSPFile {
 		//Gestion cours
 		COURS_LISTER = ROOT + REP_COURS + "listerCours.jsp",
 		COURS_MODIFIER = ROOT + REP_COURS + "modifierCours.jsp",
-		COURS_CREER = ROOT + REP_COURS + "creerCours.jsp";
+		COURS_CREER = ROOT + REP_COURS + "creerCours.jsp",
+	
+		REP_COMPTABILITE_ENSEIGNEMENT = "ComptabiliteEnseignement/",
+		COMPTABILITE_ENSEIGNEMENT = ROOT + REP_COMPTABILITE_ENSEIGNEMENT + "ComptabiliteEnseignement.jsp";
 }
