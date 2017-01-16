@@ -84,6 +84,7 @@
 								<li><a href="<c:url value="<%= Pattern.LOCATION_LOCATION_EXTERNE %>"/>">Location externe</a></li>
 								</c:if>
 								<li><a href="<c:url value="<%= Pattern.LOCATION_LISTER %>"/>">Lister</a></li>
+								<li><a href="<c:url value="<%= Pattern.LOCATION_CONTRAT_LISTER %>"/>">Lister contrats</a></li>
 							</ul>
 						</div>
 					</li>
