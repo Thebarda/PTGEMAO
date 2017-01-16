@@ -57,7 +57,7 @@ public class JSPFile {
 		LOCATION_RETOUR = ROOT + REP_LOCATION + "retourInstrument.jsp",
 		LOCATION_LISTER = ROOT + REP_LOCATION + "listerLocations.jsp",
 		LOCATION_IMPRIMER = ROOT + REP_LOCATION + "imprimLocation.jsp",
-		LOCATION_CONTRAT_LISTER = ROOT + REP_LOCATION + "listerContratsLocation.jsp",
+		LOCATION_CHEQUE_LISTER = ROOT + REP_LOCATION + "listerChequesLocation.jsp",
 		COMPTABILITE_ENSEIGNEMENT = ROOT + REP_LOCATION + "ComptabiliteEnseignement.jsp",
 
 		// Module matériel

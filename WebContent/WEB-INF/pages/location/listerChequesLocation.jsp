@@ -12,7 +12,7 @@
 
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<h1>Liste des contrats</h1>
+<h1>Liste des chèques</h1>
 
 <table class='tablesorter-blue  pure-table' id="tableNom">
 	<thead>

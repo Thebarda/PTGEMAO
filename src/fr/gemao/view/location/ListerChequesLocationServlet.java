@@ -17,8 +17,8 @@ import fr.gemao.entity.materiel.Location;
 import fr.gemao.view.JSPFile;
 import fr.gemao.view.Pattern;
 
-@WebServlet(Pattern.LOCATION_CONTRAT_LISTER)
-public class ListerContratsLocationServlet extends HttpServlet {
+@WebServlet(Pattern.LOCATION_CHEQUE_LISTER)
+public class ListerChequesLocationServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 		
@@ -38,7 +38,7 @@ public class ListerContratsLocationServlet extends HttpServlet {
 		cheques.add(cheque2);
 		
 		request.setAttribute("cheques", cheques);
-		this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_CONTRAT_LISTER).forward(request,  response);
+		this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_CHEQUE_LISTER).forward(request,  response);
 	}
 }
 
