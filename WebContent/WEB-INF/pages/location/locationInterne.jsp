@@ -2,27 +2,22 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page import="fr.gemao.view.Pattern"%>
 
-<c:set var="titre" value="Location interne d'un instrument"
-	scope="request" />
+<c:set var="titre" value="Location interne d'un instrument" scope="request" />
 
 <c:import url="/inc/head.inc.jsp" />
 
 <c:import url="/inc/header.inc.jsp" />
 <c:import url="/inc/menu.inc.jsp" />
 <script type="text/javascript">
-	function autocompletionFamille(selecteurFamille) {
-		$(function() {
-			var availableTags = $
-			{
-				requestScope.auto_familles
-			}
-			;
-			$(selecteurFamille).autocomplete({
-				source : availableTags
-			});
+function autocompletionFamille(selecteurFamille){
+	$(function() {
+	var availableTags = ${requestScope.auto_familles};
+		$(selecteurFamille).autocomplete({
+			source : availableTags
 		});
-	}
+	});
 	autocompletionFamille("#adh");
+}
 </script>
 
 <h1>Location interne d'un instrument</h1>
