@@ -60,10 +60,12 @@
 			<td><c:out value="${loc.getLocation().getCaution() }"></c:out></td>
 			<td><c:out value="${loc.getLocation().getMontant() }"></c:out></td>
 			<td><c:out value="${loc.getLocation().getEtatDebut().getLibelleEtat() }"></c:out></td>
-			<td><a href="<c:url value="<%= Pattern.LOCATION_RETOUR %>"/>?id=<c:out value="${loc.getLocation().getId()}" />"
-					title='Enregistrer un retour'><img src="<c:url value="/ressources/images/retour.jpg"/>" alt="Enregistrer un retour"></a>
+			<td><a href="<c:url value="<%= Pattern.LOCATION_CHEQUE_AJOUTER %>"/>?id=<c:out value="${loc.getLocation()}" />"
+					title='Enregistrer un chèque pour cette location'><img src="<c:url value="/ressources/images/cheque.jpg"/>" alt="Enregistrer un chèque"></a>
+					<a href="<c:url value="<%= Pattern.LOCATION_RETOUR %>"/>?id=<c:out value="${loc.getLocation().getId()}" />"
+					title='Enregistrer un retour'><img src="<c:url value="/ressources/images/retour.png"/>" alt="Enregistrer un retour"></a>
 					<a href="<c:url value="<%= Pattern.LOCATION_IMPRIMER %>"/>?id=<c:out value="${loc.getLocation().getId()}" />"
-					title='Imprimer le contrat de location'><img src="<c:url value="/ressources/images/print.jpg"/>" alt="Imprimer le contrat de location"></a> </td>
+					title='Imprimer le contrat de location'><img src="<c:url value="/ressources/images/print.jpg"/>" alt="Imprimer le contrat de location"></a></td>
 		</tr>
 		</c:forEach>
 		</table>
