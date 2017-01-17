@@ -101,10 +101,10 @@ public class ChequeForm {
 		}
 	}
 	
-	private void validationMontant(String montantCheque) throws Exception{
+	private void validationMontant(String montantCheque) throws IllegalArgumentException{
 		float nb = Float.parseFloat(montantCheque);
-		if (nb <= 0.0F) {
-			throw new Exception("Merci de préciser un montant supérieur à 0");
+		if (nb <= 0.0) {
+			throw new IllegalArgumentException("Merci de préciser un montant supérieur à 0");
 		}
 	}
 	
@@ -115,32 +115,35 @@ public class ChequeForm {
 		try {
 			Long.parseLong(numeroCheque);
 		} catch (NumberFormatException e){
-			System.out.println("Le numéro spécifier n'est pas valide");
+			e.printStackTrace();
 		}
 		
 	}
 	
 	public void testerCheque(HttpServletRequest request){
-		datePaiement = this.getValeurChamp(request, CHAMP_DATE_PAIEMENT);
-		montantCheque = this.getValeurChamp(request, CHAMP_MONTANT_CHEQUE);
-		numeroCheque = this.getValeurChamp(request, CHAMP_NUMERO_CHEQUE);
-		dateEncaissement = this.getValeurChamp(request, CHAMP_DATE_ENCAISSEMENT);
+		datePaiement = getValeurChamp(request, CHAMP_DATE_PAIEMENT);
+		montantCheque = getValeurChamp(request, CHAMP_MONTANT_CHEQUE);
+		numeroCheque = getValeurChamp(request, CHAMP_NUMERO_CHEQUE);
+		dateEncaissement =getValeurChamp(request, CHAMP_DATE_ENCAISSEMENT);
 		
 		try{
 			validationMontant(montantCheque);
-			}catch(Exception e){
+			}catch(IllegalArgumentException e){
+				e.printStackTrace();
 				setErreur(CHAMP_MONTANT_CHEQUE, e.getMessage());
 		}
 		
 		try{
 			validationDates(datePaiement, dateEncaissement);
 		}catch (Exception e){
+			e.printStackTrace();
 			setErreur(CHAMP_DATE_PAIEMENT, e.getMessage());
 		}
 		
 		try{
 			validationNumeroCheque(numeroCheque);
 		}catch(Exception e){
+			e.printStackTrace();
 			setErreur(CHAMP_NUMERO_CHEQUE, e.getMessage());
 		}
 		
