@@ -22,7 +22,6 @@ public class ChequeForm {
 	private String montantCheque;
 	private String numeroCheque;
 	private String dateEncaissement;
-	private String resultat;
 	
 	private Map<String, String> erreurs = new HashMap<String, String>();
 
@@ -32,7 +31,6 @@ public class ChequeForm {
 		montantCheque = Form.getValeurChamp(request, CHAMP_MONTANT_CHEQUE);
 		numeroCheque = Form.getValeurChamp(request, CHAMP_NUMERO_CHEQUE);
 		dateEncaissement = Form.getValeurChamp(request, CHAMP_DATE_ENCAISSEMENT);
-		resultat = "";
 	}
 	
 	public ChequeForm(){
@@ -75,14 +73,6 @@ public class ChequeForm {
 		this.dateEncaissement = dateEncaissement;
 	}
 
-	public String getResultat() {
-		return resultat;
-	}
-
-	public void setResultat(String resultat) {
-		this.resultat = resultat;
-	}
-	
 	public Map<String, String> getErreurs(){
 		return erreurs;
 	}

@@ -15,6 +15,7 @@ import fr.gemao.ctrl.location.LocationCtrl;
 import fr.gemao.entity.materiel.ChequeLocation;
 import fr.gemao.entity.materiel.Location;
 import fr.gemao.entity.materiel.TypeLocation;
+import fr.gemao.form.cheque.ChequeForm;
 import fr.gemao.form.location.LocationForm;
 import fr.gemao.form.util.Form;
 import fr.gemao.view.JSPFile;
@@ -41,20 +42,29 @@ public class AjouterChequeLocationServlet extends HttpServlet {
 			}
 		}
 		
-		request.setAttribute("location", location);
-		request.setAttribute("cheque", cheque);
+		session.setAttribute("location", location);
+		session.setAttribute("cheque", cheque);
 		
 		this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_CHEQUE_AJOUTER).forward(request,  response);
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//ChequeForm chequeForm = new ChequeForm(request);
+		ChequeForm chequeForm = new ChequeForm(request);
 		HttpSession session = request.getSession();
 		
-		if(Form.getValeurChamp(request, "numeroCheque")!=null){
-			
-		}
+		chequeForm.testerCheque(request);
+		
+		Location location = (Location) session.getAttribute("location");
+		String datePaiement = chequeForm.getdatePaiement();
+		String montantCheque = chequeForm.getmontantCheque();
+		String numeroCheque = chequeForm.getnumeroCheque();
+		String dateEncaissement = chequeForm.getdateEncaissement();
+		
+		ChequeLocation cheque = new ChequeLocation(location, datePaiement, Float.parseFloat(montantCheque), Integer.parseInt(numeroCheque), dateEncaissement);
+		
+		session.setAttribute("cheque", cheque);
+		
 	}
 	
 }
