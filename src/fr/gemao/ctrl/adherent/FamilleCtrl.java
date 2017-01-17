@@ -41,4 +41,9 @@ public class FamilleCtrl {
 		FamilleDAO familleDAO = DAOFactory.getInstance().getFamilleDAO();
 		return familleDAO.getTableauFicheComptable(idFamille);
 	}
+	
+	public static String getTableauRecapitulatif(int idFamille){
+		FamilleDAO familleDAO = DAOFactory.getInstance().getFamilleDAO();
+		return familleDAO.getTableauRecapitulatif(idFamille);
+	}
 }

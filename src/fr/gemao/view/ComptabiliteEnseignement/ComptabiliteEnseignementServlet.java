@@ -61,7 +61,9 @@ public class ComptabiliteEnseignementServlet extends HttpServlet{
 		if(Form.getValeurChamp(request, "famille")!=null){
 			int idFamille = Integer.parseInt(Form.getValeurChamp(request, "famille"));
 			String tableauFicheComptable = FamilleCtrl.getTableauFicheComptable(idFamille);
+			String tableauRecapitulatif = FamilleCtrl.getTableauRecapitulatif(idFamille);
 			request.setAttribute("tfc", tableauFicheComptable);
+			request.setAttribute("tr", tableauRecapitulatif);
 			request.setAttribute(IDFAMILLE, idFamille);
 		}
 		this.getServletContext().getRequestDispatcher(JSPFile.COMPTABILITE_ENSEIGNEMENT).forward(request, response);

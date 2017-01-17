@@ -26,6 +26,7 @@
 		<link rel="stylesheet" type="text/css" href="<c:url value="/css/tables.css"/>" />
 		<link rel="stylesheet" type="text/css" href="<c:url value="/css/font-awesome/css/font-awesome.min.css"/>" />
 		<link rel="stylesheet" type="text/css" href="<c:url value="/css/stylesheetFicheComptable.css"/>" />
+		<link rel="stylesheet" type="text/css" href="<c:url value="/css/stylesheetTableauRecapitulatif.css"/>" />
 
 		<!-- <link rel="stylesheet" href="<c:url value="/css/buttons.css"/>"> -->
         <link rel="stylesheet" href="<c:url value="/css/cours.css"/>">
