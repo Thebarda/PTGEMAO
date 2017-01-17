@@ -1,7 +1,6 @@
 package fr.gemao.view.location;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -14,9 +13,7 @@ import javax.servlet.http.HttpSession;
 import fr.gemao.ctrl.location.LocationCtrl;
 import fr.gemao.entity.materiel.ChequeLocation;
 import fr.gemao.entity.materiel.Location;
-import fr.gemao.entity.materiel.TypeLocation;
 import fr.gemao.form.cheque.ChequeForm;
-import fr.gemao.form.location.LocationForm;
 import fr.gemao.form.util.Form;
 import fr.gemao.view.JSPFile;
 import fr.gemao.view.Pattern;
@@ -50,23 +47,37 @@ public class AjouterChequeLocationServlet extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ChequeForm chequeForm = new ChequeForm(request);
-		HttpSession session = request.getSession();
-		
-		chequeForm.testerCheque(request);
-		
-		Location location = (Location) session.getAttribute("location");
-		String datePaiement = chequeForm.getdatePaiement();
-		String montantCheque = chequeForm.getmontantCheque();
-		String numeroCheque = chequeForm.getnumeroCheque();
-		String dateEncaissement = chequeForm.getdateEncaissement();
-		
-		ChequeLocation cheque = new ChequeLocation(location, datePaiement, Float.parseFloat(montantCheque), Long.parseLong(numeroCheque), dateEncaissement);
-		
-		session.setAttribute("cheque", cheque);
-		
-		this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_CHEQUE_AJOUTER).forward(request,  response);
-		
+		if (Form.getValeurChamp(request, "montantCheque") != null) {
+			HttpSession session = request.getSession();
+			
+			Boolean validation = null;
+			
+			ChequeForm chequeForm = new ChequeForm(request);
+			
+			chequeForm.testerCheque(request);
+			
+			Location location = (Location) session.getAttribute("location");
+			String datePaiement = chequeForm.getdatePaiement();
+			String montantCheque = chequeForm.getmontantCheque();
+			String numeroCheque = chequeForm.getnumeroCheque();
+			String dateEncaissement = chequeForm.getdateEncaissement();
+			
+			ChequeLocation cheque = new ChequeLocation(location, datePaiement, Float.parseFloat(montantCheque), Long.parseLong(numeroCheque), dateEncaissement);
+			
+			String identiteLocataire = cheque.getLocation().getPersonne().getNom() + " " + cheque.getLocation().getPersonne().getPrenom();
+			
+			session.setAttribute("identiteLocataire", identiteLocataire);
+			session.setAttribute("cheque", cheque);
+			session.setAttribute("validation", validation);
+			
+			this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_CHEQUE_AJOUTER).forward(request,  response);
+		}
+		else {
+			HttpSession session = request.getSession();
+			Boolean validation = true;
+			session.setAttribute("validation", validation);
+			this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_CHEQUE_AJOUTER).forward(request,  response);
+		}
 	}
 	
 }
