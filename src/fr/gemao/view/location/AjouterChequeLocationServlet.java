@@ -65,6 +65,8 @@ public class AjouterChequeLocationServlet extends HttpServlet {
 		
 		session.setAttribute("cheque", cheque);
 		
+		this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_CHEQUE_AJOUTER).forward(request,  response);
+		
 	}
 	
 }
