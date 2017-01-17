@@ -159,7 +159,7 @@ public class LocationForm {
 	private void validationMontant(String montant) throws Exception{
 		int nb = Integer.parseInt(montant);
 		if(nb <= 0){
-			throw new Exception("Merci de préciser un montant suéprieur à 0");
+			throw new Exception("Merci de préciser un montant supérieur à 0");
 		}
 	}
 	
