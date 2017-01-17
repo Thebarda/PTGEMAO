@@ -119,7 +119,7 @@ public class LocationDAO extends IDAO<Location>{
 	}
 
 	@Override
-	protected Location map(ResultSet result) throws SQLException {
+	public Location map(ResultSet result) throws SQLException {
 		Integer idEtatFin = result.getInt("idEtatFin"),
 				idReparation = result.getInt("idReparation");
 		return new Location(
