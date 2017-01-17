@@ -63,7 +63,14 @@ autocompletionFamille("#pers");
 									<label for="adh">Personne : </label><input type="text" id="pers" name="adherent">
 									<br><br>
 									<label>Date d'emprunt : </label><input id="dateEmprunt" type="text" class="datepicker" required='required' name="debutLocation"><br><br>
-									<br><br><label>Date encaissement : </label>
+									
+							</fieldset>
+							<fieldset>
+								<legend>Chèque</legend>
+								<label>Date paiement : </label><input id="datePaiement" type="text" class="datepicker" size="10">
+								<label for="montantCheque">Montant : </label><input id="montantCheque" type="text" size="10">
+								<label for="numeroCheque">Numéro : </label><input id="numeroCheque" type="text">
+								<label>Date encaissement : </label><input id="dateEncaissement" type="text" class="datepicker" size="10">
 							</fieldset>
 						</c:otherwise>	
 						</c:choose>
