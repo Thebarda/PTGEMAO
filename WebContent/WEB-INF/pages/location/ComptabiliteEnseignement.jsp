@@ -28,8 +28,13 @@
 	</form>
 </c:when>
 <c:otherwise>
+	<h2>Tableau Fiche Comptable</h2>
 	<%= request.getAttribute("tfc") %>
+	<br><br>
+	<h2>Tableau Fiche Comptable</h2>
+	<%= request.getAttribute("tr") %>
 </c:otherwise>
 </c:choose>
 <script src="<c:url value="/js/ScriptFicheComptable.js"/>" ></script>
+<script src="<c:url value="/js/ScriptTableauRecapitulatif.js"/>" ></script>
 <c:import url="/inc/footer.inc.jsp" />

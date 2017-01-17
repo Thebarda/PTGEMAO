@@ -1,0 +1,137 @@
+.button {
+    background-color: white;
+    color: #555555;
+    border: 3px solid #555555;
+	border-radius: 10px;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+	margin: auto;
+	box-shadow: 0 6px #999;
+	outline: none;
+	cursor: pointer;
+}
+
+.button:hover {
+    background-color: #555555;
+    color: white;
+}
+
+.button:active {
+  box-shadow: 0 3px #666;
+  transform: translateY(4px);
+}
+
+.button2 {
+    background-color: white;
+    color: #555555;
+    border: 3px solid #555555;
+	border-radius: 10px;
+    text-align: center;
+    text-decoration: none;
+    transition-duration: 0.4s;
+	margin: auto;
+	outline: none;
+	cursor: pointer;
+}
+
+.button2:hover {
+    background-color: #555555;
+    color: white;
+}
+
+#navbar
+{
+	margin-bottom: 4%;
+}
+
+table
+{
+    margin: auto;
+	border-collapse: collapse;
+}
+
+td,th
+{
+	border: 1px solid black;
+}
+
+td
+{
+    width: 120px;
+	height: 22px;
+}
+
+th
+{
+	width: 150px;
+}
+
+.intitule
+{
+	background-color: #4D4B4B;
+	width: 200px;
+	color: white;
+}
+
+.intituleTotal
+{
+	background-color: #4D4B4B;
+	width: 200px;
+	color: white;
+}
+
+.sous_total
+{
+	background-color: #A6A1A0;
+	font-weight: bold;
+}
+
+.ignorer
+{
+	border: 0px;
+}
+
+.gris
+{
+	background-color: grey;
+}
+
+.supprimer
+{
+	width: 20px;
+}
+
+.supprTab
+{
+	background-color: white;
+	font-weight: bold;
+	color: red;
+	border: 2px solid red;
+	border-radius: 10px;
+    text-align: center;
+    text-decoration: none;
+    transition-duration: 0.4s;
+	margin: auto;
+	outline: none;
+	cursor: pointer;
+}
+
+.supprTab:hover {
+    background-color: red;
+    color: white;
+}
+
+.datepicker
+{
+	border-left-width: 0px;
+    border-top-width: 0px;
+    border-right-width: 0px;
+    border-bottom-width: 0px;
+    padding-bottom: 0px;
+    padding-top: 0px;
+}
