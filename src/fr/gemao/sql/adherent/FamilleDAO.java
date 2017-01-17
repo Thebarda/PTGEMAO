@@ -21,6 +21,9 @@ public class FamilleDAO extends IDAO<Famille> {
 
 	@Override
 	public Famille create(Famille obj) {
+		String tableauFicheComptable="<table><tr><td class='ignorer'></td><th class='numEleve'>Elève 1</th><th class='numEleve'>Elève 2</th><th class='numEleve'>Elève 3</th><th class='numEleve'>Elève 4</th><th class='numEleve'>Elève 5</th></tr><tr><th class='intitule'>Prénom + Nom</th><td contenteditable='true' class='nom'></td><td contenteditable='true' class='nom'></td><td contenteditable='true' class='nom'></td><td contenteditable='true' class='nom'></td><td contenteditable='true' class='nom'></td></tr><tr><th class='intitule'>QF (1, 2, 3)</th><td contenteditable='true' id='qf'></td><td contenteditable='true' id='qf'></td><td contenteditable='true' id='qf'></td><td contenteditable='true' id='qf'></td><td contenteditable='true' id='qf'></td></tr><tr><th class='intitule'>FM / inst<br>Eveil / éveil inst</th><td contenteditable='true' id='lig_0_col_0'  class='sommeMensuelle'></td><td contenteditable='true' id='lig_0_col_1' class='sommeMensuelle'></td><td contenteditable='true' id='lig_0_col_2' class='sommeMensuelle'></td><td contenteditable='true' id='lig_0_col_3' class='sommeMensuelle'></td><td contenteditable='true' id='lig_0_col_4' class='sommeMensuelle'></td></tr><tr><th class='intitule'>FM seule éveil</th><td contenteditable='true' id='lig_1_col_0' class='sommeMensuelle'></td><td contenteditable='true' id='lig_1_col_1' class='sommeMensuelle'></td><td contenteditable='true' id='lig_1_col_2' class='sommeMensuelle'></td><td contenteditable='true' id='lig_1_col_3' class='sommeMensuelle'></td><td contenteditable='true' id='lig_1_col_4' class='sommeMensuelle'></td></tr><tr><th class='intitule'>Instrument seul</th><td contenteditable='true' id='lig_2_col_0' class='sommeMensuelle'></td><td contenteditable='true' id='lig_2_col_1' class='sommeMensuelle'></td><td contenteditable='true' id='lig_2_col_2' class='sommeMensuelle'></td><td contenteditable='true' id='lig_2_col_3' class='sommeMensuelle'></td><td contenteditable='true' id='lig_2_col_4' class='sommeMensuelle'></td></tr><tr><th class='intitule'>Atelier</th><td contenteditable='true' id='lig_3_col_0' class='sommeMensuelle'></td><td contenteditable='true' id='lig_3_col_1' class='sommeMensuelle'></td><td contenteditable='true' id='lig_3_col_2' class='sommeMensuelle'></td><td contenteditable='true' id='lig_3_col_3' class='sommeMensuelle'></td><td contenteditable='true' id='lig_3_col_4' class='sommeMensuelle'></td><th class='intituleTotal'>Total mensuel</th></tr><tr><th class='intitule'>Total mensuel par élève</th><td class='sous_total' id='sommeMensuelle_0'></td><td class='sous_total' id='sommeMensuelle_1'></td><td class='sous_total' id='sommeMensuelle_2'></td><td class='sous_total' id='sommeMensuelle_3'></td><td class='sous_total' id='sommeMensuelle_4'></td><td class='total' id='totalMensuel'></td></tr><tr><th class='intitule'>Pratique collective</th><td contenteditable='true' id='lig_0_col_0' class='sommeAnnuelle'></td><td contenteditable='true' id='lig_0_col_1' class='sommeAnnuelle'></td><td contenteditable='true' id='lig_0_col_2' class='sommeAnnuelle'></td><td contenteditable='true' id='lig_0_col_3' class='sommeAnnuelle'></td><td contenteditable='true' id='lig_0_col_4' class='sommeAnnuelle'></td></tr><tr><th class='intitule'>Cotisation</th><td contenteditable='true' id='lig_1_col_0' class='sommeAnnuelle'></td>			<td contenteditable='true' id='lig_1_col_1' class='sommeAnnuelle'></td>				<td contenteditable='true' id='lig_1_col_2' class='sommeAnnuelle'></td>				<td contenteditable='true' id='lig_1_col_3' class='sommeAnnuelle'></td><td contenteditable='true' id='lig_1_col_4' class='sommeAnnuelle'></td>			</tr>			<tr>				<th class='intitule'>Membre admin</th>				<td contenteditable='true' id='lig_2_col_0' class='sommeAnnuelle'></td>				<td contenteditable='true' id='lig_2_col_1' class='sommeAnnuelle'></td>				<td contenteditable='true' id='lig_2_col_2' class='sommeAnnuelle'></td>				<td contenteditable='true' id='lig_2_col_3' class='sommeAnnuelle'></td><td contenteditable='true' id='lig_2_col_4' class='sommeAnnuelle'></td><th class='intituleTotal'>Total annuel</th></tr><tr><th class='intitule'>Total Annuel par élève</th><td class='sous_total' id='sommeAnnuelle_0'></td><td class='sous_total' id='sommeAnnuelle_1'></td><td class='sous_total' id='sommeAnnuelle_2'></td><td class='sous_total' id='sommeAnnuelle_3'></td><td class='sous_total' id='sommeAnnuelle_4'></td><td class='total' id='totalAnnuel'></td></tr><tr><th class='intitule'>Part C.E.</th><td contenteditable='true' class='ce'></td><td contenteditable='true' class='ce'></td><td contenteditable='true' class='ce'></td><td contenteditable='true' class='ce'></td><td contenteditable='true' class='ce'></td></tr><tr><td class='ignorer'></td></tr><tr><th class='intituleTotal'>Reste à la charge du client</th><td class='total' id='totalFinal'></td></tr></table>";
+		String tableauRecapitulatif="";
+		
 		if (obj == null) {
 			throw new NullPointerException("L'adhérent ne doit pas être null");
 		}
@@ -30,12 +33,12 @@ public class FamilleDAO extends IDAO<Famille> {
 		PreparedStatement requete = null;
 		ResultSet result = null;
 
-		String sql = "INSERT INTO famille (nomFamille) VALUES (?)";
+		String sql = "INSERT INTO famille (nomFamille, TableauFicheComptable, TableauRecapitulatif) VALUES (?, ?, ?)";
 
 		try {
 			connexion = factory.getConnection();
 			requete = DAOUtilitaires.initialisationRequetePreparee(connexion,
-					sql, true, obj.getNomFamille());
+					sql, true, obj.getNomFamille(), tableauFicheComptable, tableauRecapitulatif);
 
 			int status = requete.executeUpdate();
 			if (status == 0) {
@@ -159,8 +162,33 @@ public class FamilleDAO extends IDAO<Famille> {
 	@Override
 	protected Famille map(ResultSet result) throws SQLException {
 		return new Famille(result.getInt("idFamille"),
-				result.getString("nomFamille"));
+				result.getString("nomFamille"), result.getString("tableauFicheComptable"), result.getString("TableauRecapitulatif"));
 	}
 
+	public String getTableauFicheComptable(int idFamille){
+		String tableauFicheComptable="";
 
+		Famille famille = null;
+		Connection connexion = null;
+		PreparedStatement requete = null;
+		ResultSet result = null;
+		String sql = "SELECT TableauFicheComptable FROM famille WHERE idFamille = ?;";
+		try {
+
+			connexion = factory.getConnection();
+			requete = DAOUtilitaires.initialisationRequetePreparee(connexion,
+					sql, false, idFamille);
+			result = requete.executeQuery();
+
+			while (result.next()) {
+				tableauFicheComptable=result.getString("TableauFicheComptable");
+			}
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			DAOUtilitaires.fermeturesSilencieuses(result, requete, connexion);
+		}
+
+		return tableauFicheComptable;
+	}
 }

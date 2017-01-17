@@ -165,7 +165,6 @@ public class Profil implements Serializable{
 		
 		for(Droit d : listDroits){
 			if(d.getModule().getNomModule().equals(nomModule)){
-				System.out.println(d.getModule().getNomModule());
 				res = d.getType().getNomType();
 			}
 		}

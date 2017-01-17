@@ -6,7 +6,7 @@
 </div><!-- /container -->
 
 <footer>
-	<div>Gemao v1.0</div>
+	<div>Gemao v3.0</div>
 	<script src="/GEMAO/js/script.js"></script>
 <script src="/GEMAO/js/classie.js"></script>
 <script src="/GEMAO/js/mlpushmenu.js"></script>

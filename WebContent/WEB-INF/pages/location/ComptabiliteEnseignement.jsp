@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page import="fr.gemao.view.Pattern"%>
 
-<c:set var="titre" value="imprimer contrat" scope="request" />
+<c:set var="titre" value="Comptabilité enseignement" scope="request" />
 
 <c:import url="/inc/head.inc.jsp" />
 
@@ -28,7 +28,8 @@
 	</form>
 </c:when>
 <c:otherwise>
-	
+	<%= request.getAttribute("tfc") %>
 </c:otherwise>
 </c:choose>
+<script src="<c:url value="/js/ScriptFicheComptable.js"/>" ></script>
 <c:import url="/inc/footer.inc.jsp" />
