@@ -102,8 +102,8 @@ public class ChequeForm {
 	}
 	
 	private void validationMontant(String montantCheque) throws Exception{
-		int nb = Integer.parseInt(montantCheque);
-		if (nb <= 0) {
+		float nb = Float.parseFloat(montantCheque);
+		if (nb <= 0.0F) {
 			throw new Exception("Merci de préciser un montant supérieur à 0");
 		}
 	}
@@ -113,7 +113,7 @@ public class ChequeForm {
 			throw new Exception("Merci de spécifier un numéro de chèque valide");
 		}
 		try {
-			Integer.parseInt(numeroCheque);
+			Long.parseLong(numeroCheque);
 		} catch (NumberFormatException e){
 			System.out.println("Le numéro spécifier n'est pas valide");
 		}
