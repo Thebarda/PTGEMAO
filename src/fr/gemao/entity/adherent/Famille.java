@@ -4,10 +4,14 @@ public class Famille {
 
 	private Integer idFamille;
 	private String nomFamille;
+	private String tableauFicheComptable;
+	private String tableauRecapitulatif;
 
-	public Famille(Integer idFamille, String nomFamille) {
+	public Famille(Integer idFamille, String nomFamille, String tableauFicheComptable, String tableauRecapitulatif) {
 		this.idFamille = idFamille;
 		this.nomFamille = nomFamille;
+		this.tableauFicheComptable = tableauFicheComptable;
+		this.tableauRecapitulatif = tableauRecapitulatif;
 	}
 
 	/**
@@ -30,6 +34,14 @@ public class Famille {
 	 */
 	public String getNomFamille() {
 		return nomFamille;
+	}
+	
+	public String getTableauFicheComptable(){
+		return this.tableauFicheComptable;
+	}
+	
+	public String getTableauRecapitulatif(){
+		return this.tableauRecapitulatif;
 	}
 
 	/**
