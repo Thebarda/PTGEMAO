@@ -12,11 +12,11 @@ public class ChequeLocation implements Serializable {
 	private final String typeLocation;
 	private final String datePaiement;
 	private final float montantCheque;
-	private final int numCheque;
+	private final long numCheque;
 	private final String dateEncaissement;
 	
 	
-	public ChequeLocation(Location location, String datePaiement, float montantCheque, int numCheque, String dateEncaissement) {
+	public ChequeLocation(Location location, String datePaiement, float montantCheque, long numCheque, String dateEncaissement) {
 		this.location = location;
 		this.typeLocation = LocationCtrl.getTypeLocation(location);
 		this.datePaiement = datePaiement;
@@ -41,7 +41,7 @@ public class ChequeLocation implements Serializable {
 		return montantCheque;
 	}
 	
-	public int getNumCheque() {
+	public long getNumCheque() {
 		return numCheque;
 	}
 	
