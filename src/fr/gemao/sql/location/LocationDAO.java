@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.mysql.jdbc.Statement;
+
 import fr.gemao.entity.adherent.Adherent;
 import fr.gemao.entity.cours.Discipline;
 import fr.gemao.entity.materiel.Location;
@@ -29,11 +31,12 @@ public class LocationDAO extends IDAO<Location>{
 	}
 	
 
-	public boolean create(String idPersonne, String idMateriel,
+	public int create(String idPersonne, String idMateriel,
 			String etatDebut, String dateEmprunt, String dateFin, float caution, float montant, String nomContrat) {
 		Connection connexion = null;
 		PreparedStatement requete = null;
 		ResultSet result = null;
+		int status = 0;
 		String sql = "INSERT INTO location(idPersonne, idMateriel, idEtatDebut, idEtatFin, "
 				+ "idReparation, dateEmprunt,dateEcheance, dateRetour, caution, montant, nomContrat) VALUES "
 				+ "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
@@ -54,20 +57,14 @@ public class LocationDAO extends IDAO<Location>{
 					nomContrat
 			);
 
-			int status = requete.executeUpdate();
-
-			if (status == 0) {
-				throw new DAOException(
-						"Échec de la création de la location, aucune ligne ajoutée dans la table.");
-			}
-
+			status = requete.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
 		} catch (SQLException e) {
 			throw new DAOException(e);
 		} finally {
 			DAOUtilitaires.fermeturesSilencieuses(result, requete, connexion);
 		}
 
-		return true;
+		return status;
 	}
 
 	@Override

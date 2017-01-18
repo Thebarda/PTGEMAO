@@ -32,14 +32,19 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import fr.gemao.ctrl.PersonneCtrl;
+import fr.gemao.ctrl.cheque.ChequeCtrl;
 import fr.gemao.ctrl.location.LocationCtrl;
 import fr.gemao.ctrl.materiel.CategorieCtrl;
 import fr.gemao.ctrl.materiel.EtatCtrl;
 import fr.gemao.ctrl.materiel.MaterielCtrl;
 import fr.gemao.entity.Personne;
 import fr.gemao.entity.materiel.Categorie;
+import fr.gemao.entity.materiel.Cheque;
+import fr.gemao.entity.materiel.ChequeLocation;
 import fr.gemao.entity.materiel.Etat;
+import fr.gemao.entity.materiel.Location;
 import fr.gemao.entity.materiel.Materiel;
+import fr.gemao.entity.personnel.Diplome;
 import fr.gemao.entity.personnel.Personnel;
 import fr.gemao.form.location.LocationForm;
 import fr.gemao.form.util.Form;
@@ -66,6 +71,10 @@ public class locationExterneServlet extends HttpServlet {
 	private final String PARAM_MONTANT = "montant";
 	private static String CATEGORIE = "categorie";
 	private final String ATTR_AUTO_FAMILLES = "auto_familles";
+	private static final String CHAMP_DATE_PAIEMENT = "datePaiement";
+	private static final String CHAMP_MONTANT_CHEQUE = "montantCheque";
+	private static final String CHAMP_NUMERO_CHEQUE = "numeroCheque";
+	private static final String CHAMP_DATE_ENCAISSEMENT = "dateEncaissement";
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -193,66 +202,118 @@ public class locationExterneServlet extends HttpServlet {
 			}
 			
 			Map<String, String> tarifs = LocationCtrl.recupereTarifsLocation();
-			LocationCtrl.ajouterLocation(""+session.getAttribute(PARAM_ID_ADHERENT), ""+session.getAttribute(PARAM_ID_DESIGNATION), ""+session.getAttribute("etatDebut"), ""+session.getAttribute(PARAM_DATE_DEBUT), ""+session.getAttribute(PARAM_DATE_FIN), Float.parseFloat(""+tarifs.get("caution")), Float.parseFloat(""+tarifs.get("montantLocationExterne")), "contratsLocationExterne\\ContratLocationExterne"+nom+""+prenom+""+numeroLocation+".pdf");
+			int id = LocationCtrl.ajouterLocation(""+session.getAttribute(PARAM_ID_ADHERENT), ""+session.getAttribute(PARAM_ID_DESIGNATION), ""+session.getAttribute("etatDebut"), ""+session.getAttribute(PARAM_DATE_DEBUT), ""+session.getAttribute(PARAM_DATE_FIN), Float.parseFloat(""+tarifs.get("caution")), Float.parseFloat(""+tarifs.get("montantLocationExterne")), "contratsLocationExterne\\ContratLocationExterne"+nom+""+prenom+""+numeroLocation+".pdf");
 			Materiel materiel = MaterielCtrl.getMaterielById(Integer.parseInt(""+session.getAttribute(PARAM_ID_DESIGNATION)));
 			MaterielCtrl.updateEstLouable(Integer.parseInt(""+session.getAttribute(PARAM_ID_DESIGNATION)), 0);
+			
+			List<Cheque> cheques = (List<Cheque>) session.getAttribute("cheques");
+			if(!cheques.isEmpty()){
+				List<Location> locations = LocationCtrl.getAll();
+				Location location = null;
+				for(Location loc : locations){
+					if(loc.getId()==id){
+						location=loc;
+					}
+				}
+				for(Cheque c : cheques){
+					ChequeLocation chequeLocation= new ChequeLocation(location, c.getDatePaiement(), c.getMontantCheque(), c.getNumCheque(), c.getDateEncaissement());
+					ChequeCtrl.ajouterCheque(chequeLocation);
+				}
+			}
+			
 			request.setAttribute("validation", "Location enregistrée !");
 			this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_EXTERNE).forward(request, response);
 		}
 		
 		//Traitement du formulaire
 		if(Form.getValeurChamp(request, PARAM_ID_DESIGNATION)!=null){
-			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-			String personne = Form.getValeurChamp(request, PARAM_ID_ADHERENT);
-			String[] tempPers = personne.split(" ");
-			String nomPers = tempPers[0];
-			String prenomPers = tempPers[1];
-			String idPersonne = PersonneCtrl.getIdByNomAndPrenom(nomPers, prenomPers);
-			String idMateriel = Form.getValeurChamp(request, PARAM_ID_DESIGNATION);
-			session.setAttribute("PARAM_ID_DESIGNATION",Integer.parseInt(idMateriel));
-			List<Personne> personnes = PersonneCtrl.recupererToutesPersonnes();
-				List<Materiel> mats = MaterielCtrl.recupererMaterielByCategorie(Integer.parseInt(""+session.getAttribute(PARAM_ID_CATEGORIE)));
-				Materiel mat=null;
-				for(Materiel m : mats){
-					if(m.getIdMateriel()==Integer.parseInt(idMateriel)){
-						mat = m;
+			if ((!(Form.getValeurChamp(request, CHAMP_DATE_PAIEMENT)!=null))&&(!(Form.getValeurChamp(request, CHAMP_MONTANT_CHEQUE)!=null))&&(!(Form.getValeurChamp(request, CHAMP_NUMERO_CHEQUE)!=null))&&(!(Form.getValeurChamp(request, CHAMP_DATE_ENCAISSEMENT)!=null))){
+				DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+				String personne = Form.getValeurChamp(request, PARAM_ID_ADHERENT);
+				String[] tempPers = personne.split(" ");
+				String nomPers = tempPers[0];
+				String prenomPers = tempPers[1];
+				String idPersonne = PersonneCtrl.getIdByNomAndPrenom(nomPers, prenomPers);
+				String idMateriel = Form.getValeurChamp(request, PARAM_ID_DESIGNATION);
+				session.setAttribute("PARAM_ID_DESIGNATION",Integer.parseInt(idMateriel));
+				List<Personne> personnes = PersonneCtrl.recupererToutesPersonnes();
+					List<Materiel> mats = MaterielCtrl.recupererMaterielByCategorie(Integer.parseInt(""+session.getAttribute(PARAM_ID_CATEGORIE)));
+					Materiel mat=null;
+					for(Materiel m : mats){
+						if(m.getIdMateriel()==Integer.parseInt(idMateriel)){
+							mat = m;
+						}
 					}
-				}
 					
-				List confirmMat = Arrays.asList(mat.getDesignation().getLibelleDesignation(), mat.getNumSerie(), mat.getTypeMat(), mat.getDateAchat(), mat.getValeurAchat(), mat.getValeurReap(), "Oui", mat.getObservation());
-				
-				String etatDebut = ""+mat.getEtat().getIdEtat();
-				
-				String dateDebut = Form.getValeurChamp(request, PARAM_DATE_DEBUT);
-					
-				LocationForm locForm = new LocationForm();
-				String dateFin = locForm.setDateFinFormByDuree(3, dateDebut);
-					
-				String nom = null, prenom = null;
-					
-				List<Personne> pers = PersonneCtrl.recupererToutesPersonnes();
-				for(Personne per : pers){
-					if(per.getIdPersonne()==Long.parseLong(idPersonne)){
-						nom = per.getNom();
-						prenom = per.getPrenom();
+					String etatDebut = ""+mat.getEtat().getIdEtat();
+					List<Etat> etats = EtatCtrl.getListeEtat();
+					String etat = "";
+					for(Etat e : etats){
+						if(e.getIdEtat()==Integer.parseInt(etatDebut)){
+							etat = e.getLibelleEtat();
+						}
 					}
-				}
-				Map<String, String> tarifs = LocationCtrl.recupereTarifsLocation();
-				session.setAttribute("etatDebut", etatDebut);
-				session.setAttribute(PARAM_DATE_DEBUT, dateDebut);
-				session.setAttribute(PARAM_DATE_FIN, dateFin);
-				session.setAttribute(PARAM_MONTANT, tarifs.get("montantLocationExterne"));
-				session.setAttribute(PARAM_CAUTION, tarifs.get("caution"));
-				session.setAttribute(PARAM_ID_ADHERENT, idPersonne);
-				session.setAttribute(PARAM_ID_DESIGNATION, idMateriel);
+						
+					List confirmMat = Arrays.asList(mat.getDesignation().getLibelleDesignation(), mat.getNumSerie(), mat.getTypeMat(), mat.getDateAchat(), mat.getValeurAchat(), mat.getValeurReap(), "Oui", etat ,mat.getObservation());
 					
-				request.setAttribute("resultat", "yes");
-					
-				session.setAttribute("nomInstrument", confirmMat);
-				session.setAttribute("nomAdherent", prenom+" "+nom);
+					String dateDebut = Form.getValeurChamp(request, PARAM_DATE_DEBUT);
+						
+					LocationForm locForm = new LocationForm();
+					String dateFin = locForm.setDateFinFormByDuree(3, dateDebut);
+						
+					String nom = null, prenom = null;
 					
 					
+					
+					List<Cheque> cheques = new ArrayList<>();
+					String datePaiement = null;
+					String montantCheque = null;
+					String numeroCheque = null;
+					String dateEncaissement = null;
+					Cheque dip;
+					int i = 0;
+	
+					 while (datePaiement!=null){
+						datePaiement = Form.getValeurChamp(request, CHAMP_DATE_PAIEMENT + i);
+						montantCheque = Form.getValeurChamp(request, CHAMP_MONTANT_CHEQUE + i);
+						numeroCheque = Form.getValeurChamp(request, CHAMP_NUMERO_CHEQUE + i);
+						dateEncaissement = Form.getValeurChamp(request, CHAMP_DATE_ENCAISSEMENT + i);
+	
+						Cheque cheque = new Cheque(datePaiement, Float.parseFloat(montantCheque), Long.parseLong(numeroCheque), dateEncaissement);
+						cheques.add(cheque);
+						i++;
+					}
+					session.setAttribute("cheques", cheques);
+					request.setAttribute("cheques", cheques);
+					System.out.println(cheques);
+						
+					List<Personne> pers = PersonneCtrl.recupererToutesPersonnes();
+					for(Personne per : pers){
+						if(per.getIdPersonne()==Long.parseLong(idPersonne)){
+							nom = per.getNom();
+							prenom = per.getPrenom();
+						}
+					}
+					Map<String, String> tarifs = LocationCtrl.recupereTarifsLocation();
+					session.setAttribute("etatDebut", etatDebut);
+					session.setAttribute(PARAM_DATE_DEBUT, dateDebut);
+					session.setAttribute(PARAM_DATE_FIN, dateFin);
+					session.setAttribute(PARAM_MONTANT, tarifs.get("montantLocationExterne"));
+					session.setAttribute(PARAM_CAUTION, tarifs.get("caution"));
+					session.setAttribute(PARAM_ID_ADHERENT, idPersonne);
+					session.setAttribute(PARAM_ID_DESIGNATION, idMateriel);
+						
+					request.setAttribute("resultat", "yes");
+						
+					session.setAttribute("nomInstrument", confirmMat);
+					session.setAttribute("nomAdherent", prenom+" "+nom);
+						
+						
+					this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_EXTERNE).forward(request, response);
+			}else{
+				request.setAttribute("erreurCheque", "Cheques Invalides");
 				this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_EXTERNE).forward(request, response);
+			}
 		}
 		
 		//Génération du formulaire

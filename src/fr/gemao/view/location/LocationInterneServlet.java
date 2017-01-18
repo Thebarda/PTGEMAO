@@ -32,6 +32,7 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import fr.gemao.ctrl.PersonneCtrl;
 import fr.gemao.ctrl.adherent.AdherentCtrl;
+import fr.gemao.ctrl.cheque.ChequeCtrl;
 import fr.gemao.ctrl.location.LocationCtrl;
 import fr.gemao.ctrl.materiel.CategorieCtrl;
 import fr.gemao.ctrl.materiel.EtatCtrl;
@@ -39,9 +40,12 @@ import fr.gemao.ctrl.materiel.MaterielCtrl;
 import fr.gemao.entity.Personne;
 import fr.gemao.entity.adherent.Adherent;
 import fr.gemao.entity.materiel.Categorie;
+import fr.gemao.entity.materiel.ChequeLocation;
 import fr.gemao.entity.materiel.Etat;
+import fr.gemao.entity.materiel.Location;
 import fr.gemao.entity.materiel.Materiel;
 import fr.gemao.entity.personnel.Personnel;
+import fr.gemao.form.cheque.ChequeForm;
 import fr.gemao.form.location.LocationForm;
 import fr.gemao.form.util.Form;
 import fr.gemao.view.JSPFile;
@@ -67,6 +71,10 @@ public class LocationInterneServlet extends HttpServlet implements Printable {
 	private final String PARAM_MONTANT = "montant";
 	private static String CATEGORIE = "categorie";
 	private final String ATTR_AUTO_FAMILLES = "auto_familles";
+	private static final String CHAMP_DATE_PAIEMENT = "datePaiement";
+	private static final String CHAMP_MONTANT_CHEQUE = "montantCheque";
+	private static final String CHAMP_NUMERO_CHEQUE = "numeroCheque";
+	private static final String CHAMP_DATE_ENCAISSEMENT = "dateEncaissement";
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -194,9 +202,27 @@ public class LocationInterneServlet extends HttpServlet implements Printable {
 			}
 			
 			Map<String, String> tarifs = LocationCtrl.recupereTarifsLocation();
-			LocationCtrl.ajouterLocation(""+session.getAttribute(PARAM_ID_ADHERENT), ""+session.getAttribute(PARAM_ID_DESIGNATION), ""+session.getAttribute("etatDebut"), ""+session.getAttribute(PARAM_DATE_DEBUT), ""+session.getAttribute(PARAM_DATE_FIN), Float.parseFloat(""+tarifs.get("caution")), Float.parseFloat(""+tarifs.get("montantLocationInterne")), "contratsLocationInterne\\ContratLocationInterne"+nom+""+prenom+""+numeroLocation+".pdf");
+			int id = LocationCtrl.ajouterLocation(""+session.getAttribute(PARAM_ID_ADHERENT), ""+session.getAttribute(PARAM_ID_DESIGNATION), ""+session.getAttribute("etatDebut"), ""+session.getAttribute(PARAM_DATE_DEBUT), ""+session.getAttribute(PARAM_DATE_FIN), Float.parseFloat(""+tarifs.get("caution")), Float.parseFloat(""+tarifs.get("montantLocationInterne")), "contratsLocationInterne\\ContratLocationInterne"+nom+""+prenom+""+numeroLocation+".pdf");
 			Materiel materiel = MaterielCtrl.getMaterielById(Integer.parseInt(""+session.getAttribute(PARAM_ID_DESIGNATION)));
 			MaterielCtrl.updateEstLouable(Integer.parseInt(""+session.getAttribute(PARAM_ID_DESIGNATION)), 0);
+			
+			List<Location> locations = LocationCtrl.getAll();
+			Location location = null;
+			for(Location loc : locations){
+				if(loc.getId()==id){
+					location=loc;
+				}
+			}
+			
+			if((session.getAttribute(CHAMP_DATE_PAIEMENT)!=null)&&(session.getAttribute(CHAMP_MONTANT_CHEQUE)!=null)&&(session.getAttribute(CHAMP_NUMERO_CHEQUE)!=null)&&(session.getAttribute(CHAMP_DATE_ENCAISSEMENT)!=null)){
+				ChequeLocation cheque = new ChequeLocation(location, ""+session.getAttribute(CHAMP_DATE_PAIEMENT), Float.parseFloat(""+session.getAttribute(CHAMP_MONTANT_CHEQUE)), Long.parseLong(""+session.getAttribute(CHAMP_NUMERO_CHEQUE)), ""+session.getAttribute(CHAMP_DATE_ENCAISSEMENT));
+				ChequeCtrl.ajouterCheque(cheque);
+				session.removeAttribute(CHAMP_DATE_PAIEMENT);
+				session.removeAttribute(CHAMP_DATE_ENCAISSEMENT);
+				session.removeAttribute(CHAMP_MONTANT_CHEQUE);
+				session.removeAttribute(CHAMP_NUMERO_CHEQUE);
+			}
+			
 			request.setAttribute("validation", "Location enregistrée !");
 			this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_INTERNE).forward(request, response);
 		}
@@ -235,6 +261,21 @@ public class LocationInterneServlet extends HttpServlet implements Printable {
 						prenom = adh.getPrenom();
 					}
 				}
+				
+				ChequeForm chequeForm = new ChequeForm(request);
+				chequeForm.testerCheque(request);
+				
+				if(chequeForm.getErreurs().isEmpty()){
+					String datePaiement = Form.getValeurChamp(request, CHAMP_DATE_PAIEMENT);
+					String dateEncaissement = Form.getValeurChamp(request, CHAMP_DATE_ENCAISSEMENT);
+					String numCheque = Form.getValeurChamp(request, CHAMP_NUMERO_CHEQUE);
+					String montantCheque = Form.getValeurChamp(request, CHAMP_MONTANT_CHEQUE);
+					session.setAttribute(CHAMP_DATE_PAIEMENT, datePaiement);
+					session.setAttribute(CHAMP_DATE_ENCAISSEMENT, dateEncaissement);
+					session.setAttribute(CHAMP_NUMERO_CHEQUE, numCheque);
+					session.setAttribute(CHAMP_MONTANT_CHEQUE, montantCheque);
+				}
+				
 				Map<String, String> tarifs = LocationCtrl.recupereTarifsLocation();
 				session.setAttribute("etatDebut", etatDebut);
 				session.setAttribute(PARAM_DATE_DEBUT, dateDebut);
