@@ -8,6 +8,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import fr.gemao.entity.materiel.ChequeLocation;
 import fr.gemao.sql.DAOFactory;
 import fr.gemao.sql.IDAO;
@@ -64,7 +65,22 @@ public class ChequeDAO extends IDAO<ChequeLocation>{
 
 	@Override
 	public void delete(ChequeLocation obj) {
+		if (obj == null){
+			throw new NullPointerException("Le cheque ne doit pas etre null");
+		}
 		
+		Connection connexion = null;
+		PreparedStatement requete = null;
+		String sql = "DELETE FROM cheque WHERE numCheque = " + obj.getNumCheque() + ";";
+		try {
+			connexion = factory.getConnection();
+			requete = DAOUtilitaires.initialisationRequetePreparee(connexion, sql, false);
+			requete.executeQuery();
+		} catch ( SQLException e){
+			throw new DAOException(e);
+		} finally {
+			DAOUtilitaires.fermeturesSilencieuses(requete, connexion);
+		}
 	}
 
 	@Override
