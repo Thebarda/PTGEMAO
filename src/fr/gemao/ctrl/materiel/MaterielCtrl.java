@@ -200,4 +200,9 @@ public class MaterielCtrl {
 		
 		materielDAO.update(materiel);
 	}
+
+	public static void updateEtat(int id, int etatFin) {
+		MaterielDAO dao = new MaterielDAO(DAOFactory.getInstance());
+		dao.updateEtat(id, etatFin);
+	}
 }

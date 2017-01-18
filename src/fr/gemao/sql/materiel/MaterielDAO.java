@@ -322,4 +322,25 @@ public class MaterielDAO extends IDAO<Materiel> {
 		}
 	}
 
+	public void updateEtat(int id, int etatFin) {
+		Connection connexion = null;
+		PreparedStatement requete = null;
+		ResultSet result = null;
+		String sql = "UPDATE materiel SET idEtat=? WHERE idMateriel = ?;";
+		try {
+			connexion = factory.getConnection();
+			requete = DAOUtilitaires.initialisationRequetePreparee(connexion,
+					sql, false, etatFin, id);
+			int status = requete.executeUpdate();
+			if (status == 0) {
+				throw new DAOException(
+						"La mise à jour de materiel n'a pas eu lieu.");
+			}
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			DAOUtilitaires.fermeturesSilencieuses(result, requete, connexion);
+		}		
+	}
+
 }
