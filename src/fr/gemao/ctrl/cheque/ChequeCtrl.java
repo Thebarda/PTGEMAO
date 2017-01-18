@@ -45,6 +45,10 @@ public class ChequeCtrl {
 		new ChequeDAO(DAOFactory.getInstance()).create(cheque);
 	}
 	
+	public static void supprimerCheque(ChequeLocation cheque) {
+		new ChequeDAO(DAOFactory.getInstance()).delete(cheque);
+	}
+	
 	public static List<ChequeLocation> getAll() {
 		ChequeDAO cheDAO = new ChequeDAO(DAOFactory.getInstance());
 		return cheDAO.getAll();

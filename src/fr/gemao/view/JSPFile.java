@@ -59,6 +59,7 @@ public class JSPFile {
 		LOCATION_IMPRIMER = ROOT + REP_LOCATION + "imprimLocation.jsp",
 		LOCATION_CHEQUE_LISTER = ROOT + REP_LOCATION + "listerChequesLocation.jsp",
 		LOCATION_CHEQUE_AJOUTER = ROOT + REP_LOCATION + "ajouterChequeLocation.jsp",
+		LOCATION_CHEQUE_SUPPRIMER = ROOT + REP_LOCATION + "supprimerChequeLocation.jsp",
 		COMPTABILITE_ENSEIGNEMENT = ROOT + REP_LOCATION + "ComptabiliteEnseignement.jsp",
 
 		// Module matériel

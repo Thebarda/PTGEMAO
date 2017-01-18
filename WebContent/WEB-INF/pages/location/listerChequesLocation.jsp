@@ -25,6 +25,7 @@
 			<th>Montant chèque</th>
 			<th>N° du chèque</th>
 			<th>Date encaissement</th>
+			<th>Options</th>
 		</tr>
 	</thead>
 	<c:forEach items="${cheques}" var="cheque">
@@ -37,6 +38,8 @@
 			<td><c:out value="${cheque.getMontantCheque() }"></c:out></td>
 			<td><c:out value="${cheque.getNumCheque() }"></c:out></td>
 			<td><c:out value="${cheque.getDateEncaissement() }"></c:out></td>
+			<td><a href="<c:url value="<%= Pattern.LOCATION_CHEQUE_SUPPRIMER %>"/>?numCheque=<c:out value="${cheque.getNumCheque()}" />"
+					title='Supprimer cet enregistrement de cheque'><img src="<c:url value="/ressources/images/supprimer.jpg"/>" alt="Supprimer enregistrement cheque"></a></td>
 		</tr>
 	</c:forEach>
 </table>
