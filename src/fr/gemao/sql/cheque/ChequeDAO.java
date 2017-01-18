@@ -134,7 +134,7 @@ public class ChequeDAO extends IDAO<ChequeLocation>{
 		Connection connexion = null;
 		PreparedStatement requete = null;
 		ResultSet result = null;
-		String sql = "SELECT * FROM cheque c JOIN location l ON l.idLocation = c.idLocation ;";
+		String sql = "SELECT * FROM cheque c JOIN location l ON l.id_loc = c.idLocation ORDER BY c.idLocation;";
 		try {
 			
 			connexion = factory.getConnection();

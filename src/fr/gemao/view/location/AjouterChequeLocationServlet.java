@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import fr.gemao.ctrl.cheque.ChequeCtrl;
 import fr.gemao.ctrl.location.LocationCtrl;
 import fr.gemao.entity.materiel.ChequeLocation;
 import fr.gemao.entity.materiel.Location;
@@ -74,6 +75,7 @@ public class AjouterChequeLocationServlet extends HttpServlet {
 		}
 		else {
 			HttpSession session = request.getSession();
+			ChequeCtrl.ajouterCheque((ChequeLocation) session.getAttribute("cheque"));
 			Boolean validation = true;
 			session.setAttribute("validation", validation);
 			this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_CHEQUE_AJOUTER).forward(request,  response);

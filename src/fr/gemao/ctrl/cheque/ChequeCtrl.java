@@ -1,8 +1,12 @@
 package fr.gemao.ctrl.cheque;
 
+import java.util.List;
+
 import fr.gemao.entity.materiel.ChequeLocation;
+import fr.gemao.entity.materiel.Location;
 import fr.gemao.sql.DAOFactory;
 import fr.gemao.sql.cheque.ChequeDAO;
+import fr.gemao.sql.location.LocationDAO;
 
 public class ChequeCtrl {
 	
@@ -40,4 +44,11 @@ public class ChequeCtrl {
 
 		new ChequeDAO(DAOFactory.getInstance()).create(cheque);
 	}
+	
+	public static List<ChequeLocation> getAll() {
+		ChequeDAO cheDAO = new ChequeDAO(DAOFactory.getInstance());
+		return cheDAO.getAll();
+	}
+	
+	
 }
