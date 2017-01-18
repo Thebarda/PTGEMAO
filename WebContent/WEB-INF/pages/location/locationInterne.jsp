@@ -26,7 +26,7 @@ autocompletionFamille("#adh");
 	<c:choose >
 		<c:when test="${empty resultat}">
 			<form id="location" method="post" action="#">
-				<fieldset>
+				<fieldset class="ajoutCheque">
 					<legend>Instrument</legend>
 					<c:choose>
 						<c:when test="${!empty requestScope.listeCategorie}">
@@ -44,7 +44,8 @@ autocompletionFamille("#adh");
 							
 								<div><span class='text-label'>Catégorie : </span><span><%= session.getAttribute("nomCategorie") %></span></div>
 								</fieldset>
-								<fieldset>
+								
+								<fieldset class="ajoutCheque">
 								<br>
 								<label for="instrument">Instrument : </label>
 									<br>
@@ -65,13 +66,13 @@ autocompletionFamille("#adh");
 									<label for="adh">Adhérent : </label><input id="adh" type="text" name="adherent"><br><br>
 									<label>Date de la location : </label><input id="dateEmprunt" type="text" class="datepicker" required='required' name="debutLocation">
 							</fieldset>
-							<fieldset>
-								<legend>Chèque</legend>
-								<label>Date paiement : </label><input id="datePaiement" type="text" class="datepicker" size="10">
-								<label for="montantCheque">Montant : </label><input id="montantCheque" type="text" size="10">
-								<label for="numeroCheque">Numéro : </label><input id="numeroCheque" type="text">
-								<label>Date encaissement : </label><input id="dateEncaissement" type="text" class="datepicker" size="10">
-							</fieldset>
+								<fieldset class="ajoutCheque">
+									<legend>Chèque</legend>
+									<label>Date paiement : </label><input id="datePaiement" type="text" class="datepicker" size="10">
+									<label for="montantCheque">Montant : </label><input id="montantCheque" type="text" size="10">
+									<label for="numeroCheque">Numéro : </label><input id="numeroCheque" type="text">
+									<label>Date encaissement : </label><input id="dateEncaissement" type="text" class="datepicker" size="10">
+								</fieldset>
 						</c:otherwise>	
 						</c:choose>
 				<fieldset class='align-center no-border'>
