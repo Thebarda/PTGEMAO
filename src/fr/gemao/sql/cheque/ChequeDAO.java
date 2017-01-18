@@ -168,5 +168,32 @@ public class ChequeDAO extends IDAO<ChequeLocation>{
 		return chequelocation;
 	}
 
+	public List<ChequeLocation> getByMonth(String month) {
+		List<ChequeLocation> liste = new ArrayList<>();
+		
+		ChequeLocation chequelocation = null;
+		Connection connexion = null;
+		PreparedStatement requete = null;
+		ResultSet result = null;
+		String sql = "SELECT * FROM cheque c JOIN location l ON l.id_loc = c.idLocation WHERE month = (SELECT SUBSTRING(datePaiement, 4, 5)) ;";
+		
+		try {
+			
+			connexion = factory.getConnection();
+			requete = DAOUtilitaires.initialisationRequetePreparee(connexion, sql, false);
+			result = requete.executeQuery();
+			
+			while (result.next()){
+				chequelocation = this.map(result);
+				liste.add(chequelocation);
+			}
+		} catch (SQLException | ParseException e){
+			throw new DAOException(e);
+		} finally {
+			DAOUtilitaires.fermeturesSilencieuses(result, requete, connexion);
+		}
+		
+		return liste;
+	}
 	
 }
