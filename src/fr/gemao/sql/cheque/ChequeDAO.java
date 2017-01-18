@@ -184,7 +184,7 @@ public class ChequeDAO extends IDAO<ChequeLocation>{
 		return chequelocation;
 	}
 
-	public List<ChequeLocation> getByMonth(String month, String year) {
+	public List<ChequeLocation> getByMonthYear(String month, String year) {
 		List<ChequeLocation> liste = new ArrayList<>();
 		
 		ChequeLocation chequelocation = null;
