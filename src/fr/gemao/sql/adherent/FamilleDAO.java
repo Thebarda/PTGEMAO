@@ -218,4 +218,23 @@ public class FamilleDAO extends IDAO<Famille> {
 
 		return tableauRecapitulatif;
 	}
+
+	public void updateTableaux(String tfc, String recap, int idFamille) {
+		Famille famille = null;
+		Connection connexion = null;
+		PreparedStatement requete = null;
+		int result = 0;
+		String sql = "UPDATE famille SET TableauFicheComptable=?, TableauRecapitulatif=? WHERE idFamille = ?;";
+		try {
+
+			connexion = factory.getConnection();
+			requete = DAOUtilitaires.initialisationRequetePreparee(connexion,
+					sql, false, tfc, recap, idFamille);
+			result = requete.executeUpdate();
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			DAOUtilitaires.fermetureSilencieuse(connexion);
+		}
+	}
 }

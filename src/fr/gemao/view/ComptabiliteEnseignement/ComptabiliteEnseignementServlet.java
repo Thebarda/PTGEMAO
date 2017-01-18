@@ -58,6 +58,7 @@ public class ComptabiliteEnseignementServlet extends HttpServlet{
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		HttpSession session = request.getSession();
 		if(Form.getValeurChamp(request, "famille")!=null){
 			int idFamille = Integer.parseInt(Form.getValeurChamp(request, "famille"));
 			String tableauFicheComptable = FamilleCtrl.getTableauFicheComptable(idFamille);
@@ -65,9 +66,9 @@ public class ComptabiliteEnseignementServlet extends HttpServlet{
 			request.setAttribute("tfc", tableauFicheComptable);
 			request.setAttribute("tr", tableauRecapitulatif);
 			request.setAttribute(IDFAMILLE, idFamille);
+			session.setAttribute("TheFamille", idFamille);
 		}else{
-			System.out.println(Form.getValeurChamp(request, "recap"));
-			System.out.println(Form.getValeurChamp(request, "tfc"));
+			FamilleCtrl.updateTableaux(Form.getValeurChamp(request, "tfc"), Form.getValeurChamp(request, "recap"), Integer.parseInt(""+session.getAttribute("TheFamille")));
 			request.setAttribute("tableauxenregistres", "Les tableaux ont été enregistrés");
 		}
 		this.getServletContext().getRequestDispatcher(JSPFile.COMPTABILITE_ENSEIGNEMENT).forward(request, response);

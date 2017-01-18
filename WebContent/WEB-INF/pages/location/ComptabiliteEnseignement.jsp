@@ -28,7 +28,7 @@
 	</form>
 </c:when>
 <c:otherwise>
-	<p class="offset text-success"><c:out value="${tableauxenregistres }"></c:out></p>
+	<h3 id="validation" class="offset text-success"></h3>
 	<h2 class="offset">Tableau Fiche Comptable</h2>
 	<div id="tfc">
 		<%= request.getAttribute("tfc") %>
