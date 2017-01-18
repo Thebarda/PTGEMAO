@@ -10,6 +10,7 @@ import java.util.List;
 
 
 import fr.gemao.entity.materiel.ChequeLocation;
+import fr.gemao.entity.materiel.Location;
 import fr.gemao.sql.DAOFactory;
 import fr.gemao.sql.IDAO;
 import fr.gemao.sql.exception.DAOException;
@@ -174,8 +175,8 @@ public class ChequeDAO extends IDAO<ChequeLocation>{
 	protected ChequeLocation map(ResultSet result) throws SQLException, ParseException {
 		LocationDAO locationDAO = factory.getLocationDAO();
 		
-		
-		ChequeLocation chequelocation = new ChequeLocation(locationDAO.map(result),
+		//Ajouter une méthode dans LocationCtrl pour récupérer une location par son id
+		ChequeLocation chequelocation = new ChequeLocation(result.getInt("idLocation"),
 				result.getString("datePaiement"),
 				result.getFloat("montantCheque"),
 				result.getLong("numCheque"),
@@ -191,8 +192,7 @@ public class ChequeDAO extends IDAO<ChequeLocation>{
 		Connection connexion = null;
 		PreparedStatement requete = null;
 		ResultSet result = null;
-		String sql = "SELECT * FROM cheque c JOIN location l ON l.id_loc = c.idLocation WHERE month = (SELECT SUBSTRING(datePaiement, 4, 5))"
-				+ " AND year = (SELECT SUBSTRING(datePaiement, 7, 10)) ;";
+		String sql = "SELECT * FROM cheque WHERE (SELECT SUBSTRING(datePaiement, 4, 2)) = ? AND (SELECT SUBSTRING(datePaiement, 7, 4)) = ? ;";
 		
 		try {
 			

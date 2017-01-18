@@ -2,6 +2,7 @@ package fr.gemao.ctrl.cheque;
 
 import java.util.List;
 
+import fr.gemao.ctrl.location.LocationCtrl;
 import fr.gemao.entity.materiel.ChequeLocation;
 import fr.gemao.entity.materiel.Location;
 import fr.gemao.sql.DAOFactory;
@@ -52,6 +53,11 @@ public class ChequeCtrl {
 	public static List<ChequeLocation> getAll() {
 		ChequeDAO cheDAO = new ChequeDAO(DAOFactory.getInstance());
 		return cheDAO.getAll();
+	}
+	
+	public static List<ChequeLocation> getByMonthYear(String month, String year) {
+		ChequeDAO cheDAO = new ChequeDAO(DAOFactory.getInstance());
+		return cheDAO.getByMonthYear(month, year);
 	}
 	
 	
