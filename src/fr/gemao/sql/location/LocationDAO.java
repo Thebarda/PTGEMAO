@@ -31,7 +31,7 @@ public class LocationDAO extends IDAO<Location>{
 	}
 	
 
-	public int create(String idPersonne, String idMateriel,
+	public void create(String idPersonne, String idMateriel,
 			String etatDebut, String dateEmprunt, String dateFin, float caution, float montant, String nomContrat) {
 		Connection connexion = null;
 		PreparedStatement requete = null;
@@ -54,17 +54,14 @@ public class LocationDAO extends IDAO<Location>{
 					null,
 					caution,
 					montant,
-					nomContrat
-			);
+					nomContrat);
 
-			status = requete.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
+			status = requete.executeUpdate();
 		} catch (SQLException e) {
 			throw new DAOException(e);
 		} finally {
 			DAOUtilitaires.fermeturesSilencieuses(result, requete, connexion);
 		}
-
-		return status;
 	}
 
 	@Override
@@ -210,7 +207,7 @@ public class LocationDAO extends IDAO<Location>{
 
 	public String getTypeLocation(int idPersonne) {
 		Location location = null;
-		String type = "";
+		String type = "Interne";
 		Connection connexion = null;
 		PreparedStatement requete = null;
 		ResultSet result = null;
@@ -220,10 +217,8 @@ public class LocationDAO extends IDAO<Location>{
 			requete = DAOUtilitaires.initialisationRequetePreparee(connexion,
 					sql, false, idPersonne);
 			result = requete.executeQuery();
-			if(!result.next()){
+			while(result.next()){
 				type="Externe";
-			}else{
-				type="Interne";
 			}
 		} catch (SQLException e1) {
 			throw new DAOException(e1);
@@ -298,5 +293,28 @@ public class LocationDAO extends IDAO<Location>{
 			e.printStackTrace();
 		}
 		return res;
+	}
+
+
+	public int getIdLastInserted() {
+		int id=-1;
+		Connection connexion = null;
+		PreparedStatement requete = null;
+		ResultSet result = null;
+		String sql = "SELECT MAX(id_loc) as id FROM location;";
+		try {
+			connexion = factory.getConnection();
+			requete = DAOUtilitaires.initialisationRequetePreparee(connexion,
+					sql, false);
+			result = requete.executeQuery();
+			while(result.next()){
+				id=result.getInt("id");
+			}
+		} catch (SQLException e1) {
+			throw new DAOException(e1);
+		} finally {
+			DAOUtilitaires.fermeturesSilencieuses(result, requete, connexion);
+		}
+		return id;
 	}
 }

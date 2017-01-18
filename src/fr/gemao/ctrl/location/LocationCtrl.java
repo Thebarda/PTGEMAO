@@ -47,7 +47,7 @@ public class LocationCtrl {
 	 * @param montant
 	 *            le montant de l'emprunt
 	 */
-	public static int ajouterLocation(String idPersonne, String idMateriel,
+	public static void ajouterLocation(String idPersonne, String idMateriel,
 			String etatDebut, String dateEmprunt, String dateFin, float caution, float montant, String nomContrat) {
 		if (idPersonne == null) {
 			throw new NullPointerException("L'adherent ne peut etre null");
@@ -74,7 +74,7 @@ public class LocationCtrl {
 			throw new IllegalArgumentException(
 					"Le nom du contrat ne doit pas etre null");
 		}
-		return new LocationDAO(DAOFactory.getInstance()).create(idPersonne, idMateriel,
+		new LocationDAO(DAOFactory.getInstance()).create(idPersonne, idMateriel,
 				etatDebut, dateEmprunt, dateFin, caution, montant, nomContrat);
 	}
 	
@@ -188,5 +188,11 @@ public class LocationCtrl {
 	public static String getNomContratById(int id){
 		LocationDAO locDAO = new LocationDAO(DAOFactory.getInstance());
 		return locDAO.getNomContratById(id);
+	}
+
+
+	public static int getIdLastInserted() {
+		LocationDAO dao = new LocationDAO(DAOFactory.getInstance());
+		return dao.getIdLastInserted();
 	}
 }

@@ -176,7 +176,8 @@ public class ChequeDAO extends IDAO<ChequeLocation>{
 		LocationDAO locationDAO = factory.getLocationDAO();
 		
 		//Ajouter une méthode dans LocationCtrl pour récupérer une location par son id
-		ChequeLocation chequelocation = new ChequeLocation(result.getInt("idLocation"),
+		//OU Creer une classe métier qui comprend uniquement l'id
+		ChequeLocation chequelocation = new ChequeLocation(locationDAO.map(result),
 				result.getString("datePaiement"),
 				result.getFloat("montantCheque"),
 				result.getLong("numCheque"),

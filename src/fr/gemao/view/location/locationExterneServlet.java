@@ -202,9 +202,11 @@ public class locationExterneServlet extends HttpServlet {
 			}
 			
 			Map<String, String> tarifs = LocationCtrl.recupereTarifsLocation();
-			int id = LocationCtrl.ajouterLocation(""+session.getAttribute(PARAM_ID_ADHERENT), ""+session.getAttribute(PARAM_ID_DESIGNATION), ""+session.getAttribute("etatDebut"), ""+session.getAttribute(PARAM_DATE_DEBUT), ""+session.getAttribute(PARAM_DATE_FIN), Float.parseFloat(""+tarifs.get("caution")), Float.parseFloat(""+tarifs.get("montantLocationExterne")), "contratsLocationExterne\\ContratLocationExterne"+nom+""+prenom+""+numeroLocation+".pdf");
+			LocationCtrl.ajouterLocation(""+session.getAttribute(PARAM_ID_ADHERENT), ""+session.getAttribute(PARAM_ID_DESIGNATION), ""+session.getAttribute("etatDebut"), ""+session.getAttribute(PARAM_DATE_DEBUT), ""+session.getAttribute(PARAM_DATE_FIN), Float.parseFloat(""+tarifs.get("caution")), Float.parseFloat(""+tarifs.get("montantLocationExterne")), "contratsLocationExterne\\ContratLocationExterne"+nom+""+prenom+""+numeroLocation+".pdf");
 			Materiel materiel = MaterielCtrl.getMaterielById(Integer.parseInt(""+session.getAttribute(PARAM_ID_DESIGNATION)));
 			MaterielCtrl.updateEstLouable(Integer.parseInt(""+session.getAttribute(PARAM_ID_DESIGNATION)), 0);
+			
+			int id = LocationCtrl.getIdLastInserted();
 			
 			List<Cheque> cheques = (List<Cheque>) session.getAttribute("cheques");
 			if(!cheques.isEmpty()){
