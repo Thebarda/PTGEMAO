@@ -70,7 +70,7 @@ autocompletionFamille("#adh");
 									<legend>Chèque</legend>
 									<label>Date paiement : </label><input id="datePaiement" type="text" class="datepicker" size="10">
 									<label for="montantCheque">Montant : </label><input id="montantCheque" type="text" size="10">
-									<label for="numeroCheque">Numéro : </label><input id="numeroCheque" type="text">
+									<label for="numeroCheque">Numéro chèque: </label><input id="numeroCheque" type="text">
 									<label>Date encaissement : </label><input id="dateEncaissement" type="text" class="datepicker" size="10">
 								</fieldset>
 						</c:otherwise>	

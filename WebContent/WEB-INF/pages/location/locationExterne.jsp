@@ -26,7 +26,7 @@ autocompletionFamille("#pers");
 	<c:choose >
 		<c:when test="${empty resultat}">
 			<form id="location" method="post" action="#">
-				<fieldset>
+				<fieldset class="ajoutCheque">
 					<legend>Instrument</legend>
 					<c:choose>
 						<c:when test="${!empty requestScope.listeCategorie}">
@@ -44,7 +44,7 @@ autocompletionFamille("#pers");
 							
 								<div><span class='text-label'>Catégorie : </span><span><%= session.getAttribute("nomCategorie") %></span></div>
 								</fieldset>
-								<fieldset>
+								<fieldset class="ajoutCheque">
 								<br>
 								<label for="instrument">Instrument : </label><br>
 									<table class="tablesorter-blue  pure-table">
@@ -65,12 +65,22 @@ autocompletionFamille("#pers");
 									<label>Date d'emprunt : </label><input id="dateEmprunt" type="text" class="datepicker" required='required' name="debutLocation"><br><br>
 									
 							</fieldset>
-							<fieldset>
-								<legend>Chèque</legend>
-								<label>Date paiement : </label><input id="datePaiement" type="text" class="datepicker" size="10">
-								<label for="montantCheque">Montant : </label><input id="montantCheque" type="text" size="10">
-								<label for="numeroCheque">Numéro : </label><input id="numeroCheque" type="text">
-								<label>Date encaissement : </label><input id="dateEncaissement" type="text" class="datepicker" size="10">
+							<fieldset class="ajoutCheque">
+								<legend>Chèque(s)</legend>
+								<label>Date paiement : </label><input id="datePaiement1" type="text" class="datepicker" size="10">
+								<label for="montantCheque1">Montant : </label><input id="montantCheque1" type="text" size="10">
+								<label for="numeroCheque1">Numéro chèque: </label><input id="numeroCheque1" type="text">
+								<label>Date encaissement : </label><input id="dateEncaissement1" type="text" class="datepicker" size="10">
+								<br>
+								<label>Date paiement : </label><input id="datePaiement2" type="text" class="datepicker" size="10">
+								<label for="montantCheque2">Montant : </label><input id="montantCheque2" type="text" size="10">
+								<label for="numeroCheque2">Numéro chèque: </label><input id="numeroCheque2" type="text">
+								<label>Date encaissement : </label><input id="dateEncaissement2" type="text" class="datepicker" size="10">
+								<br>
+								<label>Date paiement : </label><input id="datePaiement3" type="text" class="datepicker" size="10">
+								<label for="montantCheque3">Montant : </label><input id="montantCheque3" type="text" size="10">
+								<label for="numeroCheque3">Numéro chèque: </label><input id="numeroCheque3" type="text">
+								<label>Date encaissement : </label><input id="dateEncaissement3" type="text" class="datepicker" size="10">
 							</fieldset>
 						</c:otherwise>	
 						</c:choose>
