@@ -7,11 +7,43 @@
 	var nbLigne = 1;
 
 	// DatePicker
+	$.datepicker.regional['fr'] = {
+		closeText: 'Fermer',
+		prevText: 'Précédent',
+		nextText: 'Suivant',
+		currentText: 'Aujourd\'hui',
+		monthNames: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
+		monthNamesShort: ['Janv.','Févr.','Mars','Avril','Mai','Juin','Juil.','Août','Sept.','Oct.','Nov.','Déc.'],
+		dayNames: ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
+		dayNamesShort: ['Dim.','Lun.','Mar.','Mer.','Jeu.','Ven.','Sam.'],
+		dayNamesMin: ['D','L','M','M','J','V','S'],
+		weekHeader: 'Sem.',
+		dateFormat: 'dd/mm/yy',
+		firstDay: 1,
+		isRTL: false,
+		showMonthAfterYear: false,
+		yearSuffix: ''};
+	$.datepicker.setDefaults($.datepicker.regional['fr']);
+	
 	$(document).ready(function(){
-		$( ".datepicker" ).datepicker();
+		$('[id*="datepicker_"]').datepicker({
+			showOn: 'button',
+			buttonText: 'Show Date',
+			buttonImageOnly: true,
+			buttonImage: 'http://jqueryui.com/resources/demos/datepicker/images/calendar.gif'
+		});
 	});
 	
-	
+	$(document).on("click", '[id*="date_"]',function() {
+		num_lig = $(this).closest("tr").attr("data")-1;
+		$('[id*="datepicker_'+num_lig+'"]').datepicker('show');
+	});
+		
+	$(document).on("change", '[id*="datepicker_"]',function(){
+		num_lig = $(this).closest("tr").attr("data")-1;
+		var date = $(this).val();
+		$("#date_"+num_lig).text(date);
+	});
 
 	// Totaux par mois (par ligne)
 	$(document).on("keyup", "tr",function() {
@@ -52,7 +84,6 @@
 		$('[id*="paiement_"]').each(function(){
 			var valeurAttendue = $('[id="total_'+num_lig+'"]');
 			var valeurSaisie = $('[id*="paiement_'+num_lig+'"]');
-			console.log("Total = " + valeurAttendue.text() + ", Payé : " + valeurSaisie.text());
 			if(valeurSaisie.text() == valeurAttendue.text()){
 				document.getElementById("paiement_"+num_lig).style.backgroundColor = 'lightgreen';
 			}
@@ -81,12 +112,17 @@
 			   .append($('<td id="total_'+ligne+'" class="sous_total"></td>'))
 			   .append($('<td contenteditable="true"></td>'))
 			   .append($('<td contenteditable="true" class="sommePayee" id="paiement_'+ligne+'"></td>'))
-			   .append($('<td><input type="text" class="datepicker"></td>'))
+			   .append($('<td><span id="date_'+ligne+'">--/--/----</span><input type="hidden" id="datepicker_'+ligne+'"></td>'))
 			   .append($('<td contenteditable="true"></td>'))
 			   .append($('<td class="supprimer ignorer"><button type="button" class="supprTab">X</button></td>'))
 			   .append($('</tr>'));
 			   
-			row.find('input').datepicker();
+			row.find('input').datepicker({
+				showOn: 'button',
+				buttonText: 'Show Date',
+				buttonImageOnly: true,
+				buttonImage: 'http://jqueryui.com/resources/demos/datepicker/images/calendar.gif'
+			});
 	 
 			$("#tableau tbody").append(row);
 			nbLigne += 1;
