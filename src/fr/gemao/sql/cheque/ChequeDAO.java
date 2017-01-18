@@ -184,19 +184,20 @@ public class ChequeDAO extends IDAO<ChequeLocation>{
 		return chequelocation;
 	}
 
-	public List<ChequeLocation> getByMonth(String month) {
+	public List<ChequeLocation> getByMonth(String month, String year) {
 		List<ChequeLocation> liste = new ArrayList<>();
 		
 		ChequeLocation chequelocation = null;
 		Connection connexion = null;
 		PreparedStatement requete = null;
 		ResultSet result = null;
-		String sql = "SELECT * FROM cheque c JOIN location l ON l.id_loc = c.idLocation WHERE month = (SELECT SUBSTRING(datePaiement, 4, 5)) ;";
+		String sql = "SELECT * FROM cheque c JOIN location l ON l.id_loc = c.idLocation WHERE month = (SELECT SUBSTRING(datePaiement, 4, 5))"
+				+ " AND year = (SELECT SUBSTRING(datePaiement, 7, 10)) ;";
 		
 		try {
 			
 			connexion = factory.getConnection();
-			requete = DAOUtilitaires.initialisationRequetePreparee(connexion, sql, false);
+			requete = DAOUtilitaires.initialisationRequetePreparee(connexion, sql, false, month, year);
 			result = requete.executeQuery();
 			
 			while (result.next()){
