@@ -71,11 +71,11 @@ public class ChequeDAO extends IDAO<ChequeLocation>{
 		
 		Connection connexion = null;
 		PreparedStatement requete = null;
-		String sql = "DELETE FROM cheque WHERE numCheque = " + obj.getNumCheque() + ";";
+		String sql = "DELETE FROM cheque WHERE numCheque = ?;";
 		try {
 			connexion = factory.getConnection();
-			requete = DAOUtilitaires.initialisationRequetePreparee(connexion, sql, false);
-			requete.executeQuery();
+			requete = DAOUtilitaires.initialisationRequetePreparee(connexion, sql, false, obj.getNumCheque());
+			requete.executeUpdate();
 		} catch ( SQLException e){
 			throw new DAOException(e);
 		} finally {
