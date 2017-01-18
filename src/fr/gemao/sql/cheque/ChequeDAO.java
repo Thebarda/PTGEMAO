@@ -29,9 +29,7 @@ public class ChequeDAO extends IDAO<ChequeLocation>{
 		Connection connexion = null;
 		PreparedStatement requete = null;
 		ResultSet result = null;
-		String sql = "INSERT INTO contratlocation(idLocation, typeLocation, idLocataire, idMateriel, datePaiement,"
-				+ "montantCheque, numCheque, dateEncaissement) "
-				+ "VALUES (?,?,?,?,?,?,?,?);";
+		String sql = "INSERT INTO cheque(idLocation, typeLocation, idLocataire, idMateriel, datePaiement, montantCheque, numCheque, dateEncaissement) VALUES (?,?,?,?,?,?,?,?);";
 		
 		int idLocation = 0;
 		Long idLocataire = null;
@@ -47,17 +45,13 @@ public class ChequeDAO extends IDAO<ChequeLocation>{
 				idMateriel = obj.getLocation().getMateriel().getIdMateriel();
 			}
 			connexion = factory.getConnection();
-			requete = DAOUtilitaires.initialisationRequetePreparee(connexion,
-					sql, false,idLocation, obj.getTypeLocation(), idLocataire, idMateriel,
-					obj.getDatePaiement(), obj.getMontantCheque(),
-					obj.getNumCheque(), obj.getDateEncaissement());
+			requete = DAOUtilitaires.initialisationRequetePreparee(connexion, sql, false,idLocation, obj.getTypeLocation(), idLocataire, idMateriel, obj.getDatePaiement(), obj.getMontantCheque(), obj.getNumCheque(), obj.getDateEncaissement());
 			
 			int status = requete.executeUpdate();
 			
 			if(status == 0){
 				throw new DAOException(
-						"Echec de la création de l'adhérent, aucune ligne ajoutée"
-						+ " dans la table.");
+						"Echec de la création de l'adhérent, aucune ligne ajoutée dans la table.");
 			}
 		} catch (SQLException e){
 			throw new DAOException(e);
@@ -82,11 +76,7 @@ public class ChequeDAO extends IDAO<ChequeLocation>{
 		Connection connexion = null;
 		PreparedStatement requete = null;
 		ResultSet result = null;
-		String sql = "UPDATE contratlocation SET idLocation = ?, typeLocation = ?,"
-				+ " idLocataire = ?, idMateriel = ?, datePaiement = ?,"
-				+ "montantCheque = ?, numCheque = ?, dateEncaissement = ?"
-				+ "WHERE idLocation = ?;";
-		
+		String sql = "UPDATE cheque SET idLocation = ?, typeLocation = ?, idLocataire = ?, idMateriel = ?, datePaiement = ?, montantCheque = ?, numCheque = ?, dateEncaissement = ? WHERE idLocation = ?;";
 		int idLocation = 0;
 		Long idLocataire = null;
 		Long idMateriel = null;
@@ -101,10 +91,7 @@ public class ChequeDAO extends IDAO<ChequeLocation>{
 				idMateriel = obj.getLocation().getMateriel().getIdMateriel();
 			}
 			connexion = factory.getConnection();
-			requete = DAOUtilitaires.initialisationRequetePreparee(connexion,
-					sql, false,idLocation, obj.getTypeLocation(), idLocataire, idMateriel,
-					obj.getDatePaiement(), obj.getMontantCheque(),
-					obj.getNumCheque(), obj.getDateEncaissement());
+			requete = DAOUtilitaires.initialisationRequetePreparee(connexion, sql, false,idLocation, obj.getTypeLocation(), idLocataire, idMateriel, obj.getDatePaiement(), obj.getMontantCheque(), obj.getNumCheque(), obj.getDateEncaissement());
 			
 			requete.executeUpdate();
 		} catch (SQLException e){
@@ -117,17 +104,15 @@ public class ChequeDAO extends IDAO<ChequeLocation>{
 	}
 
 	@Override
-	public ChequeLocation get(long id) {
+	public ChequeLocation get(long numCheque) {
 		ChequeLocation chequelocation = null;
 		Connection connexion = null;
 		PreparedStatement requete = null;
 		ResultSet result = null;
-		String sql = "SELECT * FROM contratlocation cl "
-				+ "JOIN location l ON cl.idLocation = l.idLocation "
-				+ "WHERE idLocation = ?;";
+		String sql = "SELECT * FROM cheque WHERE numCheque = ?;";
 		try{
 			connexion = factory.getConnection();
-			requete = DAOUtilitaires.initialisationRequetePreparee(connexion, sql, false, id);
+			requete = DAOUtilitaires.initialisationRequetePreparee(connexion, sql, false, numCheque);
 			result = requete.executeQuery();
 			
 			if(result.first()){
@@ -149,8 +134,7 @@ public class ChequeDAO extends IDAO<ChequeLocation>{
 		Connection connexion = null;
 		PreparedStatement requete = null;
 		ResultSet result = null;
-		String sql = "SELECT * FROM contratlocation cl "
-				+ "JOIN location l ON l.idLocation = cl.idLocation ;";
+		String sql = "SELECT * FROM cheque c JOIN location l ON l.id_loc = c.idLocation ORDER BY c.idLocation;";
 		try {
 			
 			connexion = factory.getConnection();
