@@ -28,13 +28,20 @@
 	</form>
 </c:when>
 <c:otherwise>
-	<h2>Tableau Fiche Comptable</h2>
-	<%= request.getAttribute("tfc") %>
+	<p class="offset text-success"><c:out value="${tableauxenregistres }"></c:out></p>
+	<h2 class="offset">Tableau Fiche Comptable</h2>
+	<div id="tfc">
+		<%= request.getAttribute("tfc") %>
+	</div>
 	<br><br>
-	<h2>Tableau Fiche Comptable</h2>
-	<%= request.getAttribute("tr") %>
+	<h2 class="offset">Tableau Fiche Comptable</h2>
+	<div id="recap">
+		<%= request.getAttribute("tr") %>
+	</div>
+	<button id="enregistrer" class="offset">Enregistrer les tableaux</button>
 </c:otherwise>
 </c:choose>
 <script src="<c:url value="/js/ScriptFicheComptable.js"/>" ></script>
 <script src="<c:url value="/js/ScriptTableauRecapitulatif.js"/>" ></script>
+<script src="<c:url value="/js/enregistrerTableaux.js"/>" ></script>
 <c:import url="/inc/footer.inc.jsp" />

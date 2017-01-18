@@ -65,6 +65,10 @@ public class ComptabiliteEnseignementServlet extends HttpServlet{
 			request.setAttribute("tfc", tableauFicheComptable);
 			request.setAttribute("tr", tableauRecapitulatif);
 			request.setAttribute(IDFAMILLE, idFamille);
+		}else{
+			System.out.println(Form.getValeurChamp(request, "recap"));
+			System.out.println(Form.getValeurChamp(request, "tfc"));
+			request.setAttribute("tableauxenregistres", "Les tableaux ont été enregistrés");
 		}
 		this.getServletContext().getRequestDispatcher(JSPFile.COMPTABILITE_ENSEIGNEMENT).forward(request, response);
 	}
