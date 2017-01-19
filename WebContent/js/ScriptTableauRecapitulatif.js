@@ -3,7 +3,7 @@
 ////////////////////////////////////////////////
 
 	// Variable
-	var ligne = 11;
+	var ligne = 12;
 	var nbLigne = 1;
 
 	// DatePicker
@@ -35,19 +35,19 @@
 	});
 	
 	$(document).on("click", '[id*="date_"]',function() {
-		num_lig = $(this).closest("tr").attr("data")-1;
+		num_lig = $(this).closest("tr").attr("data");
 		$('[id*="datepicker_'+num_lig+'"]').datepicker('show');
 	});
 		
 	$(document).on("change", '[id*="datepicker_"]',function(){
-		num_lig = $(this).closest("tr").attr("data")-1;
+		num_lig = $(this).closest("tr").attr("data");
 		var date = $(this).val();
 		$("#date_"+num_lig).text(date);
 	});
 
 	// Totaux par mois (par ligne)
 	$(document).on("keyup", "tr",function() {
-		var num_lig = $(this).attr("data")-1;
+		var num_lig = $(this).attr("data");
 		var total = 0;
 		$('[id*="lig_'+num_lig+'"][class="tableauRecap"]').each(function() {
 			var val = $(this).text();
@@ -59,7 +59,7 @@
 	});
 
 	// Total restant à payer
-	$(document).on("keyup", "tr", function(){
+	$(document).on("keyup click", "tr", function(){
 		var sommeAPayer = 0;
 		var sommePayee = 0;
 		$('[id*="total_"').each(function(){    
@@ -80,7 +80,7 @@
 
 	// Contrôle paiement mensuel
 	$(document).on("keyup", "tr", function() {
-		var num_lig = $(this).attr("data")-1;
+		var num_lig = $(this).attr("data");
 		$('[id*="paiement_"]').each(function(){
 			var valeurAttendue = $('[id="total_'+num_lig+'"]');
 			var valeurSaisie = $('[id*="paiement_'+num_lig+'"]');
@@ -101,7 +101,7 @@
 	// Ajout de ligne
 	$(document).ready(function(){		
 		$("#ajoutTab").click( function () {      
-			var row = $('<tr id="ajoutLigne_'+nbLigne+'" data="'+(ligne+1)+'">');
+			var row = $('<tr id="ajoutLigne_'+nbLigne+'" data="'+ligne+'">');
 
 			row.append($('<td contenteditable="true" class="intitule"></td>'))
 			   .append($('<td contenteditable="true" id="lig_'+ligne+'_col_0" class="tableauRecap"></td>'))
