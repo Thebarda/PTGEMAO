@@ -72,7 +72,7 @@ public class ListerChequesLocationServlet extends HttpServlet {
 			
 			cheques = ChequeCtrl.getByMonthYear(month, year);
 			
-			session.setAttribute("chequesParMoisAnnee", cheques);
+			request.setAttribute("chequesParMoisAnnee", cheques);
 			
 			this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_CHEQUE_LISTER).forward(request,  response);
 		}

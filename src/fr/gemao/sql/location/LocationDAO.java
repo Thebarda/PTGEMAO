@@ -15,6 +15,7 @@ import java.util.List;
 import com.mysql.jdbc.Statement;
 
 import fr.gemao.entity.adherent.Adherent;
+import fr.gemao.entity.cours.Cours;
 import fr.gemao.entity.cours.Discipline;
 import fr.gemao.entity.materiel.Location;
 import fr.gemao.entity.materiel.Materiel;
@@ -316,5 +317,27 @@ public class LocationDAO extends IDAO<Location>{
 			DAOUtilitaires.fermeturesSilencieuses(result, requete, connexion);
 		}
 		return id;
+	}
+	
+	public Location getLocationById(int id) {
+		Location location = null;
+		Connection connexion = null;
+		PreparedStatement requete = null;
+		ResultSet result = null;
+		String sql = "SELECT * FROM location WHERE id_loc = ?;";
+		try {
+			connexion = factory.getConnection();
+			requete = DAOUtilitaires.initialisationRequetePreparee(connexion, sql, false, id);
+			result = requete.executeQuery();
+
+			if (result.first()) {
+				location = this.map(result);
+			}
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			DAOUtilitaires.fermeturesSilencieuses(result, requete, connexion);
+		}
+		return location;
 	}
 }

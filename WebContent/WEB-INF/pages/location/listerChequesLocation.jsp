@@ -14,22 +14,26 @@
 
 <h1>Liste des chèques</h1>
 
-<form method="post" action="#" id="formDate" class="offset">	
-	Choisir le mois et l'année : 
-	<select name="month" required='required'>
-		<option></option>
-		<c:forEach items="${lesMois}" var="mois">
-			<option value="${mois}"><c:out value="${mois}"></c:out></option>
-		</c:forEach>
-	</select>
-	<select name="year" required='required'>
-		<option></option>
-		<c:forEach items="${lesAnnees}" var="annee">
-			<option value="${annee}"><c:out value="${annee}"></c:out></option>
-		</c:forEach>
-	</select>
-	<input type="submit" class="btn" value="Trier" />
-</form>
+<c:choose>
+	<c:when test="${empty chequesParMoisAnnee}">
+		<form method="post" action="#" id="formDate" class="offset">	
+			Choisir le mois et l'année : 
+			<select name="month" required='required'>
+				<option></option>
+				<c:forEach items="${lesMois}" var="mois">
+					<option value="${mois}"><c:out value="${mois}"></c:out></option>
+				</c:forEach>
+			</select>
+			<select name="year" required='required'>
+				<option></option>
+				<c:forEach items="${lesAnnees}" var="annee">
+					<option value="${annee}"><c:out value="${annee}"></c:out></option>
+				</c:forEach>
+			</select>
+			<input type="submit" class="btn" value="Trier" />
+		</form>
+	</c:when>
+</c:choose>
 
 <br>
 
@@ -65,7 +69,10 @@
 			</c:forEach>
 		</c:when>
 		<c:otherwise>
-			<p>test</p>
+			<div class="offset">
+				<a href="<c:url value="<%= Pattern.LOCATION_CHEQUE_LISTER %>"/>">Retour</a>
+			</div>
+			<br>
 			<c:forEach items="${chequesParMoisAnnee}" var="cheque">
 				<tr>
 					<td><c:out value="${cheque.getLocation().getId() }"></c:out></td>

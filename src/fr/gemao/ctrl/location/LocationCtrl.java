@@ -195,4 +195,10 @@ public class LocationCtrl {
 		LocationDAO dao = new LocationDAO(DAOFactory.getInstance());
 		return dao.getIdLastInserted();
 	}
+	
+	public static Location getLocationById(int id) {
+		LocationDAO dao = new LocationDAO(DAOFactory.getInstance());
+		return dao.getLocationById(id);
+	}
+	
 }

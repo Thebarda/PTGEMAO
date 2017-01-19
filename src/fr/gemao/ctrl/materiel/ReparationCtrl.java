@@ -44,7 +44,7 @@ public class ReparationCtrl {
 
 	}
 
-	public Reparation recupererReparation(int idReparation) {
+	public static Reparation recupererReparation(int idReparation) {
 		if (idReparation <= 0) {
 			throw new IllegalArgumentException("id invalide");
 		}

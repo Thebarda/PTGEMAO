@@ -8,7 +8,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import fr.gemao.ctrl.location.LocationCtrl;
 import fr.gemao.entity.materiel.ChequeLocation;
 import fr.gemao.entity.materiel.Location;
 import fr.gemao.sql.DAOFactory;
@@ -177,7 +177,7 @@ public class ChequeDAO extends IDAO<ChequeLocation>{
 		
 		//Ajouter une méthode dans LocationCtrl pour récupérer une location par son id
 		//OU Creer une classe métier qui comprend uniquement l'id
-		ChequeLocation chequelocation = new ChequeLocation(locationDAO.map(result),
+		ChequeLocation chequelocation = new ChequeLocation(LocationCtrl.getLocationById(result.getInt("idLocation")),
 				result.getString("datePaiement"),
 				result.getFloat("montantCheque"),
 				result.getLong("numCheque"),
@@ -193,7 +193,7 @@ public class ChequeDAO extends IDAO<ChequeLocation>{
 		Connection connexion = null;
 		PreparedStatement requete = null;
 		ResultSet result = null;
-		String sql = "SELECT * FROM cheque WHERE (SELECT SUBSTRING(datePaiement, 4, 2)) = ? AND (SELECT SUBSTRING(datePaiement, 7, 4)) = ? ;";
+		String sql = "SELECT * FROM cheque WHERE (SELECT SUBSTRING(datePaiement, 4, 2)) = ? AND (SELECT SUBSTRING(datePaiement, 7, 4)) = ?";
 		
 		try {
 			
