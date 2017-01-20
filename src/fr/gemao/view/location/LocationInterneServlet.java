@@ -257,6 +257,11 @@ public class LocationInterneServlet extends HttpServlet implements Printable {
 					String etatDebut = ""+mat.getEtat().getIdEtat();
 						
 					String dateDebut = Form.getValeurChamp(request, PARAM_DATE_DEBUT);
+					
+					String[] tmp = dateDebut.split("/");
+					tmp[0].replaceAll("^0", "");
+					tmp[1].replaceAll("^0", "");
+					dateDebut=tmp[0]+"/"+tmp[1]+"/"+tmp[2];
 						
 					String nom = null, prenom = null;
 						
@@ -295,7 +300,7 @@ public class LocationInterneServlet extends HttpServlet implements Printable {
 					
 					this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_INTERNE).forward(request, response);
 			}else{
-				request.setAttribute("erreurCheque", "Cheques Invalides");
+				request.setAttribute("erreurCheque", "Cheque Invalide !<br> Veuillez à ce que la date de paiement soit inférieure à la date d'encaissement<br> Veuillez vérifier que le montant soit strictement supérieur à zéro<br> Veuillez vérifier que le numéro fasse exactement 11 caractères");
 				this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_EXTERNE).forward(request, response);
 			}
 		}

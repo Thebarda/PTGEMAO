@@ -61,6 +61,10 @@ header .icon, header .icon:hover{
 	margin-right: 18%;
 }
 
+#tripleOffset{
+	margin-left: 41%;
+}
+
 .required::after{
 	content: '*';
 }

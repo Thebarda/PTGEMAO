@@ -76,10 +76,13 @@ autocompletionFamille("#pers");
 											<label for="montantCheque1">Montant : </label><input id="montantCheque1" type="text" size="10" name="montantCheque">
 											<label for="numeroCheque1">Numéro chèque (11 caractères) : </label><input id="numeroCheque1" type="text" name="numeroCheque">
 											<label>Date encaissement : </label><input id="dateEncaissement1" type="text" class="datepicker" size="10" name="dateEncaissement">
+											<br><br>
 										</div>
 									</div>
-									<input class="btn" type="button" value="+" id="ajoutCheque"/>
-									<input class="btn" type="button" value="-" id="retireCheque"/>
+									<div id="tripleOffset">
+										<input class="btn" type="button" value="+" id="ajoutCheque"/>
+										<input class="btn" type="button" value="-" id="retireCheque"/>
+									</div>
 								</fieldset>
 							</c:otherwise>	
 							</c:choose>
@@ -148,8 +151,10 @@ autocompletionFamille("#pers");
 	</c:choose>
 </c:when>
 <c:otherwise>
-	<h3 class="offset"><%=request.getAttribute("erreurCheque") %></h3>
+	<h3 class="offset text-danger"><%=request.getAttribute("erreurCheque") %></h3>
+	<a class="offset btn" href="<c:url value="<%= Pattern.LOCATION_LOCATION_EXTERNE %>"/>">Retour</a>
 </c:otherwise>
 </c:choose>
 <script src="<c:url value="/js/AjouterCheque.js"/>"></script>
+<script src="<c:url value="/js/ScriptTableauRecapitulatif.js"/>"></script>
 <c:import url="/inc/footer.inc.jsp" />

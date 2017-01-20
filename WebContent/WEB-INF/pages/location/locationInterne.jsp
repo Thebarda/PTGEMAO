@@ -128,7 +128,8 @@ autocompletionFamille("#adh");
 	</c:choose>
 </c:when>
 <c:otherwise>
-	<h3 class="offset"><%=request.getAttribute("erreurCheque") %></h3>
+	<h3 class="offset text-danger"><%=request.getAttribute("erreurCheque") %></h3>
+	<a class="offset btn" href="<c:url value="<%= Pattern.ACCUEIL %>"/>">Retour</a>
 </c:otherwise>
 </c:choose>
 	

@@ -262,6 +262,10 @@ public class locationExterneServlet extends HttpServlet {
 					List confirmMat = Arrays.asList(mat.getDesignation().getLibelleDesignation(), mat.getNumSerie(), mat.getTypeMat(), mat.getDateAchat(), mat.getValeurAchat(), mat.getValeurReap(), "Oui", etat ,mat.getObservation());
 					
 					String dateDebut = Form.getValeurChamp(request, PARAM_DATE_DEBUT);
+					String[] tmp = dateDebut.split("/");
+					tmp[0].replaceAll("^0", "");
+					tmp[1].replaceAll("^0", "");
+					dateDebut=tmp[0]+"/"+tmp[1]+"/"+tmp[2];
 						
 					LocationForm locForm = new LocationForm();
 					String dateFin = locForm.setDateFinFormByDuree(3, dateDebut);
@@ -282,7 +286,6 @@ public class locationExterneServlet extends HttpServlet {
 					
 					session.setAttribute("cheques", cheques);
 					request.setAttribute("cheques", cheques);
-					System.out.println(cheques);
 						
 					List<Personne> pers = PersonneCtrl.recupererToutesPersonnes();
 					for(Personne per : pers){
@@ -308,7 +311,7 @@ public class locationExterneServlet extends HttpServlet {
 						
 					this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_EXTERNE).forward(request, response);
 			}else{
-				request.setAttribute("erreurCheque", "Cheques Invalides");
+				request.setAttribute("erreurCheque", "Cheque(s) Invalide(s) !<br> Veuillez à ce que les dates de paiement soient inférieur aux dates d'encaissement<br> Veuillez vérifier que les montants soient strictement supérieurs à zéro<br> Veuillez vérifier que les numéros fasse exactement 11 caractères");
 				this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_EXTERNE).forward(request, response);
 			}
 		}
