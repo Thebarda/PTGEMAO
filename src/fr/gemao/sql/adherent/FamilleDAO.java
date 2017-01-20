@@ -225,7 +225,6 @@ public class FamilleDAO extends IDAO<Famille> {
 		int result = 0;
 		String sql = "UPDATE famille SET TableauFicheComptable=?, TableauRecapitulatif=? WHERE idFamille = ?;";
 		try {
-
 			connexion = factory.getConnection();
 			requete = DAOUtilitaires.initialisationRequetePreparee(connexion,
 					sql, false, tfc, recap, idFamille);

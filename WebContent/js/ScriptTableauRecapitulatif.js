@@ -78,7 +78,7 @@
 		$("#totalRestant").text(sommeAPayer);
 	});
 
-	// Contrôle paiement mensuel
+	// Contrôle paiement mensuel (Somme à payer = Somme payée)
 	$(document).on("keyup", "tr", function() {
 		var num_lig = $(this).attr("data");
 		$('[id*="paiement_"]').each(function(){
