@@ -46,6 +46,7 @@ import fr.gemao.entity.materiel.Location;
 import fr.gemao.entity.materiel.Materiel;
 import fr.gemao.entity.personnel.Diplome;
 import fr.gemao.entity.personnel.Personnel;
+import fr.gemao.form.cheque.ChequeForm;
 import fr.gemao.form.location.LocationForm;
 import fr.gemao.form.util.Form;
 import fr.gemao.view.JSPFile;
@@ -229,7 +230,9 @@ public class locationExterneServlet extends HttpServlet {
 		
 		//Traitement du formulaire
 		if(Form.getValeurChamp(request, PARAM_ID_DESIGNATION)!=null){
-			if ((!(Form.getValeurChamp(request, CHAMP_DATE_PAIEMENT)!=null))&&(!(Form.getValeurChamp(request, CHAMP_MONTANT_CHEQUE)!=null))&&(!(Form.getValeurChamp(request, CHAMP_NUMERO_CHEQUE)!=null))&&(!(Form.getValeurChamp(request, CHAMP_DATE_ENCAISSEMENT)!=null))){
+			ChequeForm chequeForm = new ChequeForm();
+			chequeForm.testerCheques(request);
+			if (chequeForm.getErreurs().isEmpty()){
 				DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 				String personne = Form.getValeurChamp(request, PARAM_ID_ADHERENT);
 				String[] tempPers = personne.split(" ");
@@ -268,23 +271,15 @@ public class locationExterneServlet extends HttpServlet {
 					
 					
 					List<Cheque> cheques = new ArrayList<>();
-					String datePaiement = null;
-					String montantCheque = null;
-					String numeroCheque = null;
-					String dateEncaissement = null;
-					Cheque dip;
-					int i = 0;
-	
-					 while (datePaiement!=null){
-						datePaiement = Form.getValeurChamp(request, CHAMP_DATE_PAIEMENT + i);
-						montantCheque = Form.getValeurChamp(request, CHAMP_MONTANT_CHEQUE + i);
-						numeroCheque = Form.getValeurChamp(request, CHAMP_NUMERO_CHEQUE + i);
-						dateEncaissement = Form.getValeurChamp(request, CHAMP_DATE_ENCAISSEMENT + i);
-	
-						Cheque cheque = new Cheque(datePaiement, Float.parseFloat(montantCheque), Long.parseLong(numeroCheque), dateEncaissement);
-						cheques.add(cheque);
-						i++;
+					String[] datesPaiement = request.getParameterValues("datePaiement");
+					String[] montantsPaiement = request.getParameterValues("montantCheque");
+					String[] numerosPaiement = request.getParameterValues("numeroCheque");
+					String[] datesEncaissement = request.getParameterValues("dateEncaissement");
+					
+					for(int i=0;i<datesPaiement.length;i++){
+						cheques.add(new Cheque(datesPaiement[i], Float.parseFloat(montantsPaiement[i]), Long.parseLong(numerosPaiement[i]), datesEncaissement[i]));
 					}
+					
 					session.setAttribute("cheques", cheques);
 					request.setAttribute("cheques", cheques);
 					System.out.println(cheques);

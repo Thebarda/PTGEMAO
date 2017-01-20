@@ -14,8 +14,6 @@
 
 <h1>Liste des chèques</h1>
 
-<c:choose>
-	<c:when test="${empty chequesParMoisAnnee}">
 		<form method="post" action="#" id="formDate" class="offset">	
 			Choisir le mois et l'année : 
 			<select name="month" required='required'>
@@ -32,8 +30,6 @@
 			</select>
 			<input type="submit" class="btn" value="Trier" />
 		</form>
-	</c:when>
-</c:choose>
 
 <br>
 
@@ -69,9 +65,8 @@
 			</c:forEach>
 		</c:when>
 		<c:otherwise>
-			<div class="offset">
-				<a href="<c:url value="<%= Pattern.LOCATION_CHEQUE_LISTER %>"/>">Retour</a>
-			</div>
+			<button class="offset btn" href="<c:url value="<%= Pattern.LOCATION_CHEQUE_LISTER %>"/>">Lister tous les chèques</button>
+			<br>
 			<br>
 			<c:forEach items="${chequesParMoisAnnee}" var="cheque">
 				<tr>

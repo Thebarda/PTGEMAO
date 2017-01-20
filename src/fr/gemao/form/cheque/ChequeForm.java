@@ -148,6 +148,36 @@ public class ChequeForm {
 		}
 		
 	}
+
+	public void testerCheques(HttpServletRequest request) {
+		String[] datesPaiement = request.getParameterValues("datePaiement");
+		String[] montantsPaiement = request.getParameterValues("montantCheque");
+		String[] numerosPaiement = request.getParameterValues("numeroCheque");
+		String[] datesEncaissement = request.getParameterValues("dateEncaissement");
+		
+		for(int i=0;i<datesPaiement.length;i++){
+			try{
+				validationMontant(montantsPaiement[i]);
+				}catch(IllegalArgumentException e){
+					e.printStackTrace();
+					setErreur(CHAMP_MONTANT_CHEQUE, e.getMessage());
+			}
+			
+			try{
+				validationDates(datesPaiement[i], datesEncaissement[i]);
+			}catch (Exception e){
+				e.printStackTrace();
+				setErreur(CHAMP_DATE_PAIEMENT, e.getMessage());
+			}
+			
+			try{
+				validationNumeroCheque(numerosPaiement[i]);
+			}catch(Exception e){
+				e.printStackTrace();
+				setErreur(CHAMP_NUMERO_CHEQUE, e.getMessage());
+			}
+		}
+	}
 	
 	
 }

@@ -74,7 +74,7 @@ autocompletionFamille("#pers");
 										<div id="chequeBase">
 											<label>Date paiement : </label><input id="datePaiement1" type="text" class="datepicker" size="10" name="datePaiement">
 											<label for="montantCheque1">Montant : </label><input id="montantCheque1" type="text" size="10" name="montantCheque">
-											<label for="numeroCheque1">Numéro chèque: </label><input id="numeroCheque1" type="text" name="numeroCheque">
+											<label for="numeroCheque1">Numéro chèque (11 caractères) : </label><input id="numeroCheque1" type="text" name="numeroCheque">
 											<label>Date encaissement : </label><input id="dateEncaissement1" type="text" class="datepicker" size="10" name="dateEncaissement">
 										</div>
 									</div>
@@ -113,18 +113,23 @@ autocompletionFamille("#pers");
 						<label>Caution : </label><span id="laCaution"><%= session.getAttribute("caution") %> euros</span><br>
 						<label>Imprimer : </label><input type="radio" name="imprimer" value="Oui" checked> Oui
 	  											  <input type="radio" name="imprimer" value="Non"> Non<br>
-	  					<table>
+	  											  
+	  					<table class="tablesorter-blue  pure-table">
+	  					<thead>
 	  						<tr>
 	  							<th>Date paiement</th>
 	  							<th>Montant du chèque</th>
 	  							<th>Numéro de chèque</th>
 	  							<th>Date d'encaissement</th>
 	  						</tr>
+	  					</thead>
 	  						<c:forEach items="${cheques }" var="cheque">
-	  							<td><c:out value="${cheque.getDatePaiement() }"></c:out></td>
-	  							<td><c:out value="${cheque.getMontantCheque() }"></c:out></td>
-	  							<td><c:out value="${cheque.getNumCheque() }"></c:out></td>
-	  							<td><c:out value="${cheque.getDateEncaissement() }"></c:out></td>
+	  							<tr>
+		  							<td><c:out value="${cheque.getDatePaiement() }"></c:out></td>
+		  							<td><c:out value="${cheque.getMontantCheque() }"></c:out></td>
+		  							<td><c:out value="${cheque.getNumCheque() }"></c:out></td>
+		  							<td><c:out value="${cheque.getDateEncaissement() }"></c:out></td>
+	  							</tr>
 	  						</c:forEach>
 	  					</table>
 					</fieldset>
