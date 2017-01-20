@@ -65,7 +65,7 @@
 			</c:forEach>
 		</c:when>
 		<c:otherwise>
-			<button class="offset btn" href="<c:url value="<%= Pattern.LOCATION_CHEQUE_LISTER %>"/>">Lister tous les chèques</button>
+			<a class="offset btn" href="<c:url value="<%= Pattern.LOCATION_CHEQUE_LISTER %>"/>"/>Lister tous les chèques</a>
 			<br>
 			<br>
 			<c:forEach items="${chequesParMoisAnnee}" var="cheque">
