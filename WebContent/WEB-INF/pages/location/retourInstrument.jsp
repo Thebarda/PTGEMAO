@@ -78,7 +78,7 @@
 </c:when>
 	<c:otherwise>
 		<p class="offset text-success"><%= request.getAttribute("validation") %></p><br>
-		<a class="offset btn" href="<c:url value="<%= Pattern.ACCUEIL %>"/>">Retour</a>
+		<a class="offset btn" href="<c:url value="<%= Pattern.LOCATION_LISTER %>"/>">Retour à lister location </a>
 	</c:otherwise>
 </c:choose>
 <c:import url="/inc/footer.inc.jsp" />
