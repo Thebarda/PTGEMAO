@@ -219,7 +219,7 @@ public class locationExterneServlet extends HttpServlet {
 					}
 				}
 				for(Cheque c : cheques){
-					ChequeLocation chequeLocation= new ChequeLocation(location, c.getDatePaiement(), c.getMontantCheque(), c.getNumCheque(), c.getDateEncaissement());
+					ChequeLocation chequeLocation= new ChequeLocation(location, c.getDatePaiement(), c.getMontantCheque(), c.getNumCheque(), c.getDateEncaissement(), null);
 					ChequeCtrl.ajouterCheque(chequeLocation);
 				}
 			}

@@ -181,7 +181,8 @@ public class ChequeDAO extends IDAO<ChequeLocation>{
 				result.getString("datePaiement"),
 				result.getFloat("montantCheque"),
 				result.getLong("numCheque"),
-				result.getString("dateEncaissement"));
+				result.getString("dateEncaissement"),
+				result.getString("dateEncaissementEffective"));
 		
 		return chequelocation;
 	}
@@ -212,6 +213,49 @@ public class ChequeDAO extends IDAO<ChequeLocation>{
 		}
 		
 		return liste;
+	}
+
+	public ChequeLocation getByNumCheque(long idCheque) {
+		ChequeLocation chequelocation = null;
+		Connection connexion = null;
+		PreparedStatement requete = null;
+		ResultSet result = null;
+		String sql = "SELECT * FROM cheque WHERE numCheque = ? ;";
+		
+		try {
+			
+			connexion = factory.getConnection();
+			requete = DAOUtilitaires.initialisationRequetePreparee(connexion, sql, false, idCheque);
+			result = requete.executeQuery();
+			
+			while (result.next()){
+				chequelocation = this.map(result);
+			}
+		} catch (SQLException | ParseException e){
+			throw new DAOException(e);
+		} finally {
+			DAOUtilitaires.fermeturesSilencieuses(result, requete, connexion);
+		}
+		
+		return chequelocation;
+	}
+
+	public void addDEEByNumCheque(String dEE, long numCheque) {
+		Connection connexion = null;
+		PreparedStatement requete = null;
+		int result = 0;
+		String sql = "UPDATE cheque SET dateEncaissementEffective = ? WHERE numCheque = ? ;";
+		
+		try {
+			
+			connexion = factory.getConnection();
+			requete = DAOUtilitaires.initialisationRequetePreparee(connexion, sql, false, dEE, numCheque);
+			result = requete.executeUpdate();
+		} catch (SQLException e){
+			throw new DAOException(e);
+		} finally {
+			DAOUtilitaires.fermeturesSilencieuses(requete, connexion);
+		}
 	}
 	
 }

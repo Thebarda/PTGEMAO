@@ -43,7 +43,8 @@
 			<th>Date paiement</th>
 			<th>Montant chèque</th>
 			<th>N° du chèque</th>
-			<th>Date encaissement</th>
+			<th>Date encaissement prévu</th>
+			<th>Date encaissement effective</th>
 			<th>Options</th>
 		</tr>
 	</thead>
@@ -59,8 +60,12 @@
 					<td><c:out value="${cheque.getMontantCheque() }"></c:out></td>
 					<td><c:out value="${cheque.getNumCheque() }"></c:out></td>
 					<td><c:out value="${cheque.getDateEncaissement() }"></c:out></td>
+					<td><c:out value="${cheque.getDateEncaissementEffective() }"></c:out></td>
 					<td><a href="<c:url value="<%= Pattern.LOCATION_CHEQUE_SUPPRIMER %>"/>?numCheque=<c:out value="${cheque.getNumCheque()}" />"
-							title='Supprimer cet enregistrement de cheque'><img src="<c:url value="/ressources/images/supprimer.jpg"/>" alt="Supprimer enregistrement cheque"></a></td>
+							title='Supprimer cet enregistrement de cheque'><img src="<c:url value="/ressources/images/supprimer.jpg"/>" alt="Supprimer enregistrement cheque"></a>
+							<c:if test="${empty cheque.getDateEncaissementEffective()}"><a href="<c:url value="<%= Pattern.LOCATION_CHEQUE_DEE %>"/>?id=<c:out value="${cheque.getNumCheque()}" />"
+					title='Enregistrer une date encaissement effective'><img src="<c:url value="/ressources/images/cheque.jpg"/>" alt="Enregistrer Date Encaissement Effective"></a></c:if>
+							</td>
 				</tr>
 			</c:forEach>
 		</c:when>
@@ -78,8 +83,12 @@
 					<td><c:out value="${cheque.getMontantCheque() }"></c:out></td>
 					<td><c:out value="${cheque.getNumCheque() }"></c:out></td>
 					<td><c:out value="${cheque.getDateEncaissement() }"></c:out></td>
+					<td><c:out value="${cheque.getDateEncaissementEffective() }"></c:out></td>
 					<td><a href="<c:url value="<%= Pattern.LOCATION_CHEQUE_SUPPRIMER %>"/>?numCheque=<c:out value="${cheque.getNumCheque()}" />"
-							title='Supprimer cet enregistrement de cheque'><img src="<c:url value="/ressources/images/supprimer.jpg"/>" alt="Supprimer enregistrement cheque"></a></td>
+							title='Supprimer cet enregistrement de cheque'><img src="<c:url value="/ressources/images/supprimer.jpg"/>" alt="Supprimer enregistrement cheque"></a>
+							<c:if test="${empty cheque.getDateEncaissementEffective()}"><a href="<c:url value="<%= Pattern.LOCATION_CHEQUE_DEE %>"/>?id=<c:out value="${cheque.getNumCheque()}" />"
+					title='Enregistrer une date encaissement effective'><img src="<c:url value="/ressources/images/cheque.jpg"/>" alt="Enregistrer Date Encaissement Effective"></a></c:if>
+							</td>
 				</tr>
 			</c:forEach>
 		</c:otherwise>

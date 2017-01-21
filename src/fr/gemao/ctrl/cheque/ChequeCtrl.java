@@ -59,6 +59,16 @@ public class ChequeCtrl {
 		ChequeDAO cheDAO = new ChequeDAO(DAOFactory.getInstance());
 		return cheDAO.getByMonthYear(month, year);
 	}
+
+	public static ChequeLocation getByNumCheque(long idCheque) {
+		ChequeDAO cheDAO = new ChequeDAO(DAOFactory.getInstance());
+		return cheDAO.getByNumCheque(idCheque);
+	}
+
+	public static void addDEEByNumCheque(String dEE, long numCheque) {
+		ChequeDAO cheDAO = new ChequeDAO(DAOFactory.getInstance());
+		cheDAO.addDEEByNumCheque(dEE, numCheque);
+	}
 	
 	
 }

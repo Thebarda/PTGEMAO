@@ -14,17 +14,23 @@ public class ChequeLocation implements Serializable {
 	private final float montantCheque;
 	private final long numCheque;
 	private final String dateEncaissement;
+	private final String dateEncaissementEffective;
 	
 	
-	public ChequeLocation(Location location, String datePaiement, float montantCheque, long numCheque, String dateEncaissement) {
+	public ChequeLocation(Location location, String datePaiement, float montantCheque, long numCheque, String dateEncaissement, String dateEncaissementEffective) {
 		this.location = location;
 		this.typeLocation = LocationCtrl.getTypeLocation(location);
 		this.datePaiement = datePaiement;
 		this.montantCheque = montantCheque;
 		this.numCheque = numCheque;
 		this.dateEncaissement = dateEncaissement;
+		this.dateEncaissementEffective = dateEncaissementEffective;
 	}
 	
+	public String getDateEncaissementEffective() {
+		return dateEncaissementEffective;
+	}
+
 	public Location getLocation() {
 		return location;
 	}

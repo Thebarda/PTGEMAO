@@ -63,7 +63,7 @@ public class AjouterChequeLocationServlet extends HttpServlet {
 			String numeroCheque = chequeForm.getnumeroCheque();
 			String dateEncaissement = chequeForm.getdateEncaissement();
 			
-			ChequeLocation cheque = new ChequeLocation(location, datePaiement, Float.parseFloat(montantCheque), Long.parseLong(numeroCheque), dateEncaissement);
+			ChequeLocation cheque = new ChequeLocation(location, datePaiement, Float.parseFloat(montantCheque), Long.parseLong(numeroCheque), dateEncaissement, null);
 			
 			String identiteLocataire = cheque.getLocation().getPersonne().getNom() + " " + cheque.getLocation().getPersonne().getPrenom();
 			

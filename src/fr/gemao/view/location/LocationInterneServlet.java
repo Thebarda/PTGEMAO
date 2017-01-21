@@ -217,7 +217,7 @@ public class LocationInterneServlet extends HttpServlet implements Printable {
 			}
 			
 			if((session.getAttribute(CHAMP_DATE_PAIEMENT)!=null)&&(session.getAttribute(CHAMP_MONTANT_CHEQUE)!=null)&&(session.getAttribute(CHAMP_NUMERO_CHEQUE)!=null)&&(session.getAttribute(CHAMP_DATE_ENCAISSEMENT)!=null)){
-				ChequeLocation cheque = new ChequeLocation(location, ""+session.getAttribute(CHAMP_DATE_PAIEMENT), Float.parseFloat(""+session.getAttribute(CHAMP_MONTANT_CHEQUE)), Long.parseLong(""+session.getAttribute(CHAMP_NUMERO_CHEQUE)), ""+session.getAttribute(CHAMP_DATE_ENCAISSEMENT));
+				ChequeLocation cheque = new ChequeLocation(location, ""+session.getAttribute(CHAMP_DATE_PAIEMENT), Float.parseFloat(""+session.getAttribute(CHAMP_MONTANT_CHEQUE)), Long.parseLong(""+session.getAttribute(CHAMP_NUMERO_CHEQUE)), ""+session.getAttribute(CHAMP_DATE_ENCAISSEMENT), null);
 				ChequeCtrl.ajouterCheque(cheque);
 				session.removeAttribute(CHAMP_DATE_PAIEMENT);
 				session.removeAttribute(CHAMP_DATE_ENCAISSEMENT);
