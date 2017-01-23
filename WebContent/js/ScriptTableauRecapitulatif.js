@@ -2,10 +2,6 @@
 // Tableau récapitulatif paiement par famille //
 ////////////////////////////////////////////////
 
-	// Variable
-	var ligne = 12;
-	var nbLigne = 1;
-
 	// DatePicker
 	$.datepicker.regional['fr'] = {
 		closeText: 'Fermer',
@@ -100,7 +96,9 @@
 	
 	// Ajout de ligne
 	$(document).ready(function(){		
-		$("#ajoutTab").click( function () {      
+		$("#ajoutTab").click( function () {
+			var ligne = parseInt($("tbody tr:last-child").attr("data"))+parseInt(1);
+			var nbLigne = ligne-11;
 			var row = $('<tr id="ajoutLigne_'+nbLigne+'" data="'+ligne+'">');
 
 			row.append($('<td contenteditable="true" class="intitule"></td>'))
@@ -125,8 +123,6 @@
 			});
 	 
 			$("#tableau tbody").append(row);
-			nbLigne += 1;
-			ligne += 1;
 		});
 	});
 	
