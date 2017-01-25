@@ -49,10 +49,9 @@ public class RetourInstrumentServlet extends HttpServlet {
 					location = l;
 				}
 			}
-			TypeLocation typeLocation = new TypeLocation(location);
 			List<Etat> etats = EtatCtrl.getListeEtat();
 			
-			String typeLoc = typeLocation.getTypeLocation();
+			String typeLoc = location.getType();
 			String categorie = location.getMateriel().getCategorie().getLibelleCat();
 			String designation = location.getMateriel().getDesignation().getLibelleDesignation();
 			String etat = location.getEtatDebut().getLibelleEtat();

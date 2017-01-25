@@ -53,10 +53,6 @@ public class ListerLocationServlet extends HttpServlet{
 			String vide = "La liste des locations est vide";
 			request.setAttribute("vide", vide);
 		}else{
-			List<TypeLocation> typeLocations = new ArrayList<>();
-			for(Location loc : locations){
-				typeLocations.add(new TypeLocation(loc));
-			}
 			
 			//Liste locations triées pas date d'emprunt
 			List<Integer> annee = new ArrayList<>();
@@ -68,7 +64,7 @@ public class ListerLocationServlet extends HttpServlet{
 				year--;
 			}
 			session.setAttribute("date", annee);
-			request.setAttribute("typeLocations", typeLocations);
+			request.setAttribute("typeLocations", locations);
 		}
 		
 		
@@ -110,11 +106,7 @@ public class ListerLocationServlet extends HttpServlet{
 			String vide = "La liste des locations est vide";
 			request.setAttribute("vide", vide);
 		}else{
-			List<TypeLocation> typeLocations = new ArrayList<>();
-			for(Location loc : locations){
-				typeLocations.add(new TypeLocation(loc));
-			}
-			request.setAttribute("typeLocations", typeLocations);
+			request.setAttribute("typeLocations", locations);
 		}
 		this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_LISTER).forward(request, response);
 	}

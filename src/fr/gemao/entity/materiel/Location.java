@@ -53,6 +53,8 @@ public class Location implements Serializable, Comparable<Location>{
 
 	/** The nom du contrat. */
 	private String nomContrat;
+	
+	private String type;
 
 	@Override
 	public int hashCode() {
@@ -105,7 +107,7 @@ public class Location implements Serializable, Comparable<Location>{
 	 */
 	public Location(int id, Personne personne, Materiel materiel, Etat etatDebut,
 			Etat etatFin, String dateEmprunt, String dateRetour, String dateEcheance, int caution,
-			float montant, Reparation reparation, String nomContrat) {
+			float montant, Reparation reparation, String nomContrat, String type) {
 		this.id = id;
 		this.personne = personne;
 		this.materiel = materiel;
@@ -118,8 +120,21 @@ public class Location implements Serializable, Comparable<Location>{
 		this.caution = caution;
 		this.reparation = reparation;
 		this.nomContrat = nomContrat;
+		this.type=type;
 	}
 	
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public void setCaution(int caution) {
+		this.caution = caution;
+	}
+
 	/**
 	 * Gets the montant.
 	 *

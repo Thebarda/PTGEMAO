@@ -53,7 +53,7 @@
 			<c:forEach items="${cheques}" var="cheque">
 				<tr>
 					<td><c:out value="${cheque.getLocation().getId() }"></c:out></td>
-					<td><c:out value="${cheque.getTypeLocation() }"></c:out></td>
+					<td><c:out value="${cheque.getLocation().getType() }"></c:out></td>
 					<td><c:out value="${cheque.getLocation().getPersonne().getNom()}"></c:out></td>
 					<td><c:out value="${cheque.getLocation().getMateriel().getNumSerie() }"></c:out></td>
 					<td><c:out value="${cheque.getDatePaiement() }"></c:out></td>

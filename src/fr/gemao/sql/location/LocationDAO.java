@@ -33,14 +33,14 @@ public class LocationDAO extends IDAO<Location>{
 	
 
 	public void create(String idPersonne, String idMateriel,
-			String etatDebut, String dateEmprunt, String dateFin, float caution, float montant, String nomContrat) {
+			String etatDebut, String dateEmprunt, String dateFin, float caution, float montant, String nomContrat, String type) {
 		Connection connexion = null;
 		PreparedStatement requete = null;
 		ResultSet result = null;
 		int status = 0;
 		String sql = "INSERT INTO location(idPersonne, idMateriel, idEtatDebut, idEtatFin, "
-				+ "idReparation, dateEmprunt,dateEcheance, dateRetour, caution, montant, nomContrat) VALUES "
-				+ "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+				+ "idReparation, dateEmprunt,dateEcheance, dateRetour, caution, montant, nomContrat, TypeLocation) VALUES "
+				+ "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 		try {
 			connexion = factory.getConnection();
 			requete = DAOUtilitaires.initialisationRequetePreparee(connexion,
@@ -55,7 +55,7 @@ public class LocationDAO extends IDAO<Location>{
 					null,
 					caution,
 					montant,
-					nomContrat);
+					nomContrat, type);
 
 			status = requete.executeUpdate();
 		} catch (SQLException e) {
@@ -129,7 +129,7 @@ public class LocationDAO extends IDAO<Location>{
 				result.getInt("caution"),
 				result.getFloat("montant"),
 				idReparation==null?null:factory.getReparationDAO().get(idReparation),
-				result.getString("nomContrat"));
+				result.getString("nomContrat"), result.getString("TypeLocation"));
 	}
 	
 	protected Location map2(ResultSet result) throws SQLException {
@@ -148,7 +148,7 @@ public class LocationDAO extends IDAO<Location>{
 					result.getInt("caution"),
 					result.getFloat("montant"),
 					idReparation==null?null:factory.getReparationDAO().get(idReparation),
-					result.getString("nomContrat"));
+					result.getString("nomContrat"), result.getString("TypeLocation"));
 	}
 
 	@Override

@@ -50,22 +50,22 @@
 			</thead>
 		<c:forEach items="${typeLocations }" var="loc">
 		<tr>
-			<td><c:out value="${loc.getLocation().getPersonne().getNom() }"></c:out></td>
-			<td><c:out value="${loc.getLocation().getPersonne().getPrenom() }"></c:out></td>
-			<td><c:out value="${loc.getLocation().getMateriel().getTypeMat() }"></c:out></td>
-			<td><c:out value="${loc.getTypeLocation() }"></c:out></td>
-			<td><c:out value="${loc.getLocation().getDateEmprunt() }"></c:out></td>
-			<td><c:out value="${loc.getLocation().getDateEcheance() }"></c:out></td>
-			<td><c:out value="${loc.getLocation().getDateRetour() }"></c:out></td>
-			<td><c:out value="${loc.getLocation().getCaution() }"></c:out></td>
-			<td><c:out value="${loc.getLocation().getMontant() }"></c:out></td>
-			<td><c:out value="${loc.getLocation().getEtatDebut().getLibelleEtat() }"></c:out></td>
-			<td><c:if test="${empty loc.getLocation().getDateRetour() }">
-				<a href="<c:url value="<%= Pattern.LOCATION_CHEQUE_AJOUTER %>"/>?id=<c:out value="${loc.getLocation().getId()}" />"
+			<td><c:out value="${loc.getPersonne().getNom() }"></c:out></td>
+			<td><c:out value="${loc.getPersonne().getPrenom() }"></c:out></td>
+			<td><c:out value="${loc.getMateriel().getTypeMat() }"></c:out></td>
+			<td><c:out value="${loc.getType() }"></c:out></td>
+			<td><c:out value="${loc.getDateEmprunt() }"></c:out></td>
+			<td><c:out value="${loc.getDateEcheance() }"></c:out></td>
+			<td><c:out value="${loc.getDateRetour() }"></c:out></td>
+			<td><c:out value="${loc.getCaution() }"></c:out></td>
+			<td><c:out value="${loc.getMontant() }"></c:out></td>
+			<td><c:out value="${loc.getEtatDebut().getLibelleEtat() }"></c:out></td>
+			<td><c:if test="${empty loc.getDateRetour() }">
+				<a href="<c:url value="<%= Pattern.LOCATION_CHEQUE_AJOUTER %>"/>?id=<c:out value="${loc.getId()}" />"
 					title='Enregistrer un chèque pour cette location'><img src="<c:url value="/ressources/images/cheque.jpg"/>" alt="Enregistrer un chèque"></a>
-					<a href="<c:url value="<%= Pattern.LOCATION_RETOUR %>"/>?id=<c:out value="${loc.getLocation().getId()}" />"
+					<a href="<c:url value="<%= Pattern.LOCATION_RETOUR %>"/>?id=<c:out value="${loc.getId()}" />"
 					title='Enregistrer un retour'><img src="<c:url value="/ressources/images/retour.png"/>" alt="Enregistrer un retour"></a>
-					<a href="<c:url value="<%= Pattern.LOCATION_IMPRIMER %>"/>?id=<c:out value="${loc.getLocation().getId()}" />"
+					<a href="<c:url value="<%= Pattern.LOCATION_IMPRIMER %>"/>?id=<c:out value="${loc.getId()}" />"
 					title='Imprimer le contrat de location'><img src="<c:url value="/ressources/images/print.jpg"/>" alt="Imprimer le contrat de location"></a></td>
 					</c:if>
 		</tr>

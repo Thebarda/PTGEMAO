@@ -46,9 +46,10 @@ public class LocationCtrl {
 	 *            la durée de l'emprunt.
 	 * @param montant
 	 *            le montant de l'emprunt
+	 * @param type 
 	 */
 	public static void ajouterLocation(String idPersonne, String idMateriel,
-			String etatDebut, String dateEmprunt, String dateFin, float caution, float montant, String nomContrat) {
+			String etatDebut, String dateEmprunt, String dateFin, float caution, float montant, String nomContrat, String type) {
 		if (idPersonne == null) {
 			throw new NullPointerException("L'adherent ne peut etre null");
 		}
@@ -75,7 +76,7 @@ public class LocationCtrl {
 					"Le nom du contrat ne doit pas etre null");
 		}
 		new LocationDAO(DAOFactory.getInstance()).create(idPersonne, idMateriel,
-				etatDebut, dateEmprunt, dateFin, caution, montant, nomContrat);
+				etatDebut, dateEmprunt, dateFin, caution, montant, nomContrat, type);
 	}
 	
 
