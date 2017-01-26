@@ -72,6 +72,7 @@ autocompletionFamille("#pers");
 									<legend>Chèque(s)</legend>
 									<div id="cheques">
 										<div id="chequeBase">
+											<h3>Chèque 1</h3>
 											<label>Date paiement : </label><input id="datePaiement" type="text" class="datepicker" size="10" name="datePaiement">
 											<label for="montantCheque1">Montant : </label><input id="montantCheque1" type="text" size="10" name="montantCheque">
 											<label for="numeroCheque1">Numéro chèque (11 caractères) : </label><input id="numeroCheque1" type="text" name="numeroCheque">
@@ -156,5 +157,4 @@ autocompletionFamille("#pers");
 </c:otherwise>
 </c:choose>
 <script src="<c:url value="/js/AjouterCheque.js"/>"></script>
-<script src="<c:url value="/js/ScriptTableauRecapitulatif.js"/>"></script>
 <c:import url="/inc/footer.inc.jsp" />

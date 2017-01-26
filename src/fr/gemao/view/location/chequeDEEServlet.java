@@ -20,7 +20,7 @@ public class chequeDEEServlet extends HttpServlet{
 
 	@Override
 	protected void doGet(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
-		long idCheque = Integer.parseInt(request.getParameter("id"));
+		long idCheque = Long.parseLong(request.getParameter("id"));
 		HttpSession session = request.getSession();
 		session.setAttribute("idCheque", idCheque);
 		ChequeLocation cheque = ChequeCtrl.getByNumCheque(idCheque);

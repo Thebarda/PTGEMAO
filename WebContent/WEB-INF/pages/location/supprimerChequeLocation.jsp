@@ -50,6 +50,7 @@
 	</c:when>
 	<c:otherwise>
 		<p class="offset text-success">Le chèque a bien été supprimé</p>
+		<a class="offset btn" href="<c:url value="<%= Pattern.LOCATION_CHEQUE_LISTER %>"/>">Retour à lister chèques </a>
 	</c:otherwise>
 </c:choose>
 
