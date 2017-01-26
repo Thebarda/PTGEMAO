@@ -97,8 +97,9 @@
 	// Ajout de ligne
 	$(document).ready(function(){		
 		$("#ajoutTab").click( function () {
-			var ligne = parseInt($("tbody tr:last-child").attr("data"))+parseInt(1);
-			var nbLigne = ligne-11;
+			var ligne = parseInt($("#tableau tbody tr:last-child").attr("data"))+parseInt(1);
+			var nbLigne = parseInt(ligne)-parseInt(11);
+			console.log("Ligne : "+ligne+", nbLigne : "+nbLigne);
 			var row = $('<tr id="ajoutLigne_'+nbLigne+'" data="'+ligne+'">');
 
 			row.append($('<td contenteditable="true" class="intitule"></td>'))
