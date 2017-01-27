@@ -34,7 +34,7 @@
 		<%= request.getAttribute("tfc") %>
 	</div>
 	<br><br>
-	<h2 class="offset">Tableau Fiche Comptable</h2>
+	<h2 class="offset">Tableau Récapitulatif</h2>
 	<div id="recap">
 		<%= request.getAttribute("tr") %>
 	</div>

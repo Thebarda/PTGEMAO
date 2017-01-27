@@ -21,7 +21,6 @@ autocompletionFamille("#pers");
 </script>
 
 	<h1>Location externe d'un instrument</h1>
-	
 <c:choose >
 <c:when test="${empty erreurCheque }">
 	<c:choose>
@@ -63,9 +62,9 @@ autocompletionFamille("#pers");
 												</tr>
 											</c:forEach>
 										</table><br>
-										<label for="adh">Personne : </label><input type="text" id="pers" name="adherent">
+										<label for="adh">Personne : </label><input type="text" id="pers" name="adherent" value="<c:out value="${nomAdherent }"></c:out>">
 										<br><br>
-										<label>Date d'emprunt : </label><input id="dateEmprunt" type="text" class="datepicker" required='required' name="debutLocation"><br><br>
+										<label>Date d'emprunt : </label><input id="dateEmprunt" type="text" class="datepicker" required='required' name="debutLocation" value="<c:out value="${debutLocation }"></c:out>"><br><br>
 										
 								</fieldset>
 								<fieldset class="ajoutCheque">

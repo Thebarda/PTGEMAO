@@ -69,9 +69,9 @@ autocompletionFamille("#adh");
 								</fieldset>
 									<fieldset class="ajoutCheque">
 										<legend>Chèque</legend>
-										<label>Date paiement : </label><input id="datePaiement" type="text" class="datepicker" size="10" name="datePaiement">
-										<label for="montantCheque">Montant : </label><input id="montantCheque" type="text" size="10" name="montantCheque">
-										<label for="numeroCheque">Numéro chèque (11 caractères) : </label><input id="numeroCheque" type="text" name="numeroCheque">
+										<label>Date paiement : </label><input id="datePaiement" type="text" class="datepicker" size="10" name="datePaiement"><br>
+										<label for="montantCheque">Montant : </label><input id="montantCheque" type="text" size="10" name="montantCheque"><br>
+										<label for="numeroCheque">Numéro chèque (11 caractères) : </label><input id="numeroCheque" type="text" name="numeroCheque"><br>
 										<label>Date encaissement : </label><input id="dateEncaissement" type="text" class="datepicker" size="10" name="dateEncaissement">
 									</fieldset>
 							</c:otherwise>	
