@@ -21,7 +21,7 @@
 		yearSuffix: ''};
 	$.datepicker.setDefaults($.datepicker.regional['fr']);
 	
-	$(document).ready(function(){
+	$(document).on("click", "tr",function() {
 		$('[id*="datepicker_"]').datepicker({
 			showOn: 'button',
 			buttonText: 'Show Date',
@@ -41,6 +41,10 @@
 		$("#date_"+num_lig).text(date);
 	});
 
+	$(document).ready(function(){
+		$('tr').trigger("click");
+	});
+	
 	// Totaux par mois (par ligne)
 	$(document).on("keyup", "tr",function() {
 		var num_lig = $(this).attr("data");
@@ -99,7 +103,6 @@
 		$("#ajoutTab").click( function () {
 			var ligne = parseInt($("#tableau tbody tr:last-child").attr("data"))+parseInt(1);
 			var nbLigne = parseInt(ligne)-parseInt(11);
-			console.log("Ligne : "+ligne+", nbLigne : "+nbLigne);
 			var row = $('<tr id="ajoutLigne_'+nbLigne+'" data="'+ligne+'">');
 
 			row.append($('<td contenteditable="true" class="intitule"></td>'))
