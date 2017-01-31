@@ -38,7 +38,7 @@
 	<div id="recap">
 		<%= request.getAttribute("tr") %>
 	</div>
-	<button id="enregistrer" class="offset">Enregistrer les tableaux</button>
+	<button id="enregistrer" class="offset btn" style="margin-top: 10px;">Enregistrer les tableaux</button>
 </c:otherwise>
 </c:choose>
 <script src="<c:url value="/js/ScriptFicheComptable.js"/>" ></script>
