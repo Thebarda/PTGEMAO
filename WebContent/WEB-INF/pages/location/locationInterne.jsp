@@ -64,16 +64,16 @@ autocompletionFamille("#adh");
 											</c:forEach>
 										</table>
 										<br>
-										<label for="adh">Adhérent : </label><input id="adh" type="text" name="adherent"><br><br>
-										<label>Date de la location : </label><input id="dateEmprunt" type="text" class="datepicker" required='required' name="debutLocation">
+										<label for="adh">Adhérent *: </label><input id="adh" type="text" name="adherent"><br><br>
+										<label>Date de la location *: </label><input id="dateEmprunt" type="text" class="datepicker" required='required' name="debutLocation">
 										<p><b>Montant de la location totale : </b>20 €</p>
 								</fieldset>
 									<fieldset class="ajoutCheque">
 										<legend>Chèque</legend>
-										<label>Date paiement : </label><input id="datePaiement" type="text" class="datepicker" size="10" name="datePaiement"><br>
-										<label for="montantCheque">Montant : </label><input id="montantCheque" type="text" size="10" name="montantCheque"><br>
-										<label for="numeroCheque">Numéro chèque (11 caractères) : </label><input id="numeroCheque" type="text" name="numeroCheque"><br>
-										<label>Date encaissement : </label><input id="dateEncaissement" type="text" class="datepicker" size="10" name="dateEncaissement">
+										<label class="offset">Date paiement *: </label><input id="datePaiement" type="text" class="datepicker offset" size="10" name="datePaiement"><br>
+										<label for="montantCheque" class="offset">Montant *: </label><input id="montantCheque" type="text" size="10" name="montantCheque" class="offset"><br> 
+										<label for="numeroCheque" class="offset">Numéro chèque (11 caractères) *: </label><input id="numeroCheque" type="text" name="numeroCheque" class="offset"><br>
+										<label class="offset">Date encaissement *: </label><input id="dateEncaissement" type="text" class="datepicker offset" size="10" name="dateEncaissement">
 									</fieldset>
 							</c:otherwise>	
 							</c:choose>

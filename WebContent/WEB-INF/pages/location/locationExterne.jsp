@@ -62,9 +62,9 @@ autocompletionFamille("#pers");
 												</tr>
 											</c:forEach>
 										</table><br>
-										<label for="adh">Personne : </label><input type="text" id="pers" name="adherent" value="<c:out value="${nomAdherent }"></c:out>">
+										<label for="adh">Personne *: </label><input type="text" id="pers" name="adherent" value="<c:out value="${nomAdherent }"></c:out>">
 										<br><br>
-										<label>Date d'emprunt : </label><input id="dateEmprunt" type="text" class="datepicker" required='required' name="debutLocation" value="<c:out value="${debutLocation }"></c:out>"><br><br>
+										<label>Date d'emprunt *: </label><input id="dateEmprunt" type="text" class="datepicker" required='required' name="debutLocation" value="<c:out value="${debutLocation }"></c:out>"><br><br>
 										<p><b>Montant de la location totale : </b>45 € (soit 15 € / mois)</p>
 								</fieldset>
 								<fieldset class="ajoutCheque">
@@ -72,10 +72,10 @@ autocompletionFamille("#pers");
 									<div id="cheques">
 										<div id="chequeBase">
 											<h3>Chèque 1</h3>
-											<label>Date paiement : </label><input id="datePaiement" type="text" class="datepicker" size="10" name="datePaiement">
-											<label for="montantCheque1">Montant : </label><input id="montantCheque1" type="text" size="10" name="montantCheque">
-											<label for="numeroCheque1">Numéro chèque (11 caractères) : </label><input id="numeroCheque1" type="text" name="numeroCheque">
-											<label>Date encaissement : </label><input id="dateEncaissement" type="text" class="datepicker" size="10" name="dateEncaissement">
+											<label>Date paiement *: </label><input id="datePaiement" type="text" class="datepicker" size="10" name="datePaiement">
+											<label for="montantCheque1">Montant *: </label><input id="montantCheque1" type="text" size="10" name="montantCheque">
+											<label for="numeroCheque1">Numéro chèque (11 caractères) *: </label><input id="numeroCheque1" type="text" name="numeroCheque">
+											<label>Date encaissement *: </label><input id="dateEncaissement" type="text" class="datepicker" size="10" name="dateEncaissement">
 											<br><br>
 										</div>
 									</div>
