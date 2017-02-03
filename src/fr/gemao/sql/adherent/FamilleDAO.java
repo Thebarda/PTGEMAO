@@ -168,16 +168,16 @@ public class FamilleDAO extends IDAO<Famille> {
 				result.getInt("annee"), result.getString("tableauFicheComptable"), result.getString("tableauRecapitulatif"));
 	}
 
-	public void updateTableaux(String tfc, String recap, int idFamille) {
+	public void updateTableaux(String tfc, String recap, int idFamille, int annee) {
 		Famille famille = null;
 		Connection connexion = null;
 		PreparedStatement requete = null;
 		int result = 0;
-		String sql = "UPDATE famille SET TableauFicheComptable=?, TableauRecapitulatif=? WHERE idFamille = ?;";
+		String sql = "UPDATE familletableaux SET tableauFicheComptable=?, tableauRecapitulatif=? WHERE idFamille = ? AND annee = ?;";
 		try {
 			connexion = factory.getConnection();
 			requete = DAOUtilitaires.initialisationRequetePreparee(connexion,
-					sql, false, tfc, recap, idFamille);
+					sql, false, tfc, recap, idFamille, annee);
 			result = requete.executeUpdate();
 		} catch (SQLException e) {
 			throw new DAOException(e);
@@ -218,12 +218,12 @@ public class FamilleDAO extends IDAO<Famille> {
 		Connection connexion = null;
 		PreparedStatement requete = null;
 		ResultSet result = null;
-		String sql = "SELECT * FROM familletableaux;";
+		String sql = "SELECT * FROM familletableaux where idFamille=?;";
 		try {
 
 			connexion = factory.getConnection();
 			requete = DAOUtilitaires.initialisationRequetePreparee(connexion,
-					sql, false);
+					sql, false, idFamille);
 			result = requete.executeQuery();
 
 			while (result.next()) {

@@ -38,9 +38,9 @@ public class FamilleCtrl {
 		return list;
 	}
 
-	public static void updateTableaux(String tfc, String recap, int idFamille) {
+	public static void updateTableaux(String tfc, String recap, int idFamille, int annee) {
 		FamilleDAO familleDAO = DAOFactory.getInstance().getFamilleDAO();
-		familleDAO.updateTableaux(tfc, recap, idFamille);
+		familleDAO.updateTableaux(tfc, recap, idFamille, annee);
 	}
 
 	public static void ajouterFamilleTableaux(FamilleTableaux famtab) {
