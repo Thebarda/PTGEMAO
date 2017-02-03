@@ -110,7 +110,7 @@ public class ModifAdherentServlet extends HttpServlet {
 			String prenom = adherentForm.getPrenom();
 			adherent.setPrenom(prenom);
 			String famille = adherentForm.getFamille();
-			adherent.setFamille(new Famille(null, famille, null, null));
+			adherent.setFamille(new Famille(null, famille));
 
 			SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 			Date dateNaiss = null;

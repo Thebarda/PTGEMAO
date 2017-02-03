@@ -6,6 +6,7 @@ package fr.gemao.ctrl.adherent;
 import java.util.List;
 
 import fr.gemao.entity.adherent.Famille;
+import fr.gemao.entity.adherent.FamilleTableaux;
 import fr.gemao.sql.DAOFactory;
 import fr.gemao.sql.adherent.FamilleDAO;
 
@@ -36,19 +37,19 @@ public class FamilleCtrl {
 		list = familleDAO.getAll();
 		return list;
 	}
-	
-	public static String getTableauFicheComptable(int idFamille){
-		FamilleDAO familleDAO = DAOFactory.getInstance().getFamilleDAO();
-		return familleDAO.getTableauFicheComptable(idFamille);
-	}
-	
-	public static String getTableauRecapitulatif(int idFamille){
-		FamilleDAO familleDAO = DAOFactory.getInstance().getFamilleDAO();
-		return familleDAO.getTableauRecapitulatif(idFamille);
-	}
 
 	public static void updateTableaux(String tfc, String recap, int idFamille) {
 		FamilleDAO familleDAO = DAOFactory.getInstance().getFamilleDAO();
 		familleDAO.updateTableaux(tfc, recap, idFamille);
+	}
+
+	public static void ajouterFamilleTableaux(FamilleTableaux famtab) {
+		FamilleDAO familleDAO = DAOFactory.getInstance().getFamilleDAO();
+		familleDAO.ajouterFamilleTableaux(famtab);
+	}
+
+	public static List<FamilleTableaux> getFamilleTableaux(int idFamille) {
+		FamilleDAO familleDAO = DAOFactory.getInstance().getFamilleDAO();
+		return familleDAO.getFamilleTableaux(idFamille);
 	}
 }

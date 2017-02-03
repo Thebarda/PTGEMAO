@@ -22,6 +22,7 @@ import fr.gemao.entity.Adresse;
 import fr.gemao.entity.Commune;
 import fr.gemao.entity.adherent.Adherent;
 import fr.gemao.entity.adherent.Famille;
+import fr.gemao.entity.adherent.FamilleTableaux;
 import fr.gemao.entity.adherent.Responsable;
 import fr.gemao.entity.administration.Modification;
 import fr.gemao.entity.personnel.Personnel;
@@ -75,6 +76,7 @@ public class ValidationAjoutAdherentServlet extends HttpServlet {
 		Commune commune = (Commune) session.getAttribute("ajout_adh_commune");
 		Adresse adresse = (Adresse) session.getAttribute("ajout_adh_adresse");
 		Responsable responsable = (Responsable) session.getAttribute("ajout_adh_responsable");
+		FamilleTableaux famtab = (FamilleTableaux) session.getAttribute("familleTableaux");
 
 		CommuneCtrl.ajoutCommune(commune);
 		adresse.setCommune(commune);
@@ -85,6 +87,8 @@ public class ValidationAjoutAdherentServlet extends HttpServlet {
 
 		Famille famille = FamilleCtrl.AjouterFamile(adherent.getFamille());
 		adherent.setFamille(famille);
+		famtab.setIdFamille(famille.getIdFamille());
+		FamilleCtrl.ajouterFamilleTableaux(famtab);
 
 		if (responsable != null) {
 			ResponsableCtrl.ajouterResponsable(responsable);

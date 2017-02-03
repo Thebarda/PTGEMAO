@@ -28,6 +28,8 @@
 	</form>
 </c:when>
 <c:otherwise>
+	<h2 class="offset">Famille : <%= request.getAttribute("nomFamille") %></h2>
+	<h2 class="offset">Année : <%= request.getAttribute("annee") %> - <%= request.getAttribute("anneeFin") %></h2>
 	<h3 id="validation" class="offset text-success"></h3>
 	<h2 class="offset">Tableau Fiche Comptable</h2>
 	<div id="tfc">
