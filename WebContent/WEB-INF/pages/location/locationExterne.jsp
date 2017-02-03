@@ -65,7 +65,7 @@ autocompletionFamille("#pers");
 										<label for="adh">Personne : </label><input type="text" id="pers" name="adherent" value="<c:out value="${nomAdherent }"></c:out>">
 										<br><br>
 										<label>Date d'emprunt : </label><input id="dateEmprunt" type="text" class="datepicker" required='required' name="debutLocation" value="<c:out value="${debutLocation }"></c:out>"><br><br>
-										
+										<p><b>Montant de la location totale : </b>45 € (soit 15 € / mois)</p>
 								</fieldset>
 								<fieldset class="ajoutCheque">
 									<legend>Chèque(s)</legend>
@@ -109,12 +109,12 @@ autocompletionFamille("#pers");
 							</tr>
 						</table>
 						<br>
-						<label>Personne : </label><span id="nomAdherent"><%= session.getAttribute("nomAdherent") %></span><br>
-						<label>Date d'emprunt : </label><span id="debutLocation"><%= session.getAttribute("debutLocation") %></span><br>
-						<label>Date d'echéance : </label><span id="finLocation"><%= session.getAttribute("finLocation") %></span><br>
-						<label>Montant : </label><span id="leMontant"><%= session.getAttribute("montant") %> euros par mois</span><br>
-						<label>Caution : </label><span id="laCaution"><%= session.getAttribute("caution") %> euros</span><br>
-						<label>Imprimer : </label><input type="radio" name="imprimer" value="Oui" checked> Oui
+						<label><b>Personne : </b></label><span id="nomAdherent"><%= session.getAttribute("nomAdherent") %></span><br>
+						<label><b>Date d'emprunt : </b></label><span id="debutLocation"><%= session.getAttribute("debutLocation") %></span><br>
+						<label><b>Date d'echéance : </b></label><span id="finLocation"><%= session.getAttribute("finLocation") %></span><br>
+						<label><b>Montant : </b></label><span id="leMontant"><%= session.getAttribute("montant") %> euros par mois</span><br>
+						<label><b>Caution : </b></label><span id="laCaution"><%= session.getAttribute("caution") %> euros</span><br>
+						<label><b>Imprimer : </b></label><input type="radio" name="imprimer" value="Oui" checked> Oui
 	  											  <input type="radio" name="imprimer" value="Non"> Non<br>
 	  											  
 	  					<table class="tablesorter-blue  pure-table">

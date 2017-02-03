@@ -8,8 +8,12 @@ import java.awt.print.PrinterException;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -233,9 +237,8 @@ public class LocationInterneServlet extends HttpServlet implements Printable {
 		if(Form.getValeurChamp(request, PARAM_ID_DESIGNATION)!=null){
 			ChequeForm chequeForm = new ChequeForm(request);
 			chequeForm.testerCheque(request);
-			
 			if(chequeForm.getErreurs().isEmpty()){
-				String dateFin = locationForm.setDateFinFormByDuree(12,Form.getValeurChamp(request, PARAM_DATE_DEBUT));
+				DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 				String personne = Form.getValeurChamp(request, PARAM_ID_ADHERENT);
 				String[] tempPers = personne.split(" ");
 				String nomPers = tempPers[0];
@@ -258,10 +261,42 @@ public class LocationInterneServlet extends HttpServlet implements Printable {
 						
 					String dateDebut = Form.getValeurChamp(request, PARAM_DATE_DEBUT);
 					
-					String[] tmp = dateDebut.split("/");
-					tmp[0].replaceAll("^0", "");
-					tmp[1].replaceAll("^0", "");
-					dateDebut=tmp[0]+"/"+tmp[1]+"/"+tmp[2];
+					Date dateDeb=null;
+					try {
+						dateDeb = dateFormat.parse(dateDebut);
+					} catch (ParseException e1) {}
+					
+					Calendar calendar = Calendar.getInstance();
+					calendar.setTime(dateDeb);
+					Date tmp = calendar.getTime();
+					String moisDeb = "";
+					String dayDeb = "";
+					if((tmp.getMonth()+1)<10){
+						moisDeb = "0"+(tmp.getMonth()+1);
+					}
+					if(tmp.getDate()<10){
+						dayDeb = "0"+tmp.getDate();
+					}
+					dateDebut = dayDeb+"/"+moisDeb+"/"+(1900+tmp.getYear());
+					
+					String dateFin = locationForm.setDateFinFormByDuree(12,Form.getValeurChamp(request, PARAM_DATE_DEBUT));
+					
+					Date dateFin2=null;
+					try {
+						dateFin2 = dateFormat.parse(dateFin);
+					} catch (ParseException e1) {}
+					
+					calendar.setTime(dateFin2);
+					tmp = calendar.getTime();
+					String moisFin = "";
+					if((tmp.getMonth()+1)<10){
+						moisFin = "0"+(tmp.getMonth()+1);
+					}
+					String dayFin = "";
+					if(tmp.getDate()<10){
+						dayFin = "0"+tmp.getDate();
+					}
+					dateFin = dayFin+"/"+moisFin+"/"+(1900+tmp.getYear());
 						
 					String nom = null, prenom = null;
 						

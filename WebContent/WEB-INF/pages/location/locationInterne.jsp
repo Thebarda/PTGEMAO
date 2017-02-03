@@ -66,6 +66,7 @@ autocompletionFamille("#adh");
 										<br>
 										<label for="adh">Adhérent : </label><input id="adh" type="text" name="adherent"><br><br>
 										<label>Date de la location : </label><input id="dateEmprunt" type="text" class="datepicker" required='required' name="debutLocation">
+										<p><b>Montant de la location totale : </b>20 €</p>
 								</fieldset>
 									<fieldset class="ajoutCheque">
 										<legend>Chèque</legend>
@@ -98,12 +99,12 @@ autocompletionFamille("#adh");
 								</c:forEach>
 							</tr>
 						</table><br>
-						<label>Adhérent : </label><span id="nomAdherent"><%= session.getAttribute("nomAdherent") %></span><br>
-						<label>Date d'emprunt : </label><span id="debutLocation"><%= session.getAttribute("debutLocation") %></span><br>
-						<label>Date d'echéance : </label><span id="finLocation"><%= session.getAttribute("finLocation") %></span><br>
-						<label>Montant : </label><span id="leMontant"><%= session.getAttribute("montant") %> euros par an</span><br>
-						<label>Caution : </label><span id="laCaution"><%= session.getAttribute("caution") %> euros</span><br>
-						<label>Imprimer : </label><input type="radio" name="imprimer" value="Oui" checked> Oui
+						<label><b>Adhérent : </b></label><span id="nomAdherent"><%= session.getAttribute("nomAdherent") %></span><br>
+						<label><b>Date d'emprunt : </b></label><span id="debutLocation"><%= session.getAttribute("debutLocation") %></span><br>
+						<label><b>Date d'echéance : </b></label><span id="finLocation"><%= session.getAttribute("finLocation") %></span><br>
+						<label><b>Montant : </b></label><span id="leMontant"><%= session.getAttribute("montant") %> euros</span><br>
+						<label><b>Caution : </b></label><span id="laCaution"><%= session.getAttribute("caution") %> euros</span><br>
+						<label><b>Imprimer : </b></label><input type="radio" name="imprimer" value="Oui" checked> Oui
 	  											  <input type="radio" name="imprimer" value="Non"> Non<br>
 					</fieldset>
 					<fieldset>

@@ -17,18 +17,29 @@
 	<fieldset>
 		<legend>Familles</legend>
 		<label>Veuillez choisir une famille</label>
-		<select class="offset" name="famille">
+		<select name="famille">
 			<c:forEach items="${familles }" var="famille">
 				<option value="${famille.getIdFamille() }"><c:out value="${famille.getNomFamille() }"></c:out></option>
 			</c:forEach>
 		</select>
-		<br>
-		<input type="submit" value="Valider" class="offset">
+		<input type="submit" value="Valider" class="btn">
 	</fieldset>
 	</form>
 </c:when>
 <c:otherwise>
-	<h2 class="offset">Famille : <%= request.getAttribute("nomFamille") %></h2>
+	<form method="post" action="#">
+		<fieldset>
+			<legend>Famille</legend>
+			Veuillez choisir une famille :
+			<select name="famille" id="petit">
+			<c:forEach items="${familles }" var="famille">
+				<option value="${famille.getIdFamille() }"><c:out value="${famille.getNomFamille() }"></c:out></option>
+			</c:forEach>
+			<input type="submit" value="Valider" class="btn align-right">
+		</select>
+		</fieldset>
+	</form>
+	<span><h2 class="offset">Famille : <%= request.getAttribute("nomFamille") %></h2></span>
 	<h2 class="offset">Année : <%= request.getAttribute("annee") %> - <%= request.getAttribute("anneeFin") %></h2>
 	<h3 id="validation" class="offset text-success"></h3>
 	<h2 class="offset">Tableau Fiche Comptable</h2>
