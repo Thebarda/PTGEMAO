@@ -70,5 +70,7 @@
 	</table>
 	<p><b> Il reste à payer <c:out value="${montantRestantAPaye }"></c:out> €</b></p>
 </fieldset>
-
+<fieldset>
+	<a href="<c:url value="<%=Pattern.LOCATION_LISTER %>" />" class="offset btn">Lister locations</a>
+</fieldset>
 <c:import url="/inc/footer.inc.jsp" />
