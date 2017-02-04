@@ -211,19 +211,19 @@ public class FamilleDAO extends IDAO<Famille> {
 		}
 	}
 
-	public List<FamilleTableaux> getFamilleTableaux(int idFamille) {
+	public List<FamilleTableaux> getFamilleTableaux(int idFamille, int annee) {
 		List<FamilleTableaux> liste = new ArrayList<>();
 
 		FamilleTableaux famtab = null;
 		Connection connexion = null;
 		PreparedStatement requete = null;
 		ResultSet result = null;
-		String sql = "SELECT * FROM familletableaux where idFamille=?;";
+		String sql = "SELECT * FROM familletableaux where idFamille=? and annee=?;";
 		try {
 
 			connexion = factory.getConnection();
 			requete = DAOUtilitaires.initialisationRequetePreparee(connexion,
-					sql, false, idFamille);
+					sql, false, idFamille, annee);
 			result = requete.executeQuery();
 
 			while (result.next()) {

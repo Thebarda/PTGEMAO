@@ -273,9 +273,13 @@ public class LocationInterneServlet extends HttpServlet implements Printable {
 					String dayDeb = "";
 					if((tmp.getMonth()+1)<10){
 						moisDeb = "0"+(tmp.getMonth()+1);
+					}else{
+						moisDeb=""+(tmp.getMonth()+1);
 					}
 					if(tmp.getDate()<10){
 						dayDeb = "0"+tmp.getDate();
+					}else{
+						dayDeb=""+tmp.getDate();
 					}
 					dateDebut = dayDeb+"/"+moisDeb+"/"+(1900+tmp.getYear());
 					
@@ -291,10 +295,14 @@ public class LocationInterneServlet extends HttpServlet implements Printable {
 					String moisFin = "";
 					if((tmp.getMonth()+1)<10){
 						moisFin = "0"+(tmp.getMonth()+1);
+					}else{
+						moisFin=""+(tmp.getMonth()+1);
 					}
 					String dayFin = "";
 					if(tmp.getDate()<10){
 						dayFin = "0"+tmp.getDate();
+					}else{
+						dayFin=""+tmp.getDate();
 					}
 					dateFin = dayFin+"/"+moisFin+"/"+(1900+tmp.getYear());
 						

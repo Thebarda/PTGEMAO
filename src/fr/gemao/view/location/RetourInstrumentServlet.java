@@ -60,7 +60,19 @@ public class RetourInstrumentServlet extends HttpServlet {
 			String dateEmprunt = location.getDateEmprunt();
 			String dateEcheance = location.getDateEcheance();
 			Date date = new Date();
-			String dateRetour = ""+date.getDate()+"/"+(date.getMonth()+1)+"/"+(date.getYear()+1900);
+			String dayRet="";
+			String moisRet="";
+			if((date.getMonth()+1)<10){
+				moisRet="0"+(date.getMonth()+1);
+			}else{
+				moisRet=""+(date.getMonth()+1);
+			}
+			if(date.getDate()<10){
+				dayRet="0"+date.getDate();
+			}else{
+				dayRet=""+date.getDate();
+			}
+			String dateRetour = dayRet+"/"+moisRet+"/"+(date.getYear()+1900);
 			
 			session.setAttribute(ID, idLoc);
 			session.setAttribute(LOCATION, location);

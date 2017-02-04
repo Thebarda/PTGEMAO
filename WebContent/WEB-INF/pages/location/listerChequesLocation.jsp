@@ -39,7 +39,7 @@
 			<th>N° Contrat</th>
 			<th>Type de location</th>
 			<th>Nom locataire</th>
-			<th>Référence instrument</th>
+			<th>Nom instrument</th>
 			<th>Date paiement</th>
 			<th>Montant chèque</th>
 			<th>N° du chèque</th>
@@ -50,17 +50,25 @@
 	</thead>
 	<c:choose>
 		<c:when test="${empty chequesParMoisAnnee}">
+		<form method="post" action="#">
 			<c:forEach items="${cheques}" var="cheque">
 				<tr>
 					<td><c:out value="${cheque.getLocation().getId() }"></c:out></td>
 					<td><c:out value="${cheque.getLocation().getType() }"></c:out></td>
 					<td><c:out value="${cheque.getLocation().getPersonne().getNom()}"></c:out></td>
-					<td><c:out value="${cheque.getLocation().getMateriel().getNumSerie() }"></c:out></td>
+					<td><c:out value="${cheque.getLocation().getMateriel().getTypeMat() }"></c:out></td>
 					<td><c:out value="${cheque.getDatePaiement() }"></c:out></td>
 					<td><c:out value="${cheque.getMontantCheque() }"></c:out></td>
 					<td><c:out value="${cheque.getNumCheque() }"></c:out></td>
 					<td><c:out value="${cheque.getDateEncaissement() }"></c:out></td>
-					<td><c:out value="${cheque.getDateEncaissementEffective() }"></c:out></td>
+					<td>
+						<c:if test="${empty cheque.getDateEncaissementEffective()}">
+								<input type="text" name="numCheques" class="" value="<c:out value="${cheque.getNumCheque() }"></c:out>">
+								<input type="text" name="dateEffective" class="datepicker">
+								<input type="submit" class="btn" value="Valider">
+						</c:if>
+						<c:out value="${cheque.getDateEncaissementEffective() }"></c:out>
+					</td>
 					<td><a href="<c:url value="<%= Pattern.LOCATION_CHEQUE_SUPPRIMER %>"/>?numCheque=<c:out value="${cheque.getNumCheque()}" />"
 							title='Supprimer cet enregistrement de cheque'><img src="<c:url value="/ressources/images/supprimer.jpg"/>" alt="Supprimer enregistrement cheque"></a>
 							<c:if test="${empty cheque.getDateEncaissementEffective()}"><a href="<c:url value="<%= Pattern.LOCATION_CHEQUE_DEE %>"/>?id=<c:out value="${cheque.getNumCheque()}" />"
@@ -68,8 +76,10 @@
 							</td>
 				</tr>
 			</c:forEach>
+			</form>
 		</c:when>
 		<c:otherwise>
+		<form method="post" action="#">
 			<a class="offset btn" href="<c:url value="<%= Pattern.LOCATION_CHEQUE_LISTER %>"/>"/>Lister tous les chèques</a>
 			<br>
 			<br>
@@ -83,7 +93,14 @@
 					<td><c:out value="${cheque.getMontantCheque() }"></c:out></td>
 					<td><c:out value="${cheque.getNumCheque() }"></c:out></td>
 					<td><c:out value="${cheque.getDateEncaissement() }"></c:out></td>
-					<td><c:out value="${cheque.getDateEncaissementEffective() }"></c:out></td>
+					<td>
+						<c:if test="${empty cheque.getDateEncaissementEffective()}">
+								<input type="text" name="numCheques" class="" value="<c:out value="${cheque.getNumCheque() }"></c:out>">
+								<input type="text" name="dateEffective" class="datepicker">
+								<input type="submit" class="btn" value="Valider">
+						</c:if>
+						<c:out value="${cheque.getDateEncaissementEffective() }"></c:out>
+					</td>
 					<td><a href="<c:url value="<%= Pattern.LOCATION_CHEQUE_SUPPRIMER %>"/>?numCheque=<c:out value="${cheque.getNumCheque()}" />"
 							title='Supprimer cet enregistrement de cheque'><img src="<c:url value="/ressources/images/supprimer.jpg"/>" alt="Supprimer enregistrement cheque"></a>
 							<c:if test="${empty cheque.getDateEncaissementEffective()}"><a href="<c:url value="<%= Pattern.LOCATION_CHEQUE_DEE %>"/>?id=<c:out value="${cheque.getNumCheque()}" />"
@@ -91,6 +108,7 @@
 							</td>
 				</tr>
 			</c:forEach>
+			</form>
 		</c:otherwise>
 	</c:choose>
 </table>

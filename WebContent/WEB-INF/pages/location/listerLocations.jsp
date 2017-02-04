@@ -61,6 +61,7 @@
 			<td><c:out value="${loc.getMontant() }"></c:out></td>
 			<td><c:out value="${loc.getEtatDebut().getLibelleEtat() }"></c:out></td>
 			<td><c:if test="${empty loc.getDateRetour() }">
+				<a href="<c:url value="<%= Pattern.LOCATION_DETAILS %>"/>?id=<c:out value="${loc.getId()}"/>" title="Afficher détails"><img src="<c:url value="/ressources/images/supprimer.jpg"/>" alt="Afficher Détails"></a>
 				<a href="<c:url value="<%= Pattern.LOCATION_CHEQUE_AJOUTER %>"/>?id=<c:out value="${loc.getId()}" />"
 					title='Enregistrer un chèque pour cette location'><img src="<c:url value="/ressources/images/cheque.jpg"/>" alt="Enregistrer un chèque"></a>
 					<a href="<c:url value="<%= Pattern.LOCATION_RETOUR %>"/>?id=<c:out value="${loc.getId()}" />"

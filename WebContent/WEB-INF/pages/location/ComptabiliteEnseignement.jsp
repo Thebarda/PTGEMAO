@@ -22,21 +22,37 @@
 				<option value="${famille.getIdFamille() }"><c:out value="${famille.getNomFamille() }"></c:out></option>
 			</c:forEach>
 		</select>
+		<label>Choisir l'année : </label>
+		<select name="annee">
+			<option></option>
+			<c:forEach items="${date }" var="year">
+				<option value="${year }"><c:out value="${year }"></c:out></option>
+			</c:forEach>
+		</select>
 		<input type="submit" value="Valider" class="btn">
 	</fieldset>
 	</form>
 </c:when>
 <c:otherwise>
+	<c:choose>
+	<c:when test="${empty vide }">
 	<form method="post" action="#">
 		<fieldset>
 			<legend>Famille</legend>
 			Veuillez choisir une famille :
 			<select name="famille" id="petit">
-			<c:forEach items="${familles }" var="famille">
-				<option value="${famille.getIdFamille() }"><c:out value="${famille.getNomFamille() }"></c:out></option>
-			</c:forEach>
+				<c:forEach items="${familles }" var="famille">
+					<option value="${famille.getIdFamille() }"><c:out value="${famille.getNomFamille() }"></c:out></option>
+				</c:forEach>
+			</select>
+			<label>Choisir l'année : </label>
+			<select name="annee">
+				<option></option>
+				<c:forEach items="${date }" var="year">
+					<option value="${year }"><c:out value="${year }"></c:out></option>
+				</c:forEach>
+			</select>
 			<input type="submit" value="Valider" class="btn align-right">
-		</select>
 		</fieldset>
 	</form>
 	<span><h2 class="offset">Famille : <%= request.getAttribute("nomFamille") %></h2></span>
@@ -52,6 +68,11 @@
 		<%= request.getAttribute("tr") %>
 	</div>
 	<button id="enregistrer" class="offset btn" style="margin-top: 10px;">Enregistrer les tableaux</button>
+	</c:when>
+	<c:otherwise>
+		<p class="offset"><c:out value="${vide }"></c:out></p>
+	</c:otherwise>
+	</c:choose>
 </c:otherwise>
 </c:choose>
 <script src="<c:url value="/js/ScriptFicheComptable.js"/>" ></script>

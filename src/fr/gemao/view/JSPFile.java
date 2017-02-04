@@ -61,6 +61,7 @@ public class JSPFile {
 		LOCATION_CHEQUE_AJOUTER = ROOT + REP_LOCATION + "ajouterChequeLocation.jsp",
 		LOCATION_CHEQUE_SUPPRIMER = ROOT + REP_LOCATION + "supprimerChequeLocation.jsp",
 		LOCATION_CHEQUE_DEE = ROOT + REP_LOCATION + "chequeDEE.jsp",
+		LOCATION_DETAILS = ROOT + REP_LOCATION + "afficherDetailsLocation.jsp",
 		
 		COMPTABILITE_ENSEIGNEMENT = ROOT + REP_LOCATION + "ComptabiliteEnseignement.jsp",
 

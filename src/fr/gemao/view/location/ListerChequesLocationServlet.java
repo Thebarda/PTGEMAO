@@ -74,9 +74,20 @@ public class ListerChequesLocationServlet extends HttpServlet {
 			
 			request.setAttribute("chequesParMoisAnnee", cheques);
 			
-			this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_CHEQUE_LISTER).forward(request,  response);
+			
+		}else if(Form.getValeurChamp(request, "dateEffective")!=null){
+			String[] numCheques = request.getParameterValues("numCheques");
+			String[] datesEffective = request.getParameterValues("dateEffective");
+			
+			for(int i=0;i<numCheques.length;i++){
+				Long numCheque = Long.parseLong(numCheques[i]);
+				String dateEffective = datesEffective[i];
+				ChequeCtrl.addDEEByNumCheque(dateEffective, numCheque);
+			}
+			List<ChequeLocation> cheques = ChequeCtrl.getAll();
+			request.setAttribute("cheques", cheques);	
 		}
-		
+		this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_CHEQUE_LISTER).forward(request,  response);
 	}
 }
 

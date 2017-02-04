@@ -48,8 +48,8 @@ public class FamilleCtrl {
 		familleDAO.ajouterFamilleTableaux(famtab);
 	}
 
-	public static List<FamilleTableaux> getFamilleTableaux(int idFamille) {
+	public static List<FamilleTableaux> getFamilleTableaux(int idFamille, int annee) {
 		FamilleDAO familleDAO = DAOFactory.getInstance().getFamilleDAO();
-		return familleDAO.getFamilleTableaux(idFamille);
+		return familleDAO.getFamilleTableaux(idFamille, annee);
 	}
 }
