@@ -63,7 +63,7 @@
 					<td><c:out value="${cheque.getDateEncaissement() }"></c:out></td>
 					<td>
 						<c:if test="${empty cheque.getDateEncaissementEffective()}">
-								<input type="text" name="numCheques" class="" value="<c:out value="${cheque.getNumCheque() }"></c:out>">
+								<input type="text" name="numCheques" class="hidden" value="<c:out value="${cheque.getNumCheque() }"></c:out>">
 								<input type="text" name="dateEffective" class="datepicker">
 								<input type="submit" class="btn" value="Valider">
 						</c:if>
@@ -95,7 +95,7 @@
 					<td><c:out value="${cheque.getDateEncaissement() }"></c:out></td>
 					<td>
 						<c:if test="${empty cheque.getDateEncaissementEffective()}">
-								<input type="text" name="numCheques" class="" value="<c:out value="${cheque.getNumCheque() }"></c:out>">
+								<input type="text" name="numCheques" class="hidden" value="<c:out value="${cheque.getNumCheque() }"></c:out>">
 								<input type="text" name="dateEffective" class="datepicker">
 								<input type="submit" class="btn" value="Valider">
 						</c:if>

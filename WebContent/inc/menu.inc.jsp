@@ -84,7 +84,6 @@
 								<li><a href="<c:url value="<%= Pattern.LOCATION_LOCATION_EXTERNE %>"/>">Location externe</a></li>
 								</c:if>
 								<li><a href="<c:url value="<%= Pattern.LOCATION_LISTER %>"/>">Lister</a></li>
-								<li><a href="<c:url value="<%= Pattern.LOCATION_CHEQUE_LISTER %>"/>">Lister chèques</a></li>
 							</ul>
 						</div>
 					</li>
@@ -127,12 +126,14 @@
 							</ul>
 						</div>
 					</li>
-					<li class="icon icon-arrow-left"><a href="#">Comptabilité enseignement</a>
+					<li class="icon icon-arrow-left"><a href="#">Comptabilité</a>
 						<div class="mp-level">
 							<h2>Comptabilité enseignement</h2>
 							<a class="mp-back" href="#">Retour</a>
 							<ul>
 								<li><a href="<c:url value="<%= Pattern.COMPTABILITE_ENSEIGNEMENT %>"/>">Comptabilité enseignement</a></li>
+								<li><a href="<c:url value="<%= Pattern.LOCATION_CHEQUE_LISTER %>"/>">Lister chèques location</a></li>
+								<li><a href="<c:url value="<%= Pattern.COMPTABILITE_LISTER_CHEQUES %>"/>">Lister chèques partenaire</a></li>
 							</ul>
 						</div>
 					</li>

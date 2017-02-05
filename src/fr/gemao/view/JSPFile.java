@@ -64,6 +64,8 @@ public class JSPFile {
 		LOCATION_DETAILS = ROOT + REP_LOCATION + "afficherDetailsLocation.jsp",
 		
 		COMPTABILITE_ENSEIGNEMENT = ROOT + REP_LOCATION + "ComptabiliteEnseignement.jsp",
+		COMPTABILIT_LISTER_CHEQUES = ROOT + REP_LOCATION + "ListerCheques.jsp",
+		COMPTABILITE_AJOUTER_CHEQUES = ROOT + REP_LOCATION + "AjouterChequesPartenaire.jsp",
 
 		// Module matériel
 		REP_MATERIEL = "materiel/",

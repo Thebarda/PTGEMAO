@@ -48,7 +48,7 @@ public class AjouterChequeLocationServlet extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if (Form.getValeurChamp(request, "montantCheque") != null) {
+		if (Form.getValeurChamp(request, "montant") != null) {
 			HttpSession session = request.getSession();
 			
 			Boolean validation = null;
