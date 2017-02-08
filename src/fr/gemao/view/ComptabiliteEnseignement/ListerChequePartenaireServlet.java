@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import fr.gemao.ctrl.cheque.ChequeCtrl;
 import fr.gemao.ctrl.cheque.ChequePartenaireCtrl;
+import fr.gemao.ctrl.location.LocationCtrl;
 import fr.gemao.entity.materiel.ChequeLocation;
 import fr.gemao.entity.partenaire.ChequePartenaire;
 import fr.gemao.form.util.Form;

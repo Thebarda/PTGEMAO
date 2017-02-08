@@ -339,3 +339,36 @@ body {
 }
 
 
+
+a{ 
+ color:#4c0ed8;              
+} 
+a:hover,a:focus{
+ color:#000;
+}
+            
+/* Position et couleur bulle */
+a span{ 
+ position:absolute;
+ margin-top:25px; 
+ margin-left:-25px;
+ color:#fff; 
+ background:rgba(0, 0, 0, 0.8); 
+ padding:25px; 
+ border-radius:3px; 
+                
+ /* Faire disparaire infobulle par défaut */
+ /* On determine l'origine de la rotation */ 
+ transform:scale(0) rotate(-45deg);
+ /* Faire durer l'effet */
+ transition:all .15s;
+ /* Effet sur la transparence */ 
+ opacity:0;
+}
+            
+/* Apparition de la bulle avec le scale à 1 */ 
+a:hover span, a:focus span{ 
+ transform:scale(1) rotate(0);
+ /* Effet sur la transparence */ 
+ opacity:1;
+}

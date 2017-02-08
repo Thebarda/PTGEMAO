@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import fr.gemao.ctrl.cheque.ChequeCtrl;
+import fr.gemao.ctrl.location.LocationCtrl;
 import fr.gemao.entity.materiel.ChequeLocation;
 import fr.gemao.entity.materiel.Location;
 import fr.gemao.form.util.Form;
@@ -57,7 +58,6 @@ public class ListerChequesLocationServlet extends HttpServlet {
 		session.setAttribute("lesAnnees", annees);
 		session.setAttribute("lesMois", mois);
 		
-		
 		request.setAttribute("cheques", cheques);
 		this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_CHEQUE_LISTER).forward(request,  response);
 	}
@@ -72,6 +72,7 @@ public class ListerChequesLocationServlet extends HttpServlet {
 			
 			cheques = ChequeCtrl.getByMonthYear(month, year);
 			
+			
 			request.setAttribute("chequesParMoisAnnee", cheques);
 			
 			
@@ -85,6 +86,7 @@ public class ListerChequesLocationServlet extends HttpServlet {
 				ChequeCtrl.addDEEByNumCheque(dateEffective, numCheque);
 			}
 			List<ChequeLocation> cheques = ChequeCtrl.getAll();
+			
 			request.setAttribute("cheques", cheques);	
 		}
 		this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_CHEQUE_LISTER).forward(request,  response);

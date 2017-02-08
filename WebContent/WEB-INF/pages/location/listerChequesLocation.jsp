@@ -53,7 +53,23 @@
 		<form method="post" action="#">
 			<c:forEach items="${cheques}" var="cheque">
 				<tr>
-					<td><c:out value="${cheque.getLocation().getId() }"></c:out></td>
+					<td>
+						<a href="#"><c:out value="${cheque.getLocation().getId() }"></c:out>
+							<span>
+								<b>Type :</b> <c:out value="${cheque.getLocation().getType() }"></c:out><br>
+								<b>Référence :</b> <c:out value="${cheque.getLocation().getMateriel().getNumSerie() }"></c:out><br>
+								<b>Catégorie :</b> <c:out value="${cheque.getLocation().getMateriel().getCategorie().getLibelleCat() }"></c:out><br>
+								<b>Désignation : </b><c:out value="${cheque.getLocation().getMateriel().getDesignation().getLibelleDesignation() }"></c:out><br>
+								<b>Nom : </b><c:out value="${cheque.getLocation().getPersonne().getNom() }"></c:out><br>
+								<b>Prenom : </b><c:out value="${cheque.getLocation().getPersonne().getPrenom() }"></c:out><br>
+								<b>Date d'emprunt :</b> <c:out value="${cheque.getLocation().getDateEmprunt() }"></c:out><br>
+								<b>Date d'échéance : </b><c:out value="${cheque.getLocation().getDateEcheance() }"></c:out><br>
+								<b>Date de retour : </b><c:out value="${cheque.getLocation().getDateRetour() }"></c:out><br>
+								<b>Etat début : </b><c:out value="${cheque.getLocation().getEtatDebut().getLibelleEtat() }"></c:out><br>
+								<b>Etat de fin : </b><c:out value="${cheque.getLocation().getEtatFin().getLibelleEtat() }"></c:out>
+							</span>
+						</a>
+					</td>
 					<td><c:out value="${cheque.getLocation().getType() }"></c:out></td>
 					<td><c:out value="${cheque.getLocation().getPersonne().getNom()}"></c:out></td>
 					<td><c:out value="${cheque.getLocation().getMateriel().getTypeMat() }"></c:out></td>
@@ -85,8 +101,24 @@
 			<br>
 			<c:forEach items="${chequesParMoisAnnee}" var="cheque">
 				<tr>
-					<td><c:out value="${cheque.getLocation().getId() }"></c:out></td>
-					<td><c:out value="${cheque.getTypeLocation() }"></c:out></td>
+					<td>
+						<a href="#"><c:out value="${cheque.getLocation().getId() }"></c:out>
+							<span>
+								<b>Type :</b> <c:out value="${cheque.getLocation().getType() }"></c:out><br>
+								<b>Référence :</b> <c:out value="${cheque.getLocation().getMateriel().getNumSerie() }"></c:out><br>
+								<b>Catégorie :</b> <c:out value="${cheque.getLocation().getMateriel().getCategorie().getLibelleCat() }"></c:out><br>
+								<b>Désignation : </b><c:out value="${cheque.getLocation().getMateriel().getDesignation().getLibelleDesignation() }"></c:out><br>
+								<b>Nom : </b><c:out value="${cheque.getLocation().getPersonne().getNom() }"></c:out><br>
+								<b>Prenom : </b><c:out value="${cheque.getLocation().getPersonne().getPrenom() }"></c:out><br>
+								<b>Date d'emprunt :</b> <c:out value="${cheque.getLocation().getDateEmprunt() }"></c:out><br>
+								<b>Date d'échéance : </b><c:out value="${cheque.getLocation().getDateEcheance() }"></c:out><br>
+								<b>Date de retour : </b><c:out value="${cheque.getLocation().getDateRetour() }"></c:out><br>
+								<b>Etat début : </b><c:out value="${cheque.getLocation().getEtatDebut().getLibelleEtat() }"></c:out><br>
+								<b>Etat de fin : </b><c:out value="${cheque.getLocation().getEtatFin().getLibelleEtat() }"></c:out>
+							</span>
+						</a>
+					</td>
+					<td><c:out value="${cheque.getLocation().getType() }"></c:out></td>
 					<td><c:out value="${cheque.getLocation().getPersonne().getNom()}"></c:out></td>
 					<td><c:out value="${cheque.getLocation().getMateriel().getNumSerie() }"></c:out></td>
 					<td><c:out value="${cheque.getDatePaiement() }"></c:out></td>
@@ -112,5 +144,16 @@
 		</c:otherwise>
 	</c:choose>
 </table>
-
+<script type="text/javascript">
+  $(function() {
+    if ($.browser.msie && $.browser.version.substr(0,1)<7)
+    {
+      $('.tooltip').mouseover(function(){
+            $(this).children('span').show();
+          }).mouseout(function(){
+            $(this).children('span').hide();
+          });
+    }
+  });
+</script>
 <c:import url="/inc/footer.inc.jsp" />
