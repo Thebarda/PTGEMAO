@@ -53,7 +53,7 @@
 				<tr>
 					<td><c:out value="${cheque.getPartenaire() }"></c:out></td>
 					<td><c:out value="${cheque.getDatePaiement() }"></c:out></td>
-					<td><c:out value="${cheque.getMontant() }"></c:out></td>
+					<td><c:out value="${cheque.getMontant() }"></c:out> €</td>
 					<td><c:out value="${cheque.getNumero() }"></c:out></td>
 					<td><c:out value="${cheque.getDateEncaissement() }"></c:out></td>
 					<td>

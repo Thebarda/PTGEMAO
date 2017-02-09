@@ -34,7 +34,7 @@ public class AfficherDetailsLocationServlet extends HttpServlet{
 			this.getServletContext().getRequestDispatcher(JSPFile.ERREUR_DROIT).forward(request, response);
 		}else{
 			int idLoc = Integer.parseInt(request.getParameter("id"));
-			List<Location> locations = LocationCtrl.getAll();
+			List<Location> locations = LocationCtrl.getAllAll();
 			Location location = null;
 			for(Location l : locations){
 				if(l.getId()==idLoc){
