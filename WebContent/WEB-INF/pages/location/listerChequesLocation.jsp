@@ -28,7 +28,7 @@
 					<option value="${annee}"><c:out value="${annee}"></c:out></option>
 				</c:forEach>
 			</select>
-			<input type="submit" class="btn" value="Trier" />
+			<input type="submit" class="btn" value="Filtrer" />
 		</form>
 
 <br>
@@ -54,7 +54,7 @@
 			<c:forEach items="${cheques}" var="cheque">
 				<tr>
 					<td>
-						<a href="#"><c:out value="${cheque.getLocation().getId() }"></c:out>
+						<a href="#"><c:out value="${cheque.getLocation().getId() }"></c:out><i class="fa fa-search"></i>
 							<span>
 								<b>Type :</b> <c:out value="${cheque.getLocation().getType() }"></c:out><br>
 								<b>Référence :</b> <c:out value="${cheque.getLocation().getMateriel().getNumSerie() }"></c:out><br>

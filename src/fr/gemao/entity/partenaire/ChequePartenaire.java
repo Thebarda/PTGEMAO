@@ -7,9 +7,9 @@ public class ChequePartenaire {
 	private String datePaiement;
 	private String dateEncaissement;
 	private String dateEncaissementEffective;
-	private String partenaire;
+	private Partenaire partenaire;
 	
-	public ChequePartenaire(int id, long numero, int montant, String datePaiement, String dateEncaissement, String dateEncaissementEffective, String partenaire){
+	public ChequePartenaire(int id, long numero, int montant, String datePaiement, String dateEncaissement, String dateEncaissementEffective, Partenaire partenaire){
 		this.id=id;
 		this.numero=numero;
 		this.montant=montant;
@@ -19,11 +19,11 @@ public class ChequePartenaire {
 		this.partenaire=partenaire;
 	}
 
-	public String getPartenaire() {
+	public Partenaire getPartenaire() {
 		return partenaire;
 	}
 
-	public void setPartenaire(String partenaire) {
+	public void setPartenaire(Partenaire partenaire) {
 		this.partenaire = partenaire;
 	}
 

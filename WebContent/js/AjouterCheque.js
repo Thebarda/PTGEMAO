@@ -7,7 +7,7 @@ $(document).ready(function(){
 			form.append("<label>Date paiement *: </label><input id='datePaiement"+compteCheque+"' type='text' class='datepicker' size='10' name='datePaiement'>");
 			form.append("<label for='montantCheque1'>Montant *: </label><input id='montantCheque1' type='text' size='10' name='montantCheque'>");
 			form.append("<label for='numeroCheque1'>Numéro chèque (11 caractères) *: </label><input id='numeroCheque1' type='text' name='numeroCheque'>");
-			form.append("<label>Date encaissement *: </label><input id='dateEncaissement"+compteCheque+"' type='text' class='datepicker' size='10' name='dateEncaissement'>");
+			form.append("<label>Date encaissement prévu*: </label><input id='dateEncaissement"+compteCheque+"' type='text' class='datepicker' size='10' name='dateEncaissement'>");
 			form.append("</div>");
 			
 			form.find("#datePaiement"+compteCheque).datepicker();

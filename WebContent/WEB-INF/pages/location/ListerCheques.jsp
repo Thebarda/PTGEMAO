@@ -28,7 +28,7 @@
 					<option value="${annee}"><c:out value="${annee}"></c:out></option>
 				</c:forEach>
 			</select>
-			<input type="submit" class="btn" value="Trier" />
+			<input type="submit" class="btn" value="Filtrer" />
 </form>
 <br>
 <a class="offset btn" href="<c:url value="<%= Pattern.COMPTABILITE_AJOUTER_CHEQUES %>"/>">Ajouter un cheque de partenaire</a>

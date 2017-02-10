@@ -12,7 +12,7 @@
 
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<h1>Ajouter un chèque de partenaire</h1>
+<h1>Ajouter un partenaire</h1>
 <c:choose>
 <c:when test="${empty validation }">
 <form method="post" action="#" class="offset">
@@ -43,7 +43,7 @@
 		</form>
 	</c:when>
 	<c:otherwise>
-		<h3 class="offset text-success">Chèque de partenaire ajouté !</h3>
+		<h3 class="offset text-success">Partenaire ajouté !</h3>
 		<a class="offset btn" href="<c:url value="<%= Pattern.COMPTABILITE_LISTER_CHEQUES %>"/>"/>Lister les chèques</a>
 	</c:otherwise>
 	</c:choose>

@@ -66,6 +66,7 @@ public class JSPFile {
 		COMPTABILITE_ENSEIGNEMENT = ROOT + REP_LOCATION + "ComptabiliteEnseignement.jsp",
 		COMPTABILIT_LISTER_CHEQUES = ROOT + REP_LOCATION + "ListerCheques.jsp",
 		COMPTABILITE_AJOUTER_CHEQUES = ROOT + REP_LOCATION + "AjouterChequesPartenaire.jsp",
+		COMPTABILITE_AJOUTER_PARTENAIRE = ROOT + REP_LOCATION + "AjouterPartenaire.jsp",
 
 		// Module matériel
 		REP_MATERIEL = "materiel/",

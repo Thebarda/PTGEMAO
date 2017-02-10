@@ -9,8 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.gemao.ctrl.location.LocationCtrl;
+import fr.gemao.ctrl.partenaire.PartenaireCtrl;
 import fr.gemao.entity.materiel.ChequeLocation;
 import fr.gemao.entity.partenaire.ChequePartenaire;
+import fr.gemao.entity.partenaire.Partenaire;
 import fr.gemao.sql.DAOFactory;
 import fr.gemao.sql.IDAO;
 import fr.gemao.sql.exception.DAOException;
@@ -106,7 +108,7 @@ public class ChequePartenaireDAO extends IDAO<ChequePartenaire>{
 				result.getString("datePaiement"),
 				result.getString("dateEncaissement"),
 				result.getString("dateEncaissementEffective"),
-				result.getString("partenaires"));
+				PartenaireCtrl.getPartenaireById(result.getInt("idPartenaire")));
 		
 		return chequePartenaire;
 	}

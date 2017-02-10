@@ -133,7 +133,7 @@
 							<ul>
 								<li><a href="<c:url value="<%= Pattern.COMPTABILITE_ENSEIGNEMENT %>"/>">Comptabilité enseignement</a></li>
 								<li><a href="<c:url value="<%= Pattern.LOCATION_CHEQUE_LISTER %>"/>">Lister chèques location</a></li>
-								<li><a href="<c:url value="<%= Pattern.COMPTABILITE_LISTER_CHEQUES %>"/>">Lister chèques partenaire</a></li>
+								<li><a href="<c:url value="<%= Pattern.COMPTABILITE_LISTER_CHEQUES %>"/>">Lister chèques partenaires</a></li>
 							</ul>
 						</div>
 					</li>
