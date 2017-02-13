@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 import fr.gemao.entity.materiel.ChequeLocation;
@@ -18,13 +19,38 @@ public class PartenaireDAO extends IDAO<Partenaire>{
 
 	public PartenaireDAO(DAOFactory factory) {
 		super(factory);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public Partenaire create(Partenaire obj) {
-		// TODO Auto-generated method stub
-		return null;
+		if (obj==null){
+			throw new NullPointerException("Le chèque ne peut pas être null");
+		}
+		Connection connexion = null;
+		PreparedStatement requete = null;
+		ResultSet result = null;
+		String sql = "INSERT INTO partenaire(raisonSociale, adresse, annee, taillePage) VALUES (?,?,?,?);";
+		
+		int idLocation = 0;
+		Long idLocataire = null;
+		Long idMateriel = null;
+		try{
+			connexion = factory.getConnection();
+			requete = DAOUtilitaires.initialisationRequetePreparee(connexion, sql, false, obj.getRaisonSociale(), obj.getAdresse(), obj.getAnnee(), obj.getTaillePage());
+			
+			int status = requete.executeUpdate();
+			
+			if(status == 0){
+				throw new DAOException(
+						"Echec de la création de l'adhérent, aucune ligne ajoutée dans la table.");
+			}
+		} catch (SQLException e){
+			throw new DAOException(e);
+		} finally {
+			DAOUtilitaires.fermeturesSilencieuses(result, requete, connexion);
+		}
+		
+		return obj;
 	}
 
 	@Override
@@ -36,25 +62,61 @@ public class PartenaireDAO extends IDAO<Partenaire>{
 	@Override
 	public Partenaire update(Partenaire obj) {
 		// TODO Auto-generated method stub
-		return null;
+				return null;
 	}
 
 	@Override
 	public Partenaire get(long id) {
-		// TODO Auto-generated method stub
-		return null;
+		Partenaire partenaire = null;
+		Connection connexion = null;
+		PreparedStatement requete = null;
+		ResultSet result = null;
+		String sql = "SELECT * FROM partenaire WHERE idPartenaire= ?;";
+		try {
+			connexion = factory.getConnection();
+			requete = DAOUtilitaires.initialisationRequetePreparee(connexion, sql, false, id);
+			result = requete.executeQuery();
+			
+			while (result.next()){
+				partenaire = this.map(result);
+			}
+		} catch (SQLException | ParseException e){
+			throw new DAOException(e);
+		} finally {
+			DAOUtilitaires.fermeturesSilencieuses(result, requete, connexion);
+		}
+		return partenaire;
 	}
 
 	@Override
 	public List<Partenaire> getAll() throws ParseException {
-		// TODO Auto-generated method stub
-		return null;
+		List<Partenaire> partenaires = new ArrayList<>();
+		Partenaire partenaire = null;
+		Connection connexion = null;
+		PreparedStatement requete = null;
+		ResultSet result = null;
+		String sql = "SELECT * FROM partenaire;";
+		try {
+			connexion = factory.getConnection();
+			requete = DAOUtilitaires.initialisationRequetePreparee(connexion, sql, false);
+			result = requete.executeQuery();
+			
+			while (result.next()){
+				partenaire = this.map(result);
+				partenaires.add(partenaire);
+			}
+		} catch (SQLException | ParseException e){
+			throw new DAOException(e);
+		} finally {
+			DAOUtilitaires.fermeturesSilencieuses(result, requete, connexion);
+		}
+		
+		return partenaires;
 	}
 
 	@Override
 	protected Partenaire map(ResultSet result) throws SQLException, ParseException {
-		// TODO Auto-generated method stub
-		return null;
+		return new Partenaire(result.getInt("idPartenaire"), result.getString("raisonSociale"), result.getString("adresse"), result.getInt("annee"), result.getString("taillePage"));
 	}
 
 	

@@ -18,11 +18,14 @@
 <form method="post" action="#" class="offset">
 	<fieldset>
 		<legend>Cheque</legend>
-		<label>Date de paiement *: </label><input type="text" name="datePaiement" required="required" class="datepicker"><br>
-		<label>Numéro de cheque (11 caractères) *: </label><input type="text" name="numero" required="required"><br>
-		<label>Montant de chèque *: </label><input type="text" name="montant" required="required"><br>
-		<label>Date d'encaissement prévu*: </label><input type="text" name="dateEncaissement" required="required" class="datepicker"><br>
-		<label>Partenaire *: </label><input type="text" name="partenaire" required="required"><br>
+		<label>Raison sociale *: </label><input type="text" name="raisonSociale" required="required"><br>
+		<label>Adresse *: </label><input type="text" name="adresse" required="required" size="35"><br>
+		<label>Année de partenariat *: </label><select name="annee">
+			<c:forEach items="${annees}" var="annee">
+				<option value="${annee }"><c:out value="${annee }"></c:out></option>
+			</c:forEach>
+		</select><br>
+		<label>Taille de la page *: </label><input type="text" name="taillePage" required="required"><br>
 		<input type="submit" value="Valider" class="btn">
 	</fieldset>
 </form>
@@ -32,19 +35,18 @@
 	<c:when test="${validation==false }">
 		<form action="#" method="post" class="offset">
 			<fieldset>
-				<legend>Cheque</legend>
-				<p><b> Date de paiement : </b><c:out value="${cheque.getDatePaiement() }"></c:out></p>
-				<p><b> Numéro de chèque : </b><c:out value="${cheque.getNumero() }"></c:out></p>
-				<p><b> Montant de chèque : </b><c:out value="${cheque.getMontant() }"></c:out></p>
-				<p><b> Date d'encaissement : </b><c:out value="${cheque.getDateEncaissement() }"></c:out></p>
-				<p><b> Partenaire : </b><c:out value="${cheque.getPartenaire() }"></c:out></p>
+				<legend>Partenaire</legend>
+				<p><b> Raison sociale : </b><c:out value="${partenaire.getRaisonSociale() }"></c:out></p>
+				<p><b> Adresse : </b><c:out value="${partenaire.getAdresse() }"></c:out></p>
+				<p><b> Annee de partenariat : </b><c:out value="${partenaire.getAnnee() }"></c:out></p>
+				<p><b> Taille de la page : </b><c:out value="${partenaire.getTaillePage() }"></c:out></p>
 				<input type="submit" value="Valider" class="btn">
 			</fieldset>
 		</form>
 	</c:when>
 	<c:otherwise>
 		<h3 class="offset text-success">Partenaire ajouté !</h3>
-		<a class="offset btn" href="<c:url value="<%= Pattern.COMPTABILITE_LISTER_CHEQUES %>"/>"/>Lister les chèques</a>
+		<a class="offset btn" href="<c:url value="<%= Pattern.ACCUEIL %>"/>"/>Accueil</a>
 	</c:otherwise>
 	</c:choose>
 </c:otherwise>

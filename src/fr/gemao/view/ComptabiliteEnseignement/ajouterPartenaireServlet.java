@@ -1,6 +1,9 @@
 package fr.gemao.view.ComptabiliteEnseignement;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,18 +27,24 @@ public class ajouterPartenaireServlet extends HttpServlet{
 	 *      response)
 	 */
 	protected void doGet(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
+		List<Integer> annees = new ArrayList<>();
+		Date date = new Date();
+		for(int i=(1900+date.getYear());i>=1998;i--){
+			annees.add(i);
+		}
+		request.setAttribute("annees", annees);
 		this.getServletContext().getRequestDispatcher(JSPFile.COMPTABILITE_AJOUTER_PARTENAIRE).forward(request,  response);
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		if (Form.getValeurChamp(request, "montant") != null) {
-			String datePaiement = Form.getValeurChamp(request, "datePaiement");
-			long numero = Long.parseLong(Form.getValeurChamp(request, "numero"));
-			int montant = Integer.parseInt(Form.getValeurChamp(request, "montant"));
-			String dateEncaissement = Form.getValeurChamp(request, "dateEncaissement");
+		if (Form.getValeurChamp(request, "raisonSociale") != null) {
+			String raisonSociale = Form.getValeurChamp(request, "raisonSociale");
+			String adresse = Form.getValeurChamp(request, "adresse");
+			int montant = Integer.parseInt(Form.getValeurChamp(request, "annee"));
+			String taillePage = Form.getValeurChamp(request, "taillePage");
 			
-			Partenaire partenaire = new Partenaire();
+			Partenaire partenaire = new Partenaire(raisonSociale, adresse, montant, taillePage);
 			session.setAttribute("partenaire", partenaire);
 			request.setAttribute("validation", false);
 		}else{

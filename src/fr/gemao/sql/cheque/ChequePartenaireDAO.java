@@ -31,11 +31,11 @@ public class ChequePartenaireDAO extends IDAO<ChequePartenaire>{
 		Connection connexion = null;
 		PreparedStatement requete = null;
 		ResultSet result = null;
-		String sql = "INSERT INTO chequepartenaire(partenaires, datePaiement, montantCheque, numeroCheque, dateEncaissement) VALUES (?,?,?,?,?);";
+		String sql = "INSERT INTO chequepartenaire(idPartenaire, datePaiement, montantCheque, numeroCheque, dateEncaissement) VALUES (?,?,?,?,?);";
 		
 		try{
 			connexion = factory.getConnection();
-			requete = DAOUtilitaires.initialisationRequetePreparee(connexion, sql, false, obj.getPartenaire(), obj.getDatePaiement(), obj.getMontant(), obj.getNumero(), obj.getDateEncaissement());
+			requete = DAOUtilitaires.initialisationRequetePreparee(connexion, sql, false, obj.getPartenaire().getIdPartenaire(), obj.getDatePaiement(), obj.getMontant(), obj.getNumero(), obj.getDateEncaissement());
 			
 			int status = requete.executeUpdate();
 			

@@ -29,6 +29,8 @@ private static final long serialVersionUID = 1L;
 	 *      response)
 	 */
 	protected void doGet(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
+		List<Partenaire> partenaires = PartenaireCtrl.getAll();
+		request.setAttribute("partenaires", partenaires);
 		this.getServletContext().getRequestDispatcher(JSPFile.COMPTABILITE_AJOUTER_CHEQUES).forward(request,  response);
 	}
 	
@@ -40,13 +42,8 @@ private static final long serialVersionUID = 1L;
 			int montant = Integer.parseInt(Form.getValeurChamp(request, "montant"));
 			String dateEncaissement = Form.getValeurChamp(request, "dateEncaissement");
 			int idPartenaire = Integer.parseInt(Form.getValeurChamp(request, "idPartenaire"));
-			Partenaire partenaire=null;
-			List<Partenaire> partenaires = PartenaireCtrl.getAll();
-			for(Partenaire part : partenaires){
-				if(part.getId()==idPartenaire){
-					partenaire=part;
-				}
-			}
+			Partenaire partenaire=PartenaireCtrl.getPartenaireById(idPartenaire);
+			
 			
 			ChequePartenaire cheque = new ChequePartenaire(0, numero, montant, datePaiement, dateEncaissement, null, partenaire);
 			session.setAttribute("cheque", cheque);

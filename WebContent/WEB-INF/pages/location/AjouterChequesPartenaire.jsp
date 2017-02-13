@@ -22,7 +22,11 @@
 		<label>Numéro de cheque (11 caractères) *: </label><input type="text" name="numero" required="required"><br>
 		<label>Montant de chèque *: </label><input type="text" name="montant" required="required"><br>
 		<label>Date d'encaissement prévu*: </label><input type="text" name="dateEncaissement" required="required" class="datepicker"><br>
-		<label>Partenaire *: </label><input type="text" name="partenaire" required="required"><br>
+		<label>Partenaire *: </label><select name="idPartenaire">
+			<c:forEach items="${partenaires}" var="partenaire">
+				<option value="${partenaire.getIdPartenaire() }"><c:out value="${partenaire.getRaisonSociale() }"></c:out></option>
+			</c:forEach>
+		</select><br>
 		<input type="submit" value="Valider" class="btn">
 	</fieldset>
 </form>
@@ -37,7 +41,7 @@
 				<p><b> Numéro de chèque : </b><c:out value="${cheque.getNumero() }"></c:out></p>
 				<p><b> Montant de chèque : </b><c:out value="${cheque.getMontant() }"></c:out></p>
 				<p><b> Date d'encaissement : </b><c:out value="${cheque.getDateEncaissement() }"></c:out></p>
-				<p><b> Partenaire : </b><c:out value="${cheque.getPartenaire() }"></c:out></p>
+				<p><b> Partenaire : </b><c:out value="${cheque.getPartenaire().getRaisonSociale() }"></c:out></p>
 				<input type="submit" value="Valider" class="btn">
 			</fieldset>
 		</form>

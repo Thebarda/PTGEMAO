@@ -51,7 +51,7 @@
 		<form method="post" action="#">
 			<c:forEach items="${cheques}" var="cheque">
 				<tr>
-					<td><c:out value="${cheque.getPartenaire() }"></c:out></td>
+					<td><c:out value="${cheque.getPartenaire().getRaisonSociale() }"></c:out></td>
 					<td><c:out value="${cheque.getDatePaiement() }"></c:out></td>
 					<td><c:out value="${cheque.getMontant() }"></c:out> €</td>
 					<td><c:out value="${cheque.getNumero() }"></c:out></td>
@@ -75,7 +75,7 @@
 			<br>
 			<c:forEach items="${chequesParMoisAnnee}" var="cheque">
 				<tr>
-					<td><c:out value="${cheque.getPartenaire() }"></c:out></td>
+					<td><c:out value="${cheque.getPartenaire().getRaisonSociale() }"></c:out></td>
 					<td><c:out value="${cheque.getDatePaiement() }"></c:out></td>
 					<td><c:out value="${cheque.getMontant() }"></c:out></td>
 					<td><c:out value="${cheque.getNumero() }"></c:out></td>
