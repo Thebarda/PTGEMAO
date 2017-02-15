@@ -1,13 +1,15 @@
 package fr.gemao.entity.partenaire;
 
+import fr.gemao.entity.Adresse;
+
 public class Partenaire {
 	private final Integer idPartenaire;
 	private final String raisonSociale;
-	private final String adresse;
+	private final Adresse adresse;
 	private final int annee;
 	private final String taillePage;
 	
-	public Partenaire(Integer id, String raisonSociale, String adresse, int annee, String taillePage){
+	public Partenaire(Integer id, String raisonSociale, Adresse adresse, int annee, String taillePage){
 		this.idPartenaire=id;
 		this.raisonSociale=raisonSociale;
 		this.adresse=adresse;
@@ -15,7 +17,7 @@ public class Partenaire {
 		this.taillePage=taillePage;
 	}
 	
-	public Partenaire(String raisonSociale, String adresse, int annee, String taillePage){
+	public Partenaire(String raisonSociale, Adresse adresse, int annee, String taillePage){
 		this(null, raisonSociale, adresse, annee, taillePage);
 	}
 	
@@ -23,7 +25,7 @@ public class Partenaire {
 		return raisonSociale;
 	}
 
-	public String getAdresse() {
+	public Adresse getAdresse() {
 		return adresse;
 	}
 

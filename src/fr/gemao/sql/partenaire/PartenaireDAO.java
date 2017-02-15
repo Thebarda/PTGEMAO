@@ -8,6 +8,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.gemao.ctrl.AdresseCtrl;
 import fr.gemao.entity.materiel.ChequeLocation;
 import fr.gemao.entity.partenaire.Partenaire;
 import fr.gemao.sql.DAOFactory;
@@ -29,14 +30,14 @@ public class PartenaireDAO extends IDAO<Partenaire>{
 		Connection connexion = null;
 		PreparedStatement requete = null;
 		ResultSet result = null;
-		String sql = "INSERT INTO partenaire(raisonSociale, adresse, annee, taillePage) VALUES (?,?,?,?);";
+		String sql = "INSERT INTO partenaire(raisonSociale, idAdresse, annee, taillePage) VALUES (?,?,?,?);";
 		
 		int idLocation = 0;
 		Long idLocataire = null;
 		Long idMateriel = null;
 		try{
 			connexion = factory.getConnection();
-			requete = DAOUtilitaires.initialisationRequetePreparee(connexion, sql, false, obj.getRaisonSociale(), obj.getAdresse(), obj.getAnnee(), obj.getTaillePage());
+			requete = DAOUtilitaires.initialisationRequetePreparee(connexion, sql, false, obj.getRaisonSociale(), obj.getAdresse().getIdAdresse(), obj.getAnnee(), obj.getTaillePage());
 			
 			int status = requete.executeUpdate();
 			
@@ -116,7 +117,7 @@ public class PartenaireDAO extends IDAO<Partenaire>{
 
 	@Override
 	protected Partenaire map(ResultSet result) throws SQLException, ParseException {
-		return new Partenaire(result.getInt("idPartenaire"), result.getString("raisonSociale"), result.getString("adresse"), result.getInt("annee"), result.getString("taillePage"));
+		return new Partenaire(result.getInt("idPartenaire"), result.getString("raisonSociale"), AdresseCtrl.recupererAdresse(result.getInt("idAdresse")), result.getInt("annee"), result.getString("taillePage"));
 	}
 
 	

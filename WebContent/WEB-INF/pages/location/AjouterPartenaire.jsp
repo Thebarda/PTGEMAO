@@ -17,9 +17,13 @@
 <c:when test="${empty validation }">
 <form method="post" action="#" class="offset">
 	<fieldset>
-		<legend>Cheque</legend>
+		<legend>Partenaire</legend>
 		<label>Raison sociale *: </label><input type="text" name="raisonSociale" required="required"><br>
-		<label>Adresse *: </label><input type="text" name="adresse" required="required" size="35"><br>
+		<label for="num">N° *: </label> <input type="text" name="num"/><br>
+		<label for="rue" class='required'>Rue *: </label> <input type="text" name="rue" id="rue" required="required"/><br>
+		<label for="compl">Complément d'adresse : </label> <input type="text" name="compl" id="compl"/><br>
+		<label for="commune" class='required'>Commune *: </label> <input type="text" name="commune" required="required" id="commune"/><br>
+		<label for="codePostal" class='required'>Code postal *: </label> <input type="text" name="codePostal" id="codePostal" required="required" maxlength="5" pattern="\d*"/><br>
 		<label>Année de partenariat *: </label><select name="annee">
 			<c:forEach items="${annees}" var="annee">
 				<option value="${annee }"><c:out value="${annee }"></c:out></option>
@@ -37,7 +41,11 @@
 			<fieldset>
 				<legend>Partenaire</legend>
 				<p><b> Raison sociale : </b><c:out value="${partenaire.getRaisonSociale() }"></c:out></p>
-				<p><b> Adresse : </b><c:out value="${partenaire.getAdresse() }"></c:out></p>
+				<p><b> N° : </b><c:out value="${partenaire.getAdresse().getNumRue() }"></c:out></p>
+				<p><b>Rue : </b><c:out value="${partenaire.getAdresse().getNomRue() }"></c:out></p>
+				<p><b>Complément d'adresse : </b><c:out value="${partenaire.getAdresse().getInfoCompl() }"></c:out></p>
+				<p><b>Commune : </b> <c:out value="${partenaire.getAdresse().getCommune().getNomCommune() }"></c:out> </p>
+				<p><b>Code postal : </b> <c:out value="${partenaire.getAdresse().getCommune().getCodePostal() }"></c:out> </p>
 				<p><b> Annee de partenariat : </b><c:out value="${partenaire.getAnnee() }"></c:out></p>
 				<p><b> Taille de la page : </b><c:out value="${partenaire.getTaillePage() }"></c:out></p>
 				<input type="submit" value="Valider" class="btn">

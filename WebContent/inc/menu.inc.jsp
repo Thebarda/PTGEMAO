@@ -135,6 +135,7 @@
 								<li><a href="<c:url value="<%= Pattern.LOCATION_CHEQUE_LISTER %>"/>">Lister chèques location</a></li>
 								<li><a href="<c:url value="<%= Pattern.COMPTABILITE_LISTER_CHEQUES %>"/>">Lister chèques partenaires</a></li>
 								<li><a href="<c:url value="<%= Pattern.COMPTABILITE_AJOUTER_PARTENAIRE %>"/>">Ajouter un partenaire</a></li>
+								<li><a href="<c:url value="<%= Pattern.COMPTABILITE_LISTER_PARTENAIRES %>"/>">Lister les partenaires</a></li>
 							</ul>
 						</div>
 					</li>
