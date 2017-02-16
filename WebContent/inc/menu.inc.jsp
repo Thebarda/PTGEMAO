@@ -128,7 +128,7 @@
 					</li>
 					<li class="icon icon-arrow-left"><a href="#">Comptabilité</a>
 						<div class="mp-level">
-							<h2>Comptabilité enseignement</h2>
+							<h2>Comptabilité</h2>
 							<a class="mp-back" href="#">Retour</a>
 							<ul>
 								<li><a href="<c:url value="<%= Pattern.COMPTABILITE_ENSEIGNEMENT %>"/>">Comptabilité enseignement</a></li>
