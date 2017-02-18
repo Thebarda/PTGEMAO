@@ -49,7 +49,11 @@ public class ComptabiliteEnseignementServlet extends HttpServlet{
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		List<Famille> familles = FamilleCtrl.recupererAllFamille();
+		List<Famille> tmpFamilles = FamilleCtrl.recupererAllFamille();
+		List<String> familles = new ArrayList<>();
+		for(Famille f : tmpFamilles){
+			familles.add('"'+f.getNomFamille()+'"');
+		}
 		request.setAttribute(FAMILLES, familles);
 		List<Integer> annee = new ArrayList<>();
 		Date date = new Date();
@@ -71,6 +75,12 @@ public class ComptabiliteEnseignementServlet extends HttpServlet{
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		int anne;
+		List<Famille> tmpFamilles = FamilleCtrl.recupererAllFamille();
+		List<String> familles = new ArrayList<>();
+		for(Famille f : tmpFamilles){
+			familles.add('"'+f.getNomFamille()+'"');
+		}
+		request.setAttribute(FAMILLES, familles);
 		if(Form.getValeurChamp(request, "famille")!=null){
 			if(Form.getValeurChamp(request, "annee")==null){
 				Calendar calendar = Calendar.getInstance();
@@ -125,8 +135,8 @@ public class ComptabiliteEnseignementServlet extends HttpServlet{
 				//On récupère le nom de la famille
 				//Oui j'aurais pu créer une requête sql mais chut....
 				String nomFamille="";
-				List<Famille> familles = FamilleCtrl.recupererAllFamille();
-				for(Famille f : familles){
+				List<Famille> tmpFamilles2 = FamilleCtrl.recupererAllFamille();
+				for(Famille f : tmpFamilles2){
 					if(f.getIdFamille()==idFamille){
 						nomFamille = f.getNomFamille();
 					}

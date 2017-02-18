@@ -15,13 +15,7 @@
 <h1>Lister les chèques des partenaires</h1>
 
 <form method="post" action="#" id="formDate" class="offset">	
-			Choisir le mois et l'année : 
-			<select name="month" required='required'>
-				<option></option>
-				<c:forEach items="${lesMois}" var="mois">
-					<option value="${mois}"><c:out value="${mois}"></c:out></option>
-				</c:forEach>
-			</select>
+			Choisir l'année : 
 			<select name="year" required='required'>
 				<option></option>
 				<c:forEach items="${lesAnnees}" var="annee">
@@ -42,7 +36,7 @@
 			<th>Date paiement</th>
 			<th>Montant chèque</th>
 			<th>N° du chèque</th>
-			<th>Date encaissement prévu</th>
+			<th>Date encaissement prévue</th>
 			<th>Date encaissement effective</th>
 		</tr>
 	</thead>

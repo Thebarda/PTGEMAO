@@ -32,6 +32,11 @@ public class ChequePartenaireCtrl {
 		ChequePartenaireDAO cheDAO = new ChequePartenaireDAO(DAOFactory.getInstance());
 		return cheDAO.getByMonthYear(month, year);
 	}
+	
+	public static List<ChequePartenaire> getByYear(String year) {
+		ChequePartenaireDAO cheDAO = new ChequePartenaireDAO(DAOFactory.getInstance());
+		return cheDAO.getByYear(year);
+	}
 
 	public static ChequeLocation getByNumCheque(long idCheque) {
 		ChequeDAO cheDAO = new ChequeDAO(DAOFactory.getInstance());
@@ -41,5 +46,10 @@ public class ChequePartenaireCtrl {
 	public static void addDEEByNumCheque(String dEE, long numCheque) {
 		ChequePartenaireDAO cheDAO = new ChequePartenaireDAO(DAOFactory.getInstance());
 		cheDAO.addDEEByNumCheque(dEE, numCheque);
+	}
+
+	public static Integer getMaxYearDatePaiement(int id) {
+		ChequePartenaireDAO cheDAO = new ChequePartenaireDAO(DAOFactory.getInstance());
+		return cheDAO.getMaxYearDatePaiement(id);
 	}
 }

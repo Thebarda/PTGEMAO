@@ -31,6 +31,7 @@
 		</select><br>
 		<label>Taille de la page *: </label><input type="text" name="taillePage" required="required"><br>
 		<input type="submit" value="Valider" class="btn">
+		<a href="<c:url value="<%= Pattern.ACCUEIL %>"/>">Annuler</a>
 	</fieldset>
 </form>
 </c:when>
@@ -49,6 +50,7 @@
 				<p><b> Annee de partenariat : </b><c:out value="${partenaire.getAnnee() }"></c:out></p>
 				<p><b> Taille de la page : </b><c:out value="${partenaire.getTaillePage() }"></c:out></p>
 				<input type="submit" value="Valider" class="btn">
+				<a href="<c:url value="<%= Pattern.ACCUEIL %>"/>">Annuler</a>
 			</fieldset>
 		</form>
 	</c:when>

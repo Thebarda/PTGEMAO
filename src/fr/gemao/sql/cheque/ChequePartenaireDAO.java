@@ -141,6 +141,35 @@ public class ChequePartenaireDAO extends IDAO<ChequePartenaire>{
 		return liste;
 	}
 
+	public List<ChequePartenaire> getByYear(String year) {
+		List<ChequePartenaire> liste = new ArrayList<>();
+		
+		ChequePartenaire chequePartenaire = null;
+		Connection connexion = null;
+		PreparedStatement requete = null;
+		ResultSet result = null;
+		String sql = "SELECT * FROM chequePartenaire WHERE (SELECT SUBSTRING(datePaiement, 7, 4)) = ?";
+		
+		try {
+			
+			connexion = factory.getConnection();
+			requete = DAOUtilitaires.initialisationRequetePreparee(connexion, sql, false, year);
+			result = requete.executeQuery();
+			
+			while (result.next()){
+				chequePartenaire = this.map(result);
+				
+				liste.add(chequePartenaire);
+			}
+		} catch (SQLException | ParseException e){
+			throw new DAOException(e);
+		} finally {
+			DAOUtilitaires.fermeturesSilencieuses(result, requete, connexion);
+		}
+		
+		return liste;
+	}
+	
 	public void addDEEByNumCheque(String dEE, long numCheque) {
 		Connection connexion = null;
 		PreparedStatement requete = null;
@@ -157,6 +186,32 @@ public class ChequePartenaireDAO extends IDAO<ChequePartenaire>{
 		} finally {
 			DAOUtilitaires.fermeturesSilencieuses(requete, connexion);
 		}
+	}
+
+	public Integer getMaxYearDatePaiement(int id) {
+		Integer annee = null;
+		ChequePartenaire chequePartenaire = null;
+		Connection connexion = null;
+		PreparedStatement requete = null;
+		ResultSet result = null;
+		String sql = "SELECT MAX(SUBSTRING(datePaiement, 7, 4)) AS annee FROM chequePartenaire WHERE idPartenaire = ?";
+		
+		try {
+			
+			connexion = factory.getConnection();
+			requete = DAOUtilitaires.initialisationRequetePreparee(connexion, sql, false, id);
+			result = requete.executeQuery();
+			
+			while (result.next()){
+				annee = result.getInt("annee");
+			}
+		} catch (SQLException e){
+			throw new DAOException(e);
+		} finally {
+			DAOUtilitaires.fermeturesSilencieuses(result, requete, connexion);
+		}
+		
+		return annee;
 	}
 
 }

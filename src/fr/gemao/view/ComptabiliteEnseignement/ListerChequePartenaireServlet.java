@@ -43,21 +43,8 @@ public class ListerChequePartenaireServlet extends HttpServlet{
 			annees.add(annee);
 			annee--;
 		}
-		mois.add("01");
-		mois.add("02");
-		mois.add("03");
-		mois.add("04");
-		mois.add("05");
-		mois.add("06");
-		mois.add("07");
-		mois.add("08");
-		mois.add("09");
-		mois.add("10");
-		mois.add("11");
-		mois.add("12");
 		
 		session.setAttribute("lesAnnees", annees);
-		session.setAttribute("lesMois", mois);
 		
 		
 		request.setAttribute("cheques", cheques);
@@ -65,14 +52,13 @@ public class ListerChequePartenaireServlet extends HttpServlet{
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if (Form.getValeurChamp(request, "year") != null && Form.getValeurChamp(request, "month") != null) {
+		if (Form.getValeurChamp(request, "year") != null){
 			HttpSession session = request.getSession();
 			String year = Form.getValeurChamp(request, "year");
-			String month = Form.getValeurChamp(request, "month");
 			
 			List<ChequePartenaire> cheques = new ArrayList<>();
 			
-			cheques = ChequePartenaireCtrl.getByMonthYear(month, year);
+			cheques = ChequePartenaireCtrl.getByYear(year);
 			
 			request.setAttribute("chequesParMoisAnnee", cheques);
 			

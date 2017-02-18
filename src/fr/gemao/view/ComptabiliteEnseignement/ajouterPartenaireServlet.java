@@ -81,7 +81,7 @@ public class ajouterPartenaireServlet extends HttpServlet{
 			 */
 			Adresse adresse = new Adresse(null, commune, numAdresse, rueAdresse, complAdresse);
 			
-			Partenaire partenaire = new Partenaire(raisonSociale, adresse, montant, taillePage);
+			Partenaire partenaire = new Partenaire(raisonSociale, adresse, montant, taillePage, null);
 			
 			session.setAttribute("ajout_adh_commune", commune);
 			session.setAttribute("ajout_adh_adresse", adresse);

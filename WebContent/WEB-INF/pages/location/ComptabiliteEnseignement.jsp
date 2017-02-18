@@ -8,7 +8,18 @@
 
 <c:import url="/inc/header.inc.jsp" />
 <c:import url="/inc/menu.inc.jsp" />
-
+<script type="text/javascript">
+function autocompletionFamille(selecteurFamille){
+	$(function() {
+		var availableTags = ${requestScope.familles};
+		console.log(availableTags);
+		$(selecteurFamille).autocomplete({
+			source : availableTags
+		});
+	});
+}
+autocompletionFamille("#famille");
+</script>
 <h1>Comptabilité enseignement</h1>
 
 <c:choose>
@@ -17,10 +28,7 @@
 	<fieldset>
 		<legend>Familles</legend>
 		<label>Veuillez choisir une famille</label>
-		<select name="famille">
-			<c:forEach items="${familles }" var="famille">
-				<option value="${famille.getIdFamille() }"><c:out value="${famille.getNomFamille() }"></c:out></option>
-			</c:forEach>
+		<input type="text" name="famille" id="famille">
 		</select>
 		<label>Choisir l'année : </label>
 		<select name="annee">
@@ -37,23 +45,20 @@
 	<c:choose>
 	<c:when test="${empty vide }">
 	<form method="post" action="#">
-		<fieldset>
-			<legend>Famille</legend>
-			Veuillez choisir une famille :
-			<select name="famille" id="petit">
-				<c:forEach items="${familles }" var="famille">
-					<option value="${famille.getIdFamille() }"><c:out value="${famille.getNomFamille() }"></c:out></option>
-				</c:forEach>
-			</select>
-			<label>Choisir l'année : </label>
-			<select name="annee">
-				<option></option>
-				<c:forEach items="${date }" var="year">
-					<option value="${year }"><c:out value="${year }"></c:out></option>
-				</c:forEach>
-			</select>
-			<input type="submit" value="Valider" class="btn align-right">
-		</fieldset>
+	<fieldset>
+		<legend>Familles</legend>
+		<label>Veuillez choisir une famille</label>
+		<input type="text" name="famille" id="famille">
+		</select>
+		<label>Choisir l'année : </label>
+		<select name="annee">
+			<option></option>
+			<c:forEach items="${date }" var="year">
+				<option value="${year }"><c:out value="${year }"></c:out></option>
+			</c:forEach>
+		</select>
+		<input type="submit" value="Valider" class="btn">
+	</fieldset>
 	</form>
 	<span><h2 class="offset">Famille : <%= request.getAttribute("nomFamille") %></h2></span>
 	<h2 class="offset">Année : <%= request.getAttribute("annee") %> - <%= request.getAttribute("anneeFin") %></h2>

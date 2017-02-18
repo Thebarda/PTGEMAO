@@ -21,7 +21,7 @@
 		<label>Date de paiement *: </label><input type="text" name="datePaiement" required="required" class="datepicker"><br>
 		<label>Numéro de cheque (11 caractères) *: </label><input type="text" name="numero" required="required"><br>
 		<label>Montant de chèque *: </label><input type="text" name="montant" required="required"><br>
-		<label>Date d'encaissement prévu*: </label><input type="text" name="dateEncaissement" required="required" class="datepicker"><br>
+		<label>Date d'encaissement prévue*: </label><input type="text" name="dateEncaissement" required="required" class="datepicker"><br>
 		<label>Partenaire *: </label><select name="idPartenaire">
 			<c:forEach items="${partenaires}" var="partenaire">
 				<option value="${partenaire.getIdPartenaire() }"><c:out value="${partenaire.getRaisonSociale() }"></c:out></option>
