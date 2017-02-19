@@ -142,16 +142,15 @@ public class locationExterneServlet extends HttpServlet {
 				}
 			}
 			int montant = Integer.parseInt(""+session.getAttribute(PARAM_MONTANT));
-			
 			//Generation du rapport
-			File rep = new File("contratsLocationExterne");
+			File rep = new File("Documents\\contratsLocationExterne");
 			if(!rep.exists()){
 				rep.mkdir();
 			}
 			Document document = new Document(PageSize.A4);
 		    try {
 		      PdfWriter pdf = PdfWriter.getInstance(document,
-		          new FileOutputStream(new File("contratsLocationExterne\\ContratLocationExterne"+nom+""+prenom+""+numeroLocation+".pdf")));
+		          new FileOutputStream(new File("Documents\\contratsLocationExterne\\ContratLocationExterne"+nom+""+prenom+""+numeroLocation+".pdf")));
 		      pdf.setViewerPreferences(PdfWriter.PageLayoutSinglePage | PdfWriter.PageModeUseThumbs);
 		      document.open();
 		      Font font = FontFactory.getFont("Comic Sans MS", 15);
@@ -201,11 +200,11 @@ public class locationExterneServlet extends HttpServlet {
 		    document.close();
 			if(imprimer.equals("Oui")){ 
 			    Desktop desktop = Desktop.getDesktop();
-			    desktop.print(new File("contratsLocationExterne\\ContratLocationExterne"+nom+""+prenom+""+numeroLocation+".pdf"));
+			    desktop.print(new File("Documents\\contratsLocationExterne\\ContratLocationExterne"+nom+""+prenom+""+numeroLocation+".pdf"));
 			}
 			
 			Map<String, String> tarifs = LocationCtrl.recupereTarifsLocation();
-			LocationCtrl.ajouterLocation(""+session.getAttribute(PARAM_ID_ADHERENT), ""+session.getAttribute(PARAM_ID_DESIGNATION), ""+session.getAttribute("etatDebut"), ""+session.getAttribute(PARAM_DATE_DEBUT), ""+session.getAttribute(PARAM_DATE_FIN), Float.parseFloat(""+tarifs.get("caution")), Float.parseFloat(""+tarifs.get("montantLocationExterne")), "contratsLocationExterne\\ContratLocationExterne"+nom+""+prenom+""+numeroLocation+".pdf", "Externe");
+			LocationCtrl.ajouterLocation(""+session.getAttribute(PARAM_ID_ADHERENT), ""+session.getAttribute(PARAM_ID_DESIGNATION), ""+session.getAttribute("etatDebut"), ""+session.getAttribute(PARAM_DATE_DEBUT), ""+session.getAttribute(PARAM_DATE_FIN), Float.parseFloat(""+tarifs.get("caution")), Float.parseFloat(""+tarifs.get("montantLocationExterne")), "Documents\\contratsLocationExterne\\ContratLocationExterne"+nom+""+prenom+""+numeroLocation+".pdf", "Externe");
 			Materiel materiel = MaterielCtrl.getMaterielById(Integer.parseInt(""+session.getAttribute(PARAM_ID_DESIGNATION)));
 			MaterielCtrl.updateEstLouable(Integer.parseInt(""+session.getAttribute(PARAM_ID_DESIGNATION)), 0);
 			

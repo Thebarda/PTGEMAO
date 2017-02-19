@@ -162,7 +162,6 @@ public class Profil implements Serializable{
 	 */
 	public String recupererTypeDroit(String nomModule){
 		String res = "Aucun";
-		
 		for(Droit d : listDroits){
 			if(d.getModule().getNomModule().equals(nomModule)){
 				res = d.getType().getNomType();

@@ -161,6 +161,7 @@
 									</div>
 								</li>
 								<li><a href="<c:url value="<%= Pattern.ADMINISTRATION_LISTER_MODIFICATION %>"/>">Historique des modifications</a></li>
+								<li><a href="<c:url value="<%= Pattern.ARCHIVAGE_LISTER %>"/>?path=Documents">Archivage</a></li>
 							</ul>
 						</div>
 					</li>

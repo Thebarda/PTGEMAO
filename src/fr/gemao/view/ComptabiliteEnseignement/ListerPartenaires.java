@@ -31,10 +31,8 @@ public class ListerPartenaires extends HttpServlet{
 		List<Partenaire> tmppartenaires = PartenaireCtrl.getAll();
 		List<Partenaire> partenaires = new ArrayList<>();
 		for(Partenaire partenaire : tmppartenaires){
-			if(ChequePartenaireCtrl.getMaxYearDatePaiement(partenaire.getIdPartenaire())!=0){
-				partenaire.setAnneeDernierVersement(ChequePartenaireCtrl.getMaxYearDatePaiement(partenaire.getIdPartenaire()));
-				partenaires.add(partenaire);
-			}
+			partenaire.setAnneeDernierVersement(ChequePartenaireCtrl.getMaxYearDatePaiement(partenaire.getIdPartenaire()));
+			partenaires.add(partenaire);
 		}
 		//Collections.sort(partenaires);
 		request.setAttribute("partenaires", partenaires);

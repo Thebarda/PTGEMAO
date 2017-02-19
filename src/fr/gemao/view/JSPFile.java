@@ -63,6 +63,9 @@ public class JSPFile {
 		LOCATION_CHEQUE_DEE = ROOT + REP_LOCATION + "chequeDEE.jsp",
 		LOCATION_DETAILS = ROOT + REP_LOCATION + "afficherDetailsLocation.jsp",
 		
+		REP_ARCHIVAGE = "archivage/",
+		ARCHIVAGE_LISTER = ROOT + REP_ARCHIVAGE + "ListerRepsFichiers.jsp",
+		
 		COMPTABILITE_ENSEIGNEMENT = ROOT + REP_LOCATION + "ComptabiliteEnseignement.jsp",
 		COMPTABILIT_LISTER_CHEQUES = ROOT + REP_LOCATION + "ListerCheques.jsp",
 		COMPTABILITE_AJOUTER_CHEQUES = ROOT + REP_LOCATION + "AjouterChequesPartenaire.jsp",
