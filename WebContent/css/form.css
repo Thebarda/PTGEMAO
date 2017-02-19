@@ -1,0 +1,15 @@
+#formGauche>form>fieldset{
+	width: 15rem;
+}
+
+#formDroit>form>fieldset{
+	width: 15rem;
+}
+
+#formDroit{
+	display: inline-block;
+	margin-left: 12rem;
+}
+#formGauche{
+	float:left;
+}

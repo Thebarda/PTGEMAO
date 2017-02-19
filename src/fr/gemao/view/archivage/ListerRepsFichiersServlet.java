@@ -65,6 +65,12 @@ public class ListerRepsFichiersServlet extends HttpServlet{
 			File aSuppr = new File(pasthTmp);
 			aSuppr.delete();
 		}
+		if(request.getParameter("dossierDestination")!=null){
+			Part repPart = request.getPart("dossierDestination");
+			String path = Paths.get(repPart.getSubmittedFileName()).getRoot().toString();
+			System.out.println(path);
+		}
+		System.out.println(request.getParameter("dossierDestination"));
 		this.getServletContext().getRequestDispatcher(JSPFile.ARCHIVAGE_LISTER).forward(request, response);
 	}
 	
@@ -92,6 +98,11 @@ public class ListerRepsFichiersServlet extends HttpServlet{
 			IOUtils.copy(fileContent, destination);
 			destination.close();
 			request.setAttribute("ajout", "Fichier ajouté");
+		}
+		if(request.getParameter("dossierDestination")!=null){
+			Part repPart = request.getPart("dossierDestination");
+			String path = Paths.get(repPart.getSubmittedFileName()).getRoot().toString();
+			System.out.println(path);
 		}
 		this.getServletContext().getRequestDispatcher(JSPFile.ARCHIVAGE_LISTER).forward(request, response);
 	}
