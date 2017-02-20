@@ -80,7 +80,7 @@
 		<c:if test="${not noReturn}">
 			<p class="text-success"><c:out value="${ajout }"></c:out></p>
 			
-			<a id="retour" class="btn" href="<c:url value="<%= Pattern.ARCHIVAGE_LISTER %>"/>?path=<%= session.getAttribute("retour") %>">Retour</a><br><br><br>
+			<a id="retour" class="btn" href="<c:url value="<%= Pattern.ARCHIVAGE_LISTER %>"/>?path=<%= session.getAttribute("path") %>">Retour</a><br><br><br>
 		</c:if>
 	</c:otherwise>
 </c:choose>
