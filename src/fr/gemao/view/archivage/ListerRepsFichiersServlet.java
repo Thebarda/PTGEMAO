@@ -34,7 +34,7 @@ public class ListerRepsFichiersServlet extends HttpServlet{
 			HttpSession session = request.getSession();
 			String pathActuel = request.getParameter("path");
 			String pasthTmp = pathActuel.replaceAll("--", "\\\\");
-			
+			//test
 			if(pasthTmp.equals("Documents\\")||(pasthTmp.equals("Documents"))||(pasthTmp.equals("Documents\\\\"))||pasthTmp.equals("Documents\\\\\\")){
 				request.setAttribute("noReturn", true);
 			}else{
