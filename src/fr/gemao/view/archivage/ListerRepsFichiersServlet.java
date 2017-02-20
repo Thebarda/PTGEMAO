@@ -1,6 +1,7 @@
 package fr.gemao.view.archivage;
 
 import java.io.File;
+import java.util.regex.*;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,11 +34,15 @@ public class ListerRepsFichiersServlet extends HttpServlet{
 			HttpSession session = request.getSession();
 			String pathActuel = request.getParameter("path");
 			String pasthTmp = pathActuel.replaceAll("--", "\\\\");
-			if(pasthTmp.equals("Documents")){
+			
+			if(pasthTmp.equals("Documents\\")||(pasthTmp.equals("Documents"))||(pasthTmp.equals("Documents\\\\"))||pasthTmp.equals("Documents\\\\\\")){
 				request.setAttribute("noReturn", true);
 			}else{
-				String[] tmp = pasthTmp.split("\\\\");
-				String retour = (String) session.getAttribute("lastPath");
+				String[] tmp = pathActuel.split("--");
+				String retour="";
+				for(int i=0;i<(tmp.length-1);i++){
+					retour+=tmp[i]+"--";
+				}
 				session.setAttribute("retour", retour);
 				request.setAttribute("noReturn", false);
 			}
@@ -68,9 +73,7 @@ public class ListerRepsFichiersServlet extends HttpServlet{
 		if(request.getParameter("dossierDestination")!=null){
 			Part repPart = request.getPart("dossierDestination");
 			String path = Paths.get(repPart.getSubmittedFileName()).getRoot().toString();
-			System.out.println(path);
 		}
-		System.out.println(request.getParameter("dossierDestination"));
 		this.getServletContext().getRequestDispatcher(JSPFile.ARCHIVAGE_LISTER).forward(request, response);
 	}
 	
