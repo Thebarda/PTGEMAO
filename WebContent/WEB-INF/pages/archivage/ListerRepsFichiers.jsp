@@ -15,15 +15,7 @@
 	<c:when test="${empty ajout }">
 			<p class="text-success"><c:out value="${ajout }"></c:out></p>
 			<span id="formDroit">
-				<form method="post" action="<c:url value="<%= Pattern.ARCHIVAGE_LISTER %>"/>?path=<%=session.getAttribute("path") %>" enctype="multipart/form-data">
-					<fieldset>
-						<legend>Sauvegarder</legend>
-						Dossier destination *: <input type="file" name="dossierDestination" directory webkitdirectory mozdirectory multiple>
-						<br>
-						<br>
-						<input class="btn" type="submit" value="Sauvegarder">
-					</fieldset>
-				</form>
+				
 			</span>
 			<c:if test="${noReturn == false}">
 				<br>
