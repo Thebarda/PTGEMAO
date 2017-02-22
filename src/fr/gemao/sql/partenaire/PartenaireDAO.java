@@ -120,6 +120,23 @@ public class PartenaireDAO extends IDAO<Partenaire>{
 		return new Partenaire(result.getInt("idPartenaire"), result.getString("raisonSociale"), AdresseCtrl.recupererAdresse(result.getInt("idAdresse")), result.getInt("annee"), result.getString("taillePage"));
 	}
 
+	public void updateTaillePage(Integer idPartenaire, String taillePage) {
+		Partenaire partenaire = null;
+		Connection connexion = null;
+		PreparedStatement requete = null;
+		Integer result = null;
+		String sql = "UPDATE partenaire SET taillePage = ? WHERE idPartenaire=?;";
+		try {
+			connexion = factory.getConnection();
+			requete = DAOUtilitaires.initialisationRequetePreparee(connexion, sql, false, taillePage, idPartenaire);
+			result = requete.executeUpdate();
+		} catch (SQLException e){
+			throw new DAOException(e);
+		} finally {
+			DAOUtilitaires.fermeturesSilencieuses(requete, connexion);
+		}
+	}
+
 	
 
 }

@@ -27,4 +27,9 @@ public class PartenaireCtrl {
 		PartenaireDAO partenaire = new PartenaireDAO(DAOFactory.getInstance());
 		return partenaire.get(int1);
 	}
+
+	public static void updateTaillePage(Integer idPartenaire, String taillePage) {
+		PartenaireDAO partenaire = new PartenaireDAO(DAOFactory.getInstance());
+		partenaire.updateTaillePage(idPartenaire, taillePage);
+	}
 }

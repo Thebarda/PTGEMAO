@@ -19,6 +19,7 @@
 			<th>Année de partenariat</th>
 			<th>Taille de la page</th>
 			<th>Année du dernier versement</th>
+			<th>Option</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -29,6 +30,7 @@
 				<td><c:out value="${partenaire.getAnnee() }"></c:out></td>
 				<td><c:out value="${partenaire.getTaillePage() }"></c:out></td>
 				<td><c:out value="${partenaire.getAnneeDernierVersement() }"></c:out></td>
+				<td><a href="<c:url value="<%= Pattern.COMPTABILITE_DETAILS_PARTENAIRE %>"/>?id=<c:out value="${partenaire.getIdPartenaire()}"/>" title="Afficher détails"><i class="fa fa-search"></i></a></td>
 			</tr>
 		</c:forEach>
 	</tbody>

@@ -214,4 +214,31 @@ public class ChequePartenaireDAO extends IDAO<ChequePartenaire>{
 		return annee;
 	}
 
+	public List<ChequePartenaire> getChequesByIdPartenaire(int idPartenaire) {
+		List<ChequePartenaire> liste = new ArrayList<>();
+		ChequePartenaire chequePartenaire = null;
+		Connection connexion = null;
+		PreparedStatement requete = null;
+		ResultSet result = null;
+		String sql = "SELECT * FROM chequePartenaire WHERE idPartenaire = ? ORDER BY datePaiement DESC ";
+		
+		try {
+			
+			connexion = factory.getConnection();
+			requete = DAOUtilitaires.initialisationRequetePreparee(connexion, sql, false, idPartenaire);
+			result = requete.executeQuery();
+			
+			while (result.next()){
+				chequePartenaire = this.map(result);
+				liste.add(chequePartenaire);
+			}
+		} catch (SQLException | ParseException e){
+			throw new DAOException(e);
+		} finally {
+			DAOUtilitaires.fermeturesSilencieuses(result, requete, connexion);
+		}
+		
+		return liste;
+	}
+
 }

@@ -52,4 +52,9 @@ public class ChequePartenaireCtrl {
 		ChequePartenaireDAO cheDAO = new ChequePartenaireDAO(DAOFactory.getInstance());
 		return cheDAO.getMaxYearDatePaiement(id);
 	}
+
+	public static List<ChequePartenaire> getChequesByIdPartenaire(int idPartenaire) {
+		ChequePartenaireDAO cheDAO = new ChequePartenaireDAO(DAOFactory.getInstance());
+		return cheDAO.getChequesByIdPartenaire(idPartenaire);
+	}
 }
