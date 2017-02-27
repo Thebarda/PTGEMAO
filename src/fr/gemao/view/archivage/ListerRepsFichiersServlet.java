@@ -59,6 +59,7 @@ public class ListerRepsFichiersServlet extends HttpServlet{
 			String[] tmp = file.list();
 			List<String> files = new ArrayList<>();
 			List<String> reps = new ArrayList<>();
+			System.out.println(tmp);
 			for(int i=0;i<tmp.length;i++){
 				File f = new File(pasthTmp+"\\"+tmp[i]);
 				if(f.isFile()){

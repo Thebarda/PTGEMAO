@@ -145,10 +145,11 @@ public class LocationInterneServlet extends HttpServlet implements Printable {
 			int montant = Integer.parseInt(""+session.getAttribute(PARAM_MONTANT));
 			
 			//Generation du rapport
-			File rep = new File("Docuemnts\\contratsLocationInterne");
+			File rep = new File("Documents\\contratsLocationInterne");
 			if(!rep.exists()){
 				rep.mkdir();
 			}
+			System.out.println(rep.getAbsolutePath());
 			Document document = new Document(PageSize.A4);
 		    try {
 		      PdfWriter pdf = PdfWriter.getInstance(document,
@@ -200,10 +201,15 @@ public class LocationInterneServlet extends HttpServlet implements Printable {
 		      ioe.printStackTrace();
 		    }
 		    document.close();
-			if(imprimer.equals("Oui")){ 
-			    Desktop desktop = Desktop.getDesktop();
-			    desktop.print(new File("Documents\\contratsLocationInterne\\ContratLocationInterne"+nom+""+prenom+""+numeroLocation+".pdf"));
-			}
+		    System.out.println(document.getPageNumber());
+		    try{
+				if(imprimer.equals("Oui")){ 
+				    Desktop desktop = Desktop.getDesktop();
+				    desktop.print(new File("Documents\\contratsLocationInterne\\ContratLocationInterne"+nom+""+prenom+""+numeroLocation+".pdf"));
+				}
+		    }catch(Exception e){
+		    	request.setAttribute("printerError", "Il semble qu'il n'y ai pas d'application pour imprimer un fichier de type PDF");
+		    }
 			
 			Map<String, String> tarifs = LocationCtrl.recupereTarifsLocation();
 			LocationCtrl.ajouterLocation(""+session.getAttribute(PARAM_ID_ADHERENT), ""+session.getAttribute(PARAM_ID_DESIGNATION), ""+session.getAttribute("etatDebut"), ""+session.getAttribute(PARAM_DATE_DEBUT), ""+session.getAttribute(PARAM_DATE_FIN), Float.parseFloat(""+tarifs.get("caution")), Float.parseFloat(""+tarifs.get("montantLocationInterne")), "Documents\\contratsLocationInterne\\ContratLocationInterne"+nom+""+prenom+""+numeroLocation+".pdf", "Interne");

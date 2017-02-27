@@ -48,8 +48,12 @@ public class ImprimLocationServlet extends HttpServlet {
 			throws ServletException, IOException {
 		int id = Integer.parseInt(request.getParameter("id"));
 		String nomContrat = LocationCtrl.getNomContratById(id);
-		Desktop desktop = Desktop.getDesktop();
-		desktop.print(new File(nomContrat));
+		try{
+			Desktop desktop = Desktop.getDesktop();
+			desktop.print(new File(nomContrat));
+		}catch(Exception e){
+	    	request.setAttribute("printerError", "Il semble qu'il n'y ai pas d'application pour imprimer un fichier de type PDF");
+	    }
 		this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_IMPRIMER).forward(request, response);
 	}
 

@@ -70,10 +70,10 @@ autocompletionFamille("#adh");
 								</fieldset>
 									<fieldset class="ajoutCheque">
 										<legend>Chèque</legend>
-										<label class="offset">Date paiement *: </label><input id="datePaiement" type="text" class="datepicker offset" size="10" name="datePaiement"><br>
-										<label for="montantCheque" class="offset">Montant *: </label><input id="montantCheque" type="text" size="10" name="montantCheque" class="offset"><br> 
-										<label for="numeroCheque" class="offset">Numéro chèque (11 caractères) *: </label><input id="numeroCheque" type="text" name="numeroCheque" class="offset"><br>
-										<label class="offset">Date encaissement *: </label><input id="dateEncaissement" type="text" class="datepicker offset" size="10" name="dateEncaissement">
+										<label>Date paiement *: </label><input id="datePaiement" type="text" class="datepicker" size="10" name="datePaiement"><br>
+										<label for="montantCheque">Montant *: </label><input id="montantCheque" type="text" size="10" name="montantCheque"><br> 
+										<label for="numeroCheque">Numéro chèque (11 caractères) *: </label><input id="numeroCheque" type="text" name="numeroCheque"><br>
+										<label>Date encaissement *: </label><input id="dateEncaissement" type="text" class="datepicker" size="10" name="dateEncaissement">
 									</fieldset>
 							</c:otherwise>	
 							</c:choose>
@@ -124,6 +124,7 @@ autocompletionFamille("#adh");
 		</c:when>
 		<c:otherwise>
 			<p class="offset text-success"><%= request.getAttribute("validation") %></p><br>
+			<p class="offset text-danger"><%= request.getAttribute("printerError") %></p><br>
 			<a class="offset btn" href="<c:url value="<%= Pattern.ACCUEIL %>"/>">Retour</a>
 		</c:otherwise>
 	</c:choose>

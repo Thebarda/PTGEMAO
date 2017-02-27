@@ -198,33 +198,47 @@ public class locationExterneServlet extends HttpServlet {
 		      ioe.printStackTrace();
 		    }
 		    document.close();
-			if(imprimer.equals("Oui")){ 
-			    Desktop desktop = Desktop.getDesktop();
-			    desktop.print(new File("Documents\\contratsLocationExterne\\ContratLocationExterne"+nom+""+prenom+""+numeroLocation+".pdf"));
-			}
-			
+		    System.out.println("1");
+		    try{
+		    	System.out.println("2");
+				if(imprimer.equals("Oui")){ 
+				    Desktop desktop = Desktop.getDesktop();
+				    desktop.print(new File("Documents\\contratsLocationExterne\\ContratLocationExterne"+nom+""+prenom+""+numeroLocation+".pdf"));
+				}
+			}catch(Exception e){
+		    	request.setAttribute("printerError", "Il semble qu'il n'y ai pas d'application pour imprimer un fichier de type PDF");
+		    }
+		    System.out.println("3");
 			Map<String, String> tarifs = LocationCtrl.recupereTarifsLocation();
+			System.out.println("4");
 			LocationCtrl.ajouterLocation(""+session.getAttribute(PARAM_ID_ADHERENT), ""+session.getAttribute(PARAM_ID_DESIGNATION), ""+session.getAttribute("etatDebut"), ""+session.getAttribute(PARAM_DATE_DEBUT), ""+session.getAttribute(PARAM_DATE_FIN), Float.parseFloat(""+tarifs.get("caution")), Float.parseFloat(""+tarifs.get("montantLocationExterne")), "Documents\\contratsLocationExterne\\ContratLocationExterne"+nom+""+prenom+""+numeroLocation+".pdf", "Externe");
+			System.out.println("5");
 			Materiel materiel = MaterielCtrl.getMaterielById(Integer.parseInt(""+session.getAttribute(PARAM_ID_DESIGNATION)));
+			System.out.println("6");
 			MaterielCtrl.updateEstLouable(Integer.parseInt(""+session.getAttribute(PARAM_ID_DESIGNATION)), 0);
-			
+			System.out.println("7");
 			int id = LocationCtrl.getIdLastInserted();
-			
+			System.out.println("8");
 			List<Cheque> cheques = (List<Cheque>) session.getAttribute("cheques");
+			System.out.println("9");
 			if(!cheques.isEmpty()){
 				List<Location> locations = LocationCtrl.getAll();
 				Location location = null;
+				System.out.println("10");
 				for(Location loc : locations){
 					if(loc.getId()==id){
 						location=loc;
+						System.out.println("11");
 					}
 				}
+				System.out.println("12");
 				for(Cheque c : cheques){
+					System.out.println("13");
 					ChequeLocation chequeLocation= new ChequeLocation(location, c.getDatePaiement(), c.getMontantCheque(), c.getNumCheque(), c.getDateEncaissement(), null);
 					ChequeCtrl.ajouterCheque(chequeLocation);
 				}
 			}
-			
+			System.out.println("13");
 			request.setAttribute("validation", "Location enregistrée !");
 			this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_EXTERNE).forward(request, response);
 		}
