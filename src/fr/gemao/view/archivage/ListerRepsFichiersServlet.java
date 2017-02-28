@@ -13,8 +13,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Paths;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -28,6 +34,7 @@ import javax.servlet.http.Part;
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 
+import fr.gemao.ctrl.archivage.ArchivageCtrl;
 import fr.gemao.form.util.Form;
 import fr.gemao.util.Zip;
 import fr.gemao.view.JSPFile;
@@ -36,6 +43,8 @@ import fr.gemao.view.Pattern;
 @WebServlet(Pattern.ARCHIVAGE_LISTER)
 @MultipartConfig
 public class ListerRepsFichiersServlet extends HttpServlet{
+	static int UN = 1;
+    static int DOUZE = 12;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		if(request.getParameter("path")!=null){
@@ -59,7 +68,6 @@ public class ListerRepsFichiersServlet extends HttpServlet{
 			String[] tmp = file.list();
 			List<String> files = new ArrayList<>();
 			List<String> reps = new ArrayList<>();
-			System.out.println(tmp);
 			for(int i=0;i<tmp.length;i++){
 				File f = new File(pasthTmp+"\\"+tmp[i]);
 				if(f.isFile()){
@@ -69,40 +77,55 @@ public class ListerRepsFichiersServlet extends HttpServlet{
 				}
 			}
 			
-			byte data[] = new byte[2048];
-			FileOutputStream dest = new FileOutputStream("Documents.zip");
-			BufferedOutputStream buff = new BufferedOutputStream(dest);
-			ZipOutputStream out = new ZipOutputStream(buff);
-			out.setMethod(ZipOutputStream.DEFLATED);
-			out.setLevel(9);
-			for(int i=0;i<tmp.length;i++){
-				File f = new File(pasthTmp+"\\"+tmp[i]);
-				if(f.isFile()){
-					FileInputStream fi = new FileInputStream(f);
-					BufferedInputStream buffi = new BufferedInputStream(fi, 2048);
-					ZipEntry entry = new ZipEntry(tmp[i]);
-					out.putNextEntry(entry);
-					int count;
-					while((count = buffi.read(data, 0, 2048))!=-1){
-						out.write(data, 0, count);
-					}
-					out.closeEntry();
-					buffi.close();
-				}else{
-					File f2 = new File(pasthTmp+"\\"+tmp[i]);
-					this.addFolder(out, tmp[i], f2.getParentFile().getName());
-				}
-			}
-			out.close();
+			File directoryToZip = new File("Documents");
+			List<File> fileList = new ArrayList<File>();
+			Zip zipTmp = new Zip();
+			zipTmp.getAllFiles(directoryToZip, fileList);
+			zipTmp.writeZipFile(directoryToZip, fileList);
 			
 			File zip = new File("Documents.zip");
 			String absolutePathZip = zip.getAbsolutePath();
-			System.out.println(absolutePathZip);
 			request.setAttribute("apz", absolutePathZip);
 			request.setAttribute("reps", reps);
 			request.setAttribute("files", files);
 			session.setAttribute("lastPath", pathActuel);
 			session.setAttribute("path", pathActuel);
+			
+			String lastSaveTmp = ArchivageCtrl.getLastSauvegarde();
+			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			Calendar cal1 = Calendar.getInstance();
+			Calendar cal2 = Calendar.getInstance();
+			Calendar cal0 = Calendar.getInstance();
+			int nbMois=0;
+			int nbAnnees=0;
+			int nbJours=0;
+			try {
+				Date lastSave = dateFormat.parse(lastSaveTmp);
+				Date today = new Date();
+				if(lastSave.equals(today)){
+					request.setAttribute("diffDate", "Vous avez sauvegardé aujourd'hui");
+				}else{
+					cal1.setTime(today);
+					cal2.setTime(lastSave);
+					while(cal1.before(cal2)){
+						cal1.add(GregorianCalendar.MONTH, UN);
+						if(cal1.before(cal2)||cal1.equals(cal2)){
+							nbMois++;
+						}
+					}
+					nbAnnees = (nbMois/DOUZE);
+					nbMois=(nbMois-(nbMois*DOUZE));
+					cal0 = Calendar.getInstance();
+					cal0.setTime(today);
+					cal0.add(GregorianCalendar.YEAR, nbAnnees);
+					cal0.add(GregorianCalendar.MONTH, nbMois);
+					nbJours = (int) ((cal2.getTimeInMillis()-cal0.getTimeInMillis())/86400000);
+					request.setAttribute("diffDate", "Vous avez sauvegardé depuis "+nbJours+" jour(s). Pensez à sauvegarder fréquemment.");
+				}
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			
 		}
 		if(request.getParameter("delete")!=null){
 			String pathActuel = request.getParameter("delete");
@@ -110,6 +133,27 @@ public class ListerRepsFichiersServlet extends HttpServlet{
 			File aSuppr = new File(pasthTmp);
 			aSuppr.delete();
 			request.setAttribute("ajout", "Elément supprimé");
+			
+		}
+		if(request.getParameter("sauvegarde")!=null){
+			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			Date todayTmp = new Date();
+			String today="";
+			String moisDeb = "";
+			String dayDeb = "";
+			if((todayTmp.getMonth()+1)<10){
+				moisDeb = "0"+(todayTmp.getMonth()+1);
+			}else{
+				moisDeb=""+(todayTmp.getMonth()+1);
+			}
+			if(todayTmp.getDate()<10){
+				dayDeb = "0"+todayTmp.getDate();
+			}else{
+				dayDeb=""+todayTmp.getDate();
+			}
+			today = dayDeb+"/"+moisDeb+"/"+(1900+todayTmp.getYear());
+			ArchivageCtrl.addSauvegarde(today);
+			request.setAttribute("ajout", "Votre sauvegarde a été téléchargé");
 		}
 		this.getServletContext().getRequestDispatcher(JSPFile.ARCHIVAGE_LISTER).forward(request, response);
 	}
@@ -139,21 +183,7 @@ public class ListerRepsFichiersServlet extends HttpServlet{
 			destination.close();
 			request.setAttribute("ajout", "Fichier ajouté");
 		}
+		
 		this.getServletContext().getRequestDispatcher(JSPFile.ARCHIVAGE_LISTER).forward(request, response);
-	}
-	
-	private static void addFolder(ZipOutputStream out, String folder, String baseFolder) throws IOException{
-		File f = new File(baseFolder+"\\"+folder);
-		System.out.println(f.getAbsolutePath());
-		if(f.exists()){
-			System.out.println("existe");
-			ZipEntry entry = new ZipEntry(folder);
-			out.putNextEntry(entry);
-			File f2[] = f.listFiles();
-			for(int j=0;j<f2.length;j++){
-				System.out.println(f2[j].getAbsolutePath());
-				addFolder(out, f2[j].getAbsolutePath(), baseFolder);
-			}
-		}
 	}
 }

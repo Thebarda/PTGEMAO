@@ -3,20 +3,18 @@
 <%@ page import="fr.gemao.view.Pattern"%>
 
 <c:set var="titre" value="Lister les répertoires et les fichiers" scope="request" />
-
 <c:import url="/inc/head.inc.jsp" />
 
 <c:import url="/inc/header.inc.jsp" />
 <c:import url="/inc/menu.inc.jsp" />
-
+<p class="text-danger offset"><c:out value="${diffDate }"></c:out></p>
 <h1>Lister les dossiers et les fichiers</h1>
 <div class="offset">
+
 <c:choose>
 	<c:when test="${empty ajout }">
 			<p class="text-success"><c:out value="${ajout }"></c:out></p>
-			<span id="formDroit">
-				
-			</span>
+			<a href="<c:out value="${apz }"></c:out>" download="Documents" class="offset btn" id="sauvegarde">Télécharger la sauvegarde</a>
 			<c:if test="${noReturn == false}">
 				<br>
 				<a id="retour" class="btn" href="<c:url value="<%= Pattern.ARCHIVAGE_LISTER %>"/>?path=<%= session.getAttribute("retour") %>">Retour</a><br><br><br>
@@ -76,4 +74,5 @@
 		</c:if>
 	</c:otherwise>
 </c:choose>
+<script type="text/javascript" src="<c:url value="/js/sauvegarde.js"></c:url>"></script>
 <c:import url="/inc/footer.inc.jsp" />

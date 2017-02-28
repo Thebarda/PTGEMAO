@@ -2,6 +2,7 @@ package fr.gemao.util;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,100 +11,66 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class Zip {
-	private List<String> fileList;
-	private static final String OUTPUT_ZIP_FILE = "Folder.zip";
-	private static final String SOURCE_FOLDER = "D:\\Reports"; // SourceFolder path
 
-	public Zip()
-	{
-	   fileList = new ArrayList<String>();
+	public void getAllFiles(File dir, List<File> fileList) {
+		try {
+			File[] files = dir.listFiles();
+			for (File file : files) {
+				fileList.add(file);
+				if (file.isDirectory()) {
+					System.out.println("directory:" + file.getCanonicalPath());
+					getAllFiles(file, fileList);
+				} else {
+					System.out.println("     file:" + file.getCanonicalPath());
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
-	public void zipIt(String zipFile)
-	{
-	   byte[] buffer = new byte[1024];
-	   String source = "";
-	   FileOutputStream fos = null;
-	   ZipOutputStream zos = null;
-	   try
-	   {
-	      try
-	      {
-	         source = SOURCE_FOLDER.substring(SOURCE_FOLDER.lastIndexOf("\\") + 1, SOURCE_FOLDER.length());
-	      }
-	     catch (Exception e)
-	     {
-	        source = SOURCE_FOLDER;
-	     }
-	     fos = new FileOutputStream(zipFile);
-	     zos = new ZipOutputStream(fos);
+	public void writeZipFile(File directoryToZip, List<File> fileList) {
 
-	     System.out.println("Output to Zip : " + zipFile);
-	     FileInputStream in = null;
+		try {
+			FileOutputStream fos = new FileOutputStream(directoryToZip.getName() + ".zip");
+			ZipOutputStream zos = new ZipOutputStream(fos);
 
-	     for (String file : this.fileList)
-	     {
-	        System.out.println("File Added : " + file);
-	        ZipEntry ze = new ZipEntry(source + File.separator + file);
-	        zos.putNextEntry(ze);
-	        try
-	        {
-	           in = new FileInputStream(SOURCE_FOLDER + File.separator + file);
-	           int len;
-	           while ((len = in.read(buffer)) > 0)
-	           {
-	              zos.write(buffer, 0, len);
-	           }
-	        }
-	        finally
-	        {
-	           in.close();
-	        }
-	     }
+			for (File file : fileList) {
+				if (!file.isDirectory()) { // we only zip files, not directories
+					addToZip(directoryToZip, file, zos);
+				}
+			}
 
-	     zos.closeEntry();
-	     System.out.println("Folder successfully compressed");
-
-	  }
-	  catch (IOException ex)
-	  {
-	     ex.printStackTrace();
-	  }
-	  finally
-	  {
-	     try
-	     {
-	        zos.close();
-	     }
-	     catch (IOException e)
-	     {
-	        e.printStackTrace();
-	     }
-	  }
+			zos.close();
+			fos.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
-	public void generateFileList(File node)
-	{
+	public void addToZip(File directoryToZip, File file, ZipOutputStream zos) throws FileNotFoundException,
+			IOException {
 
-	  // add file only
-	  if (node.isFile())
-	  {
-	     fileList.add(generateZipEntry(node.toString()));
+		FileInputStream fis = new FileInputStream(file);
 
-	  }
+		// we want the zipEntry's path to be a relative path that is relative
+		// to the directory being zipped, so chop off the rest of the path
+		String zipFilePath = file.getCanonicalPath().substring(directoryToZip.getCanonicalPath().length() + 1,
+				file.getCanonicalPath().length());
+		System.out.println("Writing '" + zipFilePath + "' to zip file");
+		ZipEntry zipEntry = new ZipEntry(zipFilePath);
+		zos.putNextEntry(zipEntry);
 
-	  if (node.isDirectory())
-	  {
-	     String[] subNote = node.list();
-	     for (String filename : subNote)
-	     {
-	        generateFileList(new File(node, filename));
-	     }
-	  }
+		byte[] bytes = new byte[1024];
+		int length;
+		while ((length = fis.read(bytes)) >= 0) {
+			zos.write(bytes, 0, length);
+		}
+
+		zos.closeEntry();
+		fis.close();
 	}
 
-	private String generateZipEntry(String file)
-	{
-	   return file.substring(SOURCE_FOLDER.length() + 1, file.length());
-	}
 }
