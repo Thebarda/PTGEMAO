@@ -19,6 +19,7 @@
 				<br>
 				<a id="retour" class="btn" href="<c:url value="<%= Pattern.ARCHIVAGE_LISTER %>"/>?path=<%= session.getAttribute("retour") %>">Retour</a><br><br><br>
 			</c:if>
+			<p><c:out value="${pathAffiche }"></c:out>
 			<h2>Dossiers</h2>
 			<table class="tablesorter-blue  pure-table">
 			<c:forEach items="${reps }" var="rep">

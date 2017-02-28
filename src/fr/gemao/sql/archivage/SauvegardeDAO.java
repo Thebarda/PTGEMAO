@@ -81,16 +81,15 @@ public class SauvegardeDAO extends IDAO<Adresse>{
 	}
 
 	public String getLastSauvegarde() {
-		Integer id = 0;
 		String dateLastSave = "";
 		Connection connexion = null;
 		PreparedStatement requete = null;
 		ResultSet result = null;
-		String sql = "SELECT MAX(idSauvegarde), dateSauvegarde FROM sauvegarde;";
+		String sql = "SELECT dateSauvegarde, idSauvegarde FROM sauvegarde HAVING idSauvegarde >= ALL (SELECT idSauvegarde from sauvegarde);";
 		try {
 			connexion = factory.getConnection();
 			requete = DAOUtilitaires.initialisationRequetePreparee(connexion,
-					sql, true);
+					sql, false);
 			result = requete.executeQuery();
 			while (result.next()) {
 				dateLastSave=result.getString("dateSauvegarde");

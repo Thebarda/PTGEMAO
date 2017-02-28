@@ -51,32 +51,43 @@ public class ListerRepsFichiersServlet extends HttpServlet{
 			HttpSession session = request.getSession();
 			String pathActuel = request.getParameter("path");
 			String pasthTmp = pathActuel.replaceAll("--", "\\\\");
+			String[] pathAfficheTmp = pathActuel.split("--");
+			String pathAffiche="";
+			for(int i=0;i<pathAfficheTmp.length;i++){
+				if(!pathAfficheTmp[i].equals("")){
+					pathAffiche+=pathAfficheTmp[i]+"\\";
+				}
+			}
+			request.setAttribute("pathAffiche", pathAffiche);
 			//test
 			if(pasthTmp.equals("Documents\\")||(pasthTmp.equals("Documents"))||(pasthTmp.equals("Documents\\\\"))||pasthTmp.equals("Documents\\\\\\")){
 				request.setAttribute("noReturn", true);
 			}else{
 				String[] tmp = pathActuel.split("--");
 				String retour="";
-				for(int i=0;i<(tmp.length-1);i++){
-					retour+=tmp[i]+"--";
+				int moins=tmp.length-1;
+				for(int i=0;i<moins;i++){
+					if(!tmp[i].equals("")){
+						retour+=tmp[i]+"--";
+					}
 				}
 				session.setAttribute("retour", retour);
 				request.setAttribute("noReturn", false);
 			}
-			
-			File file = new File(pasthTmp);
-			String[] tmp = file.list();
+
 			List<String> files = new ArrayList<>();
 			List<String> reps = new ArrayList<>();
+			File file = new File(pasthTmp);
+			File[] tmp = file.listFiles();
 			for(int i=0;i<tmp.length;i++){
-				File f = new File(pasthTmp+"\\"+tmp[i]);
-				if(f.isFile()){
-					files.add(tmp[i]);
+				if(tmp[i].isFile()){
+					files.add(tmp[i].getName());
 				}else{
-					reps.add(tmp[i]);
+					reps.add(tmp[i].getName());
 				}
 			}
-			
+		
+		
 			File directoryToZip = new File("Documents");
 			List<File> fileList = new ArrayList<File>();
 			Zip zipTmp = new Zip();
@@ -85,13 +96,9 @@ public class ListerRepsFichiersServlet extends HttpServlet{
 			
 			File zip = new File("Documents.zip");
 			String absolutePathZip = zip.getAbsolutePath();
-			request.setAttribute("apz", absolutePathZip);
-			request.setAttribute("reps", reps);
-			request.setAttribute("files", files);
-			session.setAttribute("lastPath", pathActuel);
-			session.setAttribute("path", pathActuel);
 			
 			String lastSaveTmp = ArchivageCtrl.getLastSauvegarde();
+			//String lastSaveTmp="22/08/2016";
 			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 			Calendar cal1 = Calendar.getInstance();
 			Calendar cal2 = Calendar.getInstance();
@@ -99,33 +106,40 @@ public class ListerRepsFichiersServlet extends HttpServlet{
 			int nbMois=0;
 			int nbAnnees=0;
 			int nbJours=0;
+			Date lastSave = null;
 			try {
-				Date lastSave = dateFormat.parse(lastSaveTmp);
-				Date today = new Date();
-				if(lastSave.equals(today)){
-					request.setAttribute("diffDate", "Vous avez sauvegardé aujourd'hui");
-				}else{
-					cal1.setTime(today);
-					cal2.setTime(lastSave);
-					while(cal1.before(cal2)){
-						cal1.add(GregorianCalendar.MONTH, UN);
-						if(cal1.before(cal2)||cal1.equals(cal2)){
-							nbMois++;
-						}
-					}
-					nbAnnees = (nbMois/DOUZE);
-					nbMois=(nbMois-(nbMois*DOUZE));
-					cal0 = Calendar.getInstance();
-					cal0.setTime(today);
-					cal0.add(GregorianCalendar.YEAR, nbAnnees);
-					cal0.add(GregorianCalendar.MONTH, nbMois);
-					nbJours = (int) ((cal2.getTimeInMillis()-cal0.getTimeInMillis())/86400000);
-					request.setAttribute("diffDate", "Vous avez sauvegardé depuis "+nbJours+" jour(s). Pensez à sauvegarder fréquemment.");
-				}
+				lastSave = dateFormat.parse(lastSaveTmp);
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-			
+			Date today = new Date();
+			if(lastSave.equals(today)){
+				request.setAttribute("diffDate", "Vous avez sauvegardé aujourd'hui");
+			}else{
+				cal1.setTime(today);
+				cal2.setTime(lastSave);
+				while(cal1.before(cal2)){
+					cal1.add(GregorianCalendar.MONTH, UN);
+					if(cal1.before(cal2)||cal1.equals(cal2)){
+						nbMois++;
+					}
+				}
+				nbAnnees = (nbMois/DOUZE);
+				nbMois=(nbMois-(nbMois*DOUZE));
+				cal0 = Calendar.getInstance();
+				cal0.setTime(today);
+				cal0.add(GregorianCalendar.YEAR, nbAnnees);
+				cal0.add(GregorianCalendar.MONTH, nbMois);
+				nbJours = (int) ((cal2.getTimeInMillis()-cal0.getTimeInMillis())/86400000);
+				nbJours-=(2*nbJours);
+				request.setAttribute("diffDate", "Vous n'avez pas sauvegardé depuis "+nbJours+" jour(s). Pensez à sauvegarder fréquemment.");
+			}
+
+			request.setAttribute("apz", absolutePathZip);
+			request.setAttribute("reps", reps);
+			request.setAttribute("files", files);
+			session.setAttribute("lastPath", pathActuel);
+			session.setAttribute("path", pathActuel);
 		}
 		if(request.getParameter("delete")!=null){
 			String pathActuel = request.getParameter("delete");

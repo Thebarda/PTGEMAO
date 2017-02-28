@@ -207,6 +207,7 @@ public class LocationInterneServlet extends HttpServlet implements Printable {
 				    Desktop desktop = Desktop.getDesktop();
 				    desktop.print(new File("Documents\\contratsLocationInterne\\ContratLocationInterne"+nom+""+prenom+""+numeroLocation+".pdf"));
 				}
+				
 		    }catch(Exception e){
 		    	request.setAttribute("printerError", "Il semble qu'il n'y ai pas d'application pour imprimer un fichier de type PDF");
 		    }

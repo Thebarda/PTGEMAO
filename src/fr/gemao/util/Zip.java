@@ -13,19 +13,12 @@ import java.util.zip.ZipOutputStream;
 public class Zip {
 
 	public void getAllFiles(File dir, List<File> fileList) {
-		try {
-			File[] files = dir.listFiles();
-			for (File file : files) {
-				fileList.add(file);
-				if (file.isDirectory()) {
-					System.out.println("directory:" + file.getCanonicalPath());
-					getAllFiles(file, fileList);
-				} else {
-					System.out.println("     file:" + file.getCanonicalPath());
-				}
+		File[] files = dir.listFiles();
+		for (File file : files) {
+			fileList.add(file);
+			if (file.isDirectory()) {
+				getAllFiles(file, fileList);
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -59,7 +52,6 @@ public class Zip {
 		// to the directory being zipped, so chop off the rest of the path
 		String zipFilePath = file.getCanonicalPath().substring(directoryToZip.getCanonicalPath().length() + 1,
 				file.getCanonicalPath().length());
-		System.out.println("Writing '" + zipFilePath + "' to zip file");
 		ZipEntry zipEntry = new ZipEntry(zipFilePath);
 		zos.putNextEntry(zipEntry);
 

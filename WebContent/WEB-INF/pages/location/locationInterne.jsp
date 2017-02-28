@@ -124,7 +124,9 @@ autocompletionFamille("#adh");
 		</c:when>
 		<c:otherwise>
 			<p class="offset text-success"><%= request.getAttribute("validation") %></p><br>
-			<p class="offset text-danger"><%= request.getAttribute("printerError") %></p><br>
+			<c:if test="${!empty printerError }">
+				<p class="offset text-danger"><%= request.getAttribute("printerError") %></p><br>
+			</c:if>
 			<a class="offset btn" href="<c:url value="<%= Pattern.ACCUEIL %>"/>">Retour</a>
 		</c:otherwise>
 	</c:choose>
