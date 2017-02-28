@@ -96,45 +96,46 @@ public class ListerRepsFichiersServlet extends HttpServlet{
 			
 			File zip = new File("Documents.zip");
 			String absolutePathZip = zip.getAbsolutePath();
-			
 			String lastSaveTmp = ArchivageCtrl.getLastSauvegarde();
-			//String lastSaveTmp="22/08/2016";
-			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-			Calendar cal1 = Calendar.getInstance();
-			Calendar cal2 = Calendar.getInstance();
-			Calendar cal0 = Calendar.getInstance();
-			int nbMois=0;
-			int nbAnnees=0;
-			int nbJours=0;
-			Date lastSave = null;
-			try {
-				lastSave = dateFormat.parse(lastSaveTmp);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			Date today = new Date();
-			if(lastSave.equals(today)){
-				request.setAttribute("diffDate", "Vous avez sauvegardé aujourd'hui");
-			}else{
-				cal1.setTime(today);
-				cal2.setTime(lastSave);
-				while(cal1.before(cal2)){
-					cal1.add(GregorianCalendar.MONTH, UN);
-					if(cal1.before(cal2)||cal1.equals(cal2)){
-						nbMois++;
-					}
+			if(!lastSaveTmp.equals("")){
+				DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+				Calendar cal1 = Calendar.getInstance();
+				Calendar cal2 = Calendar.getInstance();
+				Calendar cal0 = Calendar.getInstance();
+				int nbMois=0;
+				int nbAnnees=0;
+				int nbJours=0;
+				Date lastSave = null;
+				try {
+					lastSave = dateFormat.parse(lastSaveTmp);
+				} catch (ParseException e) {
+					e.printStackTrace();
 				}
-				nbAnnees = (nbMois/DOUZE);
-				nbMois=(nbMois-(nbMois*DOUZE));
-				cal0 = Calendar.getInstance();
-				cal0.setTime(today);
-				cal0.add(GregorianCalendar.YEAR, nbAnnees);
-				cal0.add(GregorianCalendar.MONTH, nbMois);
-				nbJours = (int) ((cal2.getTimeInMillis()-cal0.getTimeInMillis())/86400000);
-				nbJours-=(2*nbJours);
-				request.setAttribute("diffDate", "Vous n'avez pas sauvegardé depuis "+nbJours+" jour(s). Pensez à sauvegarder fréquemment.");
+				Date today = new Date();
+				if(lastSave.equals(today)){
+					request.setAttribute("diffDate", "Vous avez sauvegardé aujourd'hui");
+				}else{
+					cal1.setTime(today);
+					cal2.setTime(lastSave);
+					while(cal1.before(cal2)){
+						cal1.add(GregorianCalendar.MONTH, UN);
+						if(cal1.before(cal2)||cal1.equals(cal2)){
+							nbMois++;
+						}
+					}
+					nbAnnees = (nbMois/DOUZE);
+					nbMois=(nbMois-(nbMois*DOUZE));
+					cal0 = Calendar.getInstance();
+					cal0.setTime(today);
+					cal0.add(GregorianCalendar.YEAR, nbAnnees);
+					cal0.add(GregorianCalendar.MONTH, nbMois);
+					nbJours = (int) ((cal2.getTimeInMillis()-cal0.getTimeInMillis())/86400000);
+					nbJours-=(2*nbJours);
+					request.setAttribute("diffDate", "Vous n'avez pas sauvegardé depuis "+nbJours+" jour(s). Pensez à sauvegarder fréquemment.");
+				}
+			}else{
+				request.setAttribute("diffDate", "Vous n'avez effectué aucune sauvegarde");
 			}
-
 			request.setAttribute("apz", absolutePathZip);
 			request.setAttribute("reps", reps);
 			request.setAttribute("files", files);
