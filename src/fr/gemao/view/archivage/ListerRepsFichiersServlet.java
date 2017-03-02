@@ -146,6 +146,9 @@ public class ListerRepsFichiersServlet extends HttpServlet{
 			String pathActuel = request.getParameter("delete");
 			String pasthTmp = pathActuel.replaceAll("--", "\\\\");
 			File aSuppr = new File(pasthTmp);
+			if(aSuppr.isDirectory()){
+				this.supprimerFichiersDansDossier(aSuppr.getAbsolutePath());
+			}
 			aSuppr.delete();
 			request.setAttribute("ajout", "Elément supprimé");
 			
@@ -200,5 +203,18 @@ public class ListerRepsFichiersServlet extends HttpServlet{
 		}
 		
 		this.getServletContext().getRequestDispatcher(JSPFile.ARCHIVAGE_LISTER).forward(request, response);
+	}
+	
+	public void supprimerFichiersDansDossier(String absoluthePathDossier){
+		File dossier = new File(absoluthePathDossier);
+		String[] contenu = dossier.list();
+		for(int i=0;i<contenu.length;i++){
+			File fichier = new File(absoluthePathDossier+"\\"+contenu[i]);
+			System.out.println(fichier.getAbsolutePath());
+			if((fichier.isDirectory())&&(fichier.list().length!=0)){
+				this.supprimerFichiersDansDossier(absoluthePathDossier+"\\"+contenu[i]);
+			}
+			fichier.delete();
+		}
 	}
 }
