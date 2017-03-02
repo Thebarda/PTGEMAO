@@ -93,7 +93,7 @@ public class ComptabiliteEnseignementServlet extends HttpServlet{
 			}else{
 				anne=Integer.parseInt(""+Form.getValeurChamp(request, "annee"));
 			}
-			int idFamille = Integer.parseInt(Form.getValeurChamp(request, "famille"));
+			String idFamille = Form.getValeurChamp(request, "famille");
 			List<FamilleTableaux> famtabs= FamilleCtrl.getFamilleTableaux(idFamille, anne);
 			if(!famtabs.isEmpty()){
 				Calendar calendar = Calendar.getInstance();
@@ -137,7 +137,7 @@ public class ComptabiliteEnseignementServlet extends HttpServlet{
 				String nomFamille="";
 				List<Famille> tmpFamilles2 = FamilleCtrl.recupererAllFamille();
 				for(Famille f : tmpFamilles2){
-					if(f.getIdFamille()==idFamille){
+					if(f.getNomFamille()==idFamille){
 						nomFamille = f.getNomFamille();
 					}
 				}

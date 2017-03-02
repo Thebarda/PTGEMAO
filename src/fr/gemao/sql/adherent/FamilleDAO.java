@@ -211,14 +211,14 @@ public class FamilleDAO extends IDAO<Famille> {
 		}
 	}
 
-	public List<FamilleTableaux> getFamilleTableaux(int idFamille, int annee) {
+	public List<FamilleTableaux> getFamilleTableaux(String idFamille, int annee) {
 		List<FamilleTableaux> liste = new ArrayList<>();
 
 		FamilleTableaux famtab = null;
 		Connection connexion = null;
 		PreparedStatement requete = null;
 		ResultSet result = null;
-		String sql = "SELECT * FROM familletableaux where idFamille=? and annee=?;";
+		String sql = "SELECT * FROM familletableaux ft INNER JOIN famille f ON f.idFamille = ft.idFamille where nomFamille=? and annee=?;";
 		try {
 
 			connexion = factory.getConnection();
