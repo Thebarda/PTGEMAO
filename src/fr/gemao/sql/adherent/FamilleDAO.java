@@ -211,14 +211,14 @@ public class FamilleDAO extends IDAO<Famille> {
 		}
 	}
 
-	public List<FamilleTableaux> getFamilleTableaux(String idFamille, int annee) {
+	public List<FamilleTableaux> getFamilleTableaux(int idFamille, int annee) {
 		List<FamilleTableaux> liste = new ArrayList<>();
 
 		FamilleTableaux famtab = null;
 		Connection connexion = null;
 		PreparedStatement requete = null;
 		ResultSet result = null;
-		String sql = "SELECT * FROM familletableaux ft INNER JOIN famille f ON f.idFamille = ft.idFamille where nomFamille=? and annee=?;";
+		String sql = "SELECT * FROM familletableaux ft INNER JOIN famille f ON f.idFamille = ft.idFamille where f.idFamille=? and annee=?;";
 		try {
 
 			connexion = factory.getConnection();
@@ -237,5 +237,30 @@ public class FamilleDAO extends IDAO<Famille> {
 		}
 
 		return liste;
+	}
+
+	public int getFamille(String nomFamille) {
+		Famille fam = null;
+		Connection connexion = null;
+		PreparedStatement requete = null;
+		ResultSet result = null;
+		String sql = "SELECT * FROM famille where nomFamille=?;";
+		try {
+
+			connexion = factory.getConnection();
+			requete = DAOUtilitaires.initialisationRequetePreparee(connexion,
+					sql, false, nomFamille);
+			result = requete.executeQuery();
+
+			while (result.next()) {
+				fam = this.map(result);
+			}
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			DAOUtilitaires.fermeturesSilencieuses(result, requete, connexion);
+		}
+
+		return fam.getIdFamille();
 	}
 }

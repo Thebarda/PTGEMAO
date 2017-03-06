@@ -93,7 +93,7 @@ public class ComptabiliteEnseignementServlet extends HttpServlet{
 			}else{
 				anne=Integer.parseInt(""+Form.getValeurChamp(request, "annee"));
 			}
-			String idFamille = Form.getValeurChamp(request, "famille");
+			int idFamille = FamilleCtrl.getFamille(Form.getValeurChamp(request, "famille"));
 			List<FamilleTableaux> famtabs= FamilleCtrl.getFamilleTableaux(idFamille, anne);
 			if(!famtabs.isEmpty()){
 				Calendar calendar = Calendar.getInstance();
@@ -137,7 +137,7 @@ public class ComptabiliteEnseignementServlet extends HttpServlet{
 				String nomFamille="";
 				List<Famille> tmpFamilles2 = FamilleCtrl.recupererAllFamille();
 				for(Famille f : tmpFamilles2){
-					if(f.getNomFamille()==idFamille){
+					if(f.getIdFamille()==idFamille){
 						nomFamille = f.getNomFamille();
 					}
 				}
@@ -145,21 +145,33 @@ public class ComptabiliteEnseignementServlet extends HttpServlet{
 				
 				
 				request.setAttribute(IDFAMILLE, idFamille);
-				session.setAttribute("IDFAMILLE", idFamille);
+				session.setAttribute("FAMILLE", idFamille);
 				request.setAttribute("nomFamille", nomFamille);
 				request.setAttribute("annee", famtab.getAnnee());
 				session.setAttribute("ANNEE", famtab.getAnnee());
 				request.setAttribute("anneeFin", (famtab.getAnnee()+1));
 				request.setAttribute("tfc", famtab.getTfc());
 				request.setAttribute("tr", famtab.getTr());
+				
+				List<Famille> allFamilles = FamilleCtrl.recupererAllFamille();
+				List<String> famillesAutoCompletion = new ArrayList<>();
+				for(Famille f : allFamilles){
+					famillesAutoCompletion.add('"'+f.getNomFamille()+'"');
+				}
+				request.setAttribute(FAMILLES, famillesAutoCompletion);
+				
 			}else{
 				request.setAttribute("vide", "La famille n'existait pas cette année là");
 			}
-			List<Famille> familles2 = FamilleCtrl.recupererAllFamille();
-			request.setAttribute(FAMILLES, familles2);
 		}else{
-			FamilleCtrl.updateTableaux(Form.getValeurChamp(request, "tfc"), Form.getValeurChamp(request, "recap"), Integer.parseInt(""+session.getAttribute("IDFAMILLE")), Integer.parseInt(""+session.getAttribute("ANNEE")));
+			FamilleCtrl.updateTableaux(Form.getValeurChamp(request, "tfc"), Form.getValeurChamp(request, "recap"), Integer.parseInt(""+session.getAttribute("FAMILLE")), Integer.parseInt(""+session.getAttribute("ANNEE")));
 			request.setAttribute("tableauxenregistres", "Les tableaux ont été enregistrés");
+			List<Famille> allFamilles = FamilleCtrl.recupererAllFamille();
+			List<String> famillesAutoCompletion = new ArrayList<>();
+			for(Famille f : allFamilles){
+				famillesAutoCompletion.add('"'+f.getNomFamille()+'"');
+			}
+			request.setAttribute(FAMILLES, famillesAutoCompletion);
 		}
 		this.getServletContext().getRequestDispatcher(JSPFile.COMPTABILITE_ENSEIGNEMENT).forward(request, response);
 	}

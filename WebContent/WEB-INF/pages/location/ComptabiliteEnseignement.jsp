@@ -8,18 +8,6 @@
 
 <c:import url="/inc/header.inc.jsp" />
 <c:import url="/inc/menu.inc.jsp" />
-<script type="text/javascript">
-function autocompletionFamille(selecteurFamille){
-	$(function() {
-		var availableTags = ${requestScope.familles};
-		console.log(availableTags);
-		$(selecteurFamille).autocomplete({
-			source : availableTags
-		});
-	});
-}
-autocompletionFamille("#famille");
-</script>
 <h1>Comptabilité enseignement</h1>
 
 <c:choose>
@@ -83,4 +71,17 @@ autocompletionFamille("#famille");
 <script src="<c:url value="/js/ScriptFicheComptable.js"/>" ></script>
 <script src="<c:url value="/js/ScriptTableauRecapitulatif.js"/>" ></script>
 <script src="<c:url value="/js/enregistrerTableaux.js"/>" ></script>
+<script type="text/javascript">
+function autocompletionFamille(selecteurFamille){
+	$(function() {
+		var availableTags = ${requestScope.familles};
+		console.log(${requestScope.familles});
+		console.log(availableTags);
+		$(selecteurFamille).autocomplete({
+			source : availableTags
+		});
+	});
+}
+autocompletionFamille("#famille");
+</script>
 <c:import url="/inc/footer.inc.jsp" />
