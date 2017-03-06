@@ -6,10 +6,11 @@
 	width: 15rem;
 }
 
-#formDroit{
-	display: inline-block;
-	margin-left: 12rem;
-}
 #formGauche{
-	float:left;
+	float: left;
+}
+
+#formDroit{
+	float: right;
+	margin-left: -15rem;
 }
