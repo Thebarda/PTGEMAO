@@ -1,7 +1,7 @@
 ﻿/////////////////////////////
 // Tableau Fiche comptable //
 /////////////////////////////
-
+	
 	// Total mensuel par élève
 	$('td').on("keyup", function(){
 		var num_col = $(this).index()-1;
@@ -29,6 +29,17 @@
 		$("#sommeAnnuelle_"+num_col).text(sommeAnnuelle);
 	});
 
+	// Contrôle paiement si personne non saisie
+	$(document).on("keyup", "td", function() {
+		var num_col = $(this).index()-1;
+		if($('[id*="sommeMensuelle_'+num_col+'"]').text() != 0 && (!$('[id*="eleve_'+(num_col+1)+'"]').text())){
+			document.getElementById("eleve_"+(num_col+1)).style.backgroundColor = 'lightcoral';
+		}
+		else{
+			document.getElementById("eleve_"+(num_col+1)).style.backgroundColor = 'transparent';
+		}
+	});
+	
 	// Total mensuel par famille
 	$("tr").on("keyup", function() {
 		var sommeTotalMensuel = 0;
