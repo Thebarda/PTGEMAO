@@ -83,21 +83,23 @@ public class ListerRepsFichiersServlet extends HttpServlet{
 			File[] tmp = file.listFiles();
 			for(int i=0;i<tmp.length;i++){
 				if(tmp[i].isFile()){
-					files.put(tmp[i].getName(), tmp[i].getAbsolutePath());
+					String pathAbsolute = tmp[i].getAbsolutePath();
+					files.put(tmp[i].getName(), "file:///"+pathAbsolute.replaceAll("\\\\", "/"));
 				}else{
 					reps.add(tmp[i].getName());
 				}
 			}
-		
-		
+			Date todaytoday = new Date();
 			File directoryToZip = new File("Documents");
 			List<File> fileList = new ArrayList<File>();
 			Zip zipTmp = new Zip();
 			zipTmp.getAllFiles(directoryToZip, fileList);
 			zipTmp.writeZipFile(directoryToZip, fileList);
-			
-			File zip = new File("Documents.zip");
-			String absolutePathZip = zip.getAbsolutePath();
+			File documents = new File("Documents.zip");
+			documents.renameTo(new File("sauvegarde_"+todaytoday.getDate()+"_"+(todaytoday.getMonth()+1)+"_"+(1900+todaytoday.getYear())+".zip"));
+			File zip = new File("sauvegarde_"+todaytoday.getDate()+"_"+(todaytoday.getMonth()+1)+"_"+(1900+todaytoday.getYear())+".zip");
+			String pathAbsolute = zip.getAbsolutePath().replaceAll("\\\\", "/");
+			String absolutePathZip = "file:///"+pathAbsolute;
 			String lastSaveTmp = ArchivageCtrl.getLastSauvegarde();
 			if(!lastSaveTmp.equals("")){
 				DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -156,11 +158,21 @@ public class ListerRepsFichiersServlet extends HttpServlet{
 			
 		}
 		if(request.getParameter("verificationSuppression")!=null){
-			String pathActuel = request.getParameter("verificationSuppression");
+			String[] split = request.getParameter("verificationSuppression").split("=");
+			String pathActuel = split[0];
 			String pasthTmp = pathActuel.replaceAll("--", "\\\\");
 			File aSuppr = new File(pasthTmp);
-			session.setAttribute("delete", aSuppr.getAbsolutePath());
-			request.setAttribute("demandeVerifcationSuppresssion", "Voulez vous supprimer l'élément "+aSuppr.getAbsolutePath()+" ?");
+			session.setAttribute("delete", aSuppr);
+			request.setAttribute("demandeVerifcationSuppresssion", "Voulez vous supprimer l'élément "+aSuppr+" ?");
+			String[] tmp = request.getParameter("verificationSuppression").split("--");
+			String retour="";
+			int moins=tmp.length-1;
+			for(int i=0;i<moins;i++){
+				if(!tmp[i].equals("")){
+					retour+=tmp[i]+"--";
+				}
+			}
+			session.setAttribute("retour", retour);
 		}
 		if(request.getParameter("sauvegarde")!=null){
 			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");

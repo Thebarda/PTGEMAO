@@ -16,7 +16,7 @@
 			<c:when test="${empty demandeVerifcationSuppresssion }">
 				<h1>Administration de l'archivage</h1>
 					<p class="text-success"><c:out value="${ajout }"></c:out></p>
-						<a href="<c:out value="${apz }"></c:out>" download="Documents" class="offset btn" id="sauvegarde">Télécharger une sauvegarde complète de l'archivage</a>		
+						<a href="<c:out value="${apz }"></c:out>" download class="offset btn" id="sauvegarde">Télécharger une sauvegarde complète de l'archivage</a>		
 						<br><br>
 						<span id="formGauche">
 							<form id="formGauche" method="post" action="<c:url value="<%= Pattern.ARCHIVAGE_LISTER %>"/>?path=<%=session.getAttribute("path") %>" enctype="multipart/form-data">
@@ -81,6 +81,7 @@
 			<c:otherwise>
 				<p><c:out value="${demandeVerifcationSuppresssion }"></c:out></p>
 				<span class="btn"><a class="croix" href="<c:url value="<%= Pattern.ARCHIVAGE_LISTER %>"/>?delete=oui">Oui, je veux supprimer cette élément</span> <span>Annuler la suppression</span>
+				<a id="retour" href="<c:url value="<%= Pattern.ARCHIVAGE_LISTER %>"/>?path=<%= session.getAttribute("retour") %>">Annuler la suppression</a>
 			</c:otherwise>
 		</c:choose>
 	</c:when>
