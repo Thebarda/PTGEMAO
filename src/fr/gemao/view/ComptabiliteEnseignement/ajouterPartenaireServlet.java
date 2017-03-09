@@ -86,13 +86,11 @@ public class ajouterPartenaireServlet extends HttpServlet{
 			session.setAttribute("ajout_adh_commune", commune);
 			session.setAttribute("ajout_adh_adresse", adresse);
 			session.setAttribute("partenaire", partenaire);
-			request.setAttribute("validation", false);
-		}else{
-			Partenaire partenaire = (Partenaire) session.getAttribute("partenaire");
 			CommuneCtrl.ajoutCommune(partenaire.getAdresse().getCommune());
 			AdresseCtrl.ajoutAdresse(partenaire.getAdresse());
 			PartenaireCtrl.ajouterPartenaire(partenaire);
 			Boolean validation = true;
+			request.setAttribute("validationAjoutPartenaire", "vrai");
 			request.setAttribute("validation", validation);
 		}
 		this.getServletContext().getRequestDispatcher(JSPFile.COMPTABILITE_AJOUTER_PARTENAIRE).forward(request,  response);

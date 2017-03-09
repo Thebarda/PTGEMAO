@@ -14,7 +14,7 @@
 
 <h1>Ajouter un chèque de partenaire</h1>
 <c:choose>
-<c:when test="${empty validation }">
+<c:when test="${empty validationChequePartenaire }">
 <form method="post" action="#" class="offset">
 	<fieldset>
 		<legend>Cheque</legend>

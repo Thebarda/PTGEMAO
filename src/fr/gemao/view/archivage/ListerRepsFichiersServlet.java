@@ -21,7 +21,9 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -47,8 +49,8 @@ public class ListerRepsFichiersServlet extends HttpServlet{
     static int DOUZE = 12;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		HttpSession session = request.getSession();
 		if(request.getParameter("path")!=null){
-			HttpSession session = request.getSession();
 			String pathActuel = request.getParameter("path");
 			String pasthTmp = pathActuel.replaceAll("--", "\\\\");
 			String[] pathAfficheTmp = pathActuel.split("--");
@@ -75,13 +77,13 @@ public class ListerRepsFichiersServlet extends HttpServlet{
 				request.setAttribute("noReturn", false);
 			}
 
-			List<String> files = new ArrayList<>();
+			Map<String, String> files = new HashMap<>();
 			List<String> reps = new ArrayList<>();
 			File file = new File(pasthTmp);
 			File[] tmp = file.listFiles();
 			for(int i=0;i<tmp.length;i++){
 				if(tmp[i].isFile()){
-					files.add(tmp[i].getName());
+					files.put(tmp[i].getName(), tmp[i].getAbsolutePath());
 				}else{
 					reps.add(tmp[i].getName());
 				}
@@ -143,15 +145,22 @@ public class ListerRepsFichiersServlet extends HttpServlet{
 			session.setAttribute("path", pathActuel);
 		}
 		if(request.getParameter("delete")!=null){
-			String pathActuel = request.getParameter("delete");
-			String pasthTmp = pathActuel.replaceAll("--", "\\\\");
-			File aSuppr = new File(pasthTmp);
+			String pathActuel = ""+session.getAttribute("delete");
+			File aSuppr = new File(pathActuel);
+			System.out.println(aSuppr.getAbsolutePath());
 			if(aSuppr.isDirectory()){
 				this.supprimerFichiersDansDossier(aSuppr.getAbsolutePath());
 			}
 			aSuppr.delete();
 			request.setAttribute("ajout", "Elément supprimé");
 			
+		}
+		if(request.getParameter("verificationSuppression")!=null){
+			String pathActuel = request.getParameter("verificationSuppression");
+			String pasthTmp = pathActuel.replaceAll("--", "\\\\");
+			File aSuppr = new File(pasthTmp);
+			session.setAttribute("delete", aSuppr.getAbsolutePath());
+			request.setAttribute("demandeVerifcationSuppresssion", "Voulez vous supprimer l'élément "+aSuppr.getAbsolutePath()+" ?");
 		}
 		if(request.getParameter("sauvegarde")!=null){
 			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -183,23 +192,32 @@ public class ListerRepsFichiersServlet extends HttpServlet{
 			String pathActuel = request.getParameter("path");
 			String pasthTmp = pathActuel.replaceAll("--", "\\\\");
 			String dossier = request.getParameter("dossier");
-			File path = new File(pasthTmp+"\\"+dossier);
-			if(!path.exists()){
-				path.mkdir();
+			if((dossier.contains("<"))||(dossier.contains("("))||(dossier.contains(")"))||(dossier.contains("#"))||(dossier.contains("/"))||(dossier.contains(">"))){
+				request.setAttribute("ajout", "Veuillez éviter les caractères '<', '>', '(', ')', '/', '#' dans le nom de dossier");
+			}else{
+				File path = new File(pasthTmp+"\\"+dossier);
+				if(!path.exists()){
+					path.mkdir();
+				}
+				request.setAttribute("ajout", "Dossier ajouté");
 			}
-			request.setAttribute("ajout", "Dossier ajouté");
 		}
 		if(request.getPart("fichier")!=null){
 			Part filePart = request.getPart("fichier");
-			String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-			InputStream fileContent = filePart.getInputStream();
-			String pathActuel = request.getParameter("path");
-			String pasthTmp = pathActuel.replaceAll("--", "\\\\");
-			File file = new File(pasthTmp+"\\"+fileName);
-			OutputStream destination = new FileOutputStream(file);
-			IOUtils.copy(fileContent, destination);
-			destination.close();
-			request.setAttribute("ajout", "Fichier ajouté");
+			String verificationNom = request.getPart("fichier").toString();
+			if((verificationNom.contains("<"))||(verificationNom.contains("("))||(verificationNom.contains(")"))||(verificationNom.contains("#"))||(verificationNom.contains("/"))||(verificationNom.contains(">"))){
+				request.setAttribute("ajout", "Veuillez éviter les caractères '<', '>', '(', ')', '/', '#' dans le nom de fichier");
+			}else{
+				String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+				InputStream fileContent = filePart.getInputStream();
+				String pathActuel = request.getParameter("path");
+				String pasthTmp = pathActuel.replaceAll("--", "\\\\");
+				File file = new File(pasthTmp+"\\"+fileName);
+				OutputStream destination = new FileOutputStream(file);
+				IOUtils.copy(fileContent, destination);
+				destination.close();
+				request.setAttribute("ajout", "Fichier ajouté");
+			}
 		}
 		
 		this.getServletContext().getRequestDispatcher(JSPFile.ARCHIVAGE_LISTER).forward(request, response);

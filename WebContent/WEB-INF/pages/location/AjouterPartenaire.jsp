@@ -14,7 +14,7 @@
 
 <h1>Ajouter un partenaire</h1>
 <c:choose>
-<c:when test="${empty validation }">
+<c:when test="${empty validationAjoutPartenaire }">
 <form method="post" action="#" class="offset">
 	<fieldset>
 		<legend>Partenaire</legend>
