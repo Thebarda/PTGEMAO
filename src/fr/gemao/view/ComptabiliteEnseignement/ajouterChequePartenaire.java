@@ -47,10 +47,9 @@ private static final long serialVersionUID = 1L;
 			
 			ChequePartenaire cheque = new ChequePartenaire(0, numero, montant, datePaiement, dateEncaissement, null, partenaire);
 			session.setAttribute("cheque", cheque);
-			request.setAttribute("validation", false);
-		}else{
 			ChequePartenaireCtrl.ajouterCheque((ChequePartenaire) session.getAttribute("cheque"));
 			Boolean validation = true;
+			request.setAttribute("validationChequePartenaire", "vrai");
 			request.setAttribute("validation", validation);
 		}
 		this.getServletContext().getRequestDispatcher(JSPFile.COMPTABILITE_AJOUTER_CHEQUES).forward(request,  response);
