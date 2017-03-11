@@ -81,36 +81,7 @@
 	});
 	
 	// Ajout de ligne
-	$(document).ready(function(){		
-		$("#ajoutTab").click( function () {
-			var ligne = parseInt($("#tableau tbody tr:last-child").attr("data"))+parseInt(1);
-			var nbLigne = parseInt(ligne)-parseInt(11);
-			var row = $('<tr id="ajoutLigne_'+nbLigne+'" data="'+ligne+'">');
-
-			row.append($('<td contenteditable="true" class="intitule"></td>'))
-			   .append($('<td contenteditable="true" id="lig_'+ligne+'_col_0" class="tableauRecap"></td>'))
-			   .append($('<td contenteditable="true" id="lig_'+ligne+'_col_1" class="tableauRecap"></td>'))
-			   .append($('<td contenteditable="true" id="lig_'+ligne+'_col_2" class="tableauRecap"></td>'))
-			   .append($('<td contenteditable="true" id="lig_'+ligne+'_col_3" class="tableauRecap"></td>'))
-			   .append($('<td contenteditable="true" id="lig_'+ligne+'_col_4" class="tableauRecap"></td>'))
-			   .append($('<td id="total_'+ligne+'" class="sous_total"></td>'))
-			   .append($('<td contenteditable="true"></td>'))
-			   .append($('<td contenteditable="true" class="sommePayee" id="paiement_'+ligne+'"></td>'))
-			   .append($('<td><span id="date_'+ligne+'">--/--/----</span><input type="hidden" id="datepicker_'+ligne+'"></td>'))
-			   .append($('<td contenteditable="true"></td>'))
-			   .append($('<td class="supprimer ignorer"><button type="button" class="supprTab">X</button></td>'))
-			   .append($('</tr>'));
-			   
-			row.find('input').datepicker({
-				showOn: 'button',
-				buttonText: 'Show Date',
-				buttonImageOnly: true,
-				buttonImage: 'http://jqueryui.com/resources/demos/datepicker/images/calendar.gif'
-			});
-	 
-			$("#tableau tbody").append(row);
-		});
-	});
+	
 	
 	// Suppression de ligne
 	$(document).on("click", ".supprTab", function() {

@@ -68,6 +68,110 @@
 	</c:choose>
 </c:otherwise>
 </c:choose>
+<script type="text/javascript">
+var nbColonneAGriser = 5-${requestScope.nbEleves}
+var depart=${requestScope.nbEleves};
+function blanchageEtGrisage(){
+	//Grisage
+	for(var i=depart;i<=(nbColonneAGriser+4);i++){
+		$('[id*="_col_'+i+'"]').each(function(){
+			$(this).attr("contenteditable", false);
+			$(this).css("background-color", "#A6A1A0");
+			$(this).text("");
+		});
+	}
+	for(var i=(depart+1);i<=(nbColonneAGriser+1);i++){
+		$('[id="eleve_'+i+'"]').each(function(){
+			console.log(i);
+			$(this).attr("contenteditable", false);
+			$(this).css("background-color", "#A6A1A0");
+			$(this).text("");
+		});
+	}
+	for(var i=(depart+1);i<=(nbColonneAGriser+2);i++){
+		$('[id*="qf_'+i+'"]').each(function(){
+			$(this).attr("contenteditable", false);
+			$(this).css("background-color", "#A6A1A0");
+			$(this).text("");
+		});
+	}
+	for(var i=(depart+1);i<=(nbColonneAGriser+2);i++){
+		$('[class*="ce_'+i+'"]').each(function(){
+			$(this).attr("contenteditable", false);
+			$(this).css("background-color", "#A6A1A0");
+			$(this).text("");
+		});
+	}
+	//Blanchage
+	for(var i=0;i<depart;i++){
+		$('[id*="_col_'+i+'"]').each(function(){
+			$(this).attr("contenteditable", true);
+			$(this).css("background-color", "#FFFFFF");
+		});
+	}
+	for(var i=1;i<=depart;i++){
+		$('[id="eleve_'+i+'"]').each(function(){
+			$(this).attr("contenteditable", true);
+			$(this).css("background-color", "#FFFFFF");
+		});
+	}
+	for(var i=1;i<=depart;i++){
+		$('[id*="qf_'+i+'"]').each(function(){
+			$(this).attr("contenteditable", true);
+			$(this).css("background-color", "#FFFFFF");
+		});
+	}
+	for(var i=1;i<=depart;i++){
+		$('[class*="ce_'+i+'"]').each(function(){
+			$(this).attr("contenteditable", true);
+			$(this).css("background-color", "#FFFFFF");
+		});
+	}
+}
+$(document).ready(function(){		
+	$("#ajoutTab").click( function () {
+		var ligne = parseInt($("#tableau tbody tr:last-child").attr("data"))+parseInt(1);
+		var nbLigne = parseInt(ligne)-parseInt(11);
+		var row = $('<tr id="ajoutLigne_'+nbLigne+'" data="'+ligne+'">');
+
+		row.append($('<td contenteditable="true" class="intitule"></td>'))
+		   .append($('<td contenteditable="true" id="lig_'+ligne+'_col_0" class="tableauRecap"></td>'))
+		   .append($('<td contenteditable="true" id="lig_'+ligne+'_col_1" class="tableauRecap"></td>'))
+		   .append($('<td contenteditable="true" id="lig_'+ligne+'_col_2" class="tableauRecap"></td>'))
+		   .append($('<td contenteditable="true" id="lig_'+ligne+'_col_3" class="tableauRecap"></td>'))
+		   .append($('<td contenteditable="true" id="lig_'+ligne+'_col_4" class="tableauRecap"></td>'))
+		   .append($('<td id="total_'+ligne+'" class="sous_total"></td>'))
+		   .append($('<td contenteditable="true"></td>'))
+		   .append($('<td contenteditable="true" class="sommePayee" id="paiement_'+ligne+'"></td>'))
+		   .append($('<td><span id="date_'+ligne+'">--/--/----</span><input type="hidden" id="datepicker_'+ligne+'"></td>'))
+		   .append($('<td contenteditable="true"></td>'))
+		   .append($('<td class="supprimer ignorer"><button type="button" class="supprTab">X</button></td>'))
+		   .append($('</tr>'));
+		   
+		row.find('input').datepicker({
+			showOn: 'button',
+			buttonText: 'Show Date',
+			buttonImageOnly: true,
+			buttonImage: 'http://jqueryui.com/resources/demos/datepicker/images/calendar.gif'
+		});
+		$("#tableau tbody").append(row);
+		for(var i=depart;i<=(nbColonneAGriser+4);i++){
+			$('[id*="_col_'+i+'"]').each(function(){
+				$(this).attr("contenteditable", false);
+				$(this).css("background-color", "#A6A1A0");
+				$(this).text("");
+			});
+		}
+		for(var i=0;i<depart;i++){
+			$('[id*="_col_'+i+'"]').each(function(){
+				$(this).attr("contenteditable", true);
+				$(this).css("background-color", "#FFFFFF");
+			});
+		}
+	});
+});
+blanchageEtGrisage();
+</script>
 <script src="<c:url value="/js/ScriptFicheComptable.js"/>" ></script>
 <script src="<c:url value="/js/ScriptTableauRecapitulatif.js"/>" ></script>
 <script src="<c:url value="/js/enregistrerTableaux.js"/>" ></script>
@@ -75,7 +179,6 @@
 function autocompletionFamille(selecteurFamille){
 	$(function() {
 		var availableTags = ${requestScope.familles};
-		console.log(${requestScope.familles});
 		console.log(availableTags);
 		$(selecteurFamille).autocomplete({
 			source : availableTags
