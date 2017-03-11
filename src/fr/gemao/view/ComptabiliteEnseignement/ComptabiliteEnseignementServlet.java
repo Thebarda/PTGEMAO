@@ -94,6 +94,7 @@ public class ComptabiliteEnseignementServlet extends HttpServlet{
 				anne=Integer.parseInt(""+Form.getValeurChamp(request, "annee"));
 			}
 			int idFamille = FamilleCtrl.getFamille(Form.getValeurChamp(request, "famille"));
+			request.setAttribute("nbEleves", FamilleCtrl.getNbEleve(idFamille));
 			List<FamilleTableaux> famtabs= FamilleCtrl.getFamilleTableaux(idFamille, anne);
 			if(!famtabs.isEmpty()){
 				Calendar calendar = Calendar.getInstance();

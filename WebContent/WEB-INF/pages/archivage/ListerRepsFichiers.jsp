@@ -16,9 +16,37 @@
 			<c:when test="${empty demandeVerifcationSuppresssion }">
 				<h1>Administration de l'archivage</h1>
 					<p class="text-success"><c:out value="${ajout }"></c:out></p>
-						<a href="<c:out value="${apz }"></c:out>" download class="offset btn" id="sauvegarde">Télécharger une sauvegarde complète de l'archivage</a>		
+						<a href="<c:out value="${apz }"></c:out>" class="offset btn" target="_blank" id="sauvegarde">Télécharger une sauvegarde complète de l'archivage</a>		
 						<br><br>
-						<span id="formGauche">
+				<h1>Listage des dossiers et des fichiers</h1>
+					<p><c:if test="${noReturn == false}">
+							<br>
+							<a id="retour" class="btn" href="<c:url value="<%= Pattern.ARCHIVAGE_LISTER %>"/>?path=<%= session.getAttribute("retour") %>">Retour</a><br><br><br>
+						</c:if></p>
+						<h3>Chemin : <c:out value="${pathAffiche }"></c:out></h3>
+						<h2>Dossiers</h2>
+						<table class="tablesorter-blue  pure-table">
+						<c:forEach items="${reps }" var="rep">
+							<tr>
+								<td><a href="<c:url value="<%= Pattern.ARCHIVAGE_LISTER %>"/>?path=<%=session.getAttribute("path") %>--<c:out value="${rep }"/>"><c:out value="${rep }"></c:out></a></td>
+								<td><a class="croix" href="<c:url value="<%= Pattern.ARCHIVAGE_LISTER %>"/>?verificationSuppression=<%=session.getAttribute("path") %>--<c:out value="${rep }"/>">X</a></td>
+							</tr>
+							<br>
+						</c:forEach>
+						</table>
+						<hr>
+						<h2>Fichiers</h2>
+						<table class="tablesorter-blue  pure-table">
+						<c:forEach items="${files }" var="file">
+							<tr>
+								<td><span><c:out value="${file['key'] }"></c:out></span></td>
+								<td><span><a href="<c:out value="${file['value']}"></c:out>" target="_blank">Télécharger le fichier</a></span></td>
+								<td><a class="croix" href="<c:url value="<%= Pattern.ARCHIVAGE_LISTER %>"/>?verificationSuppression=<%=session.getAttribute("path") %>--<c:out value="${file }"/>">X</a></td>
+							</tr>
+							<br>
+						</c:forEach>
+						</table>
+					<span id="formGauche">
 							<form id="formGauche" method="post" action="<c:url value="<%= Pattern.ARCHIVAGE_LISTER %>"/>?path=<%=session.getAttribute("path") %>" enctype="multipart/form-data">
 								<fieldset>
 									<legend>Ajouter un dossier</legend>
@@ -40,48 +68,12 @@
 								</fieldset>
 							</form>
 						</span>
-						<br>
-						<br>
-						<br>
-						<br>
-						<br>
-						<br>
-						<br>
-						<br>
-				<h1>Listage des dossiers et des fichiers</h1>
-					<p><c:if test="${noReturn == false}">
-							<br>
-							<a id="retour" class="btn" href="<c:url value="<%= Pattern.ARCHIVAGE_LISTER %>"/>?path=<%= session.getAttribute("retour") %>">Retour</a><br><br><br>
-						</c:if><b>Chemin : <c:out value="${pathAffiche }"></c:out></b></p>
-						<h2>Dossiers</h2>
-						<table class="tablesorter-blue  pure-table">
-						<c:forEach items="${reps }" var="rep">
-							<tr>
-								<td><a href="<c:url value="<%= Pattern.ARCHIVAGE_LISTER %>"/>?path=<%=session.getAttribute("path") %>--<c:out value="${rep }"/>"><c:out value="${rep }"></c:out></a></td>
-								<td><a class="croix" href="<c:url value="<%= Pattern.ARCHIVAGE_LISTER %>"/>?verificationSuppression=<%=session.getAttribute("path") %>--<c:out value="${rep }"/>">X</a></td>
-							</tr>
-							<br>
-						</c:forEach>
-						</table>
-						<hr>
-						<h2>Fichiers</h2>
-						<table class="tablesorter-blue  pure-table">
-						<c:forEach items="${files }" var="file">
-							<tr>
-								<td><span><c:out value="${file['key'] }"></c:out></span></td>
-								<td><span><a href="<c:out value="${file['value']}"></c:out>" download="<c:out value="${file['key'] }"></c:out>">Télécharger le fichier</a></span>
-								<td><a class="croix" href="<c:url value="<%= Pattern.ARCHIVAGE_LISTER %>"/>?verificationSuppression=<%=session.getAttribute("path") %>--<c:out value="${file }"/>">X</a></td>
-							</tr>
-							<br>
-						</c:forEach>
-						</table>
-		
 				</div>
 			</c:when>
 			<c:otherwise>
 				<p><c:out value="${demandeVerifcationSuppresssion }"></c:out></p>
 				<span class="btn"><a class="croix" href="<c:url value="<%= Pattern.ARCHIVAGE_LISTER %>"/>?delete=oui">Oui, je veux supprimer cette élément</span> <span>Annuler la suppression</span>
-				<a id="retour" href="<c:url value="<%= Pattern.ARCHIVAGE_LISTER %>"/>?path=<%= session.getAttribute("retour") %>">Annuler la suppression</a>
+				<button id="retour" href="<c:url value="<%= Pattern.ARCHIVAGE_LISTER %>"/>?path=<%= session.getAttribute("retour") %>">Annuler la suppression</button>
 			</c:otherwise>
 		</c:choose>
 	</c:when>

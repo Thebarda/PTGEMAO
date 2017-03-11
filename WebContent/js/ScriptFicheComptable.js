@@ -31,12 +31,15 @@
 
 	// Contrôle paiement si personne non saisie
 	$(document).on("keyup", "td", function() {
+		console.log("salut");
 		var num_col = $(this).index()-1;
 		if($('[id*="sommeMensuelle_'+num_col+'"]').text() != 0 && (!$('[id*="eleve_'+(num_col+1)+'"]').text())){
 			document.getElementById("eleve_"+(num_col+1)).style.backgroundColor = 'lightcoral';
+			console.log("if");
 		}
 		else{
 			document.getElementById("eleve_"+(num_col+1)).style.backgroundColor = 'transparent';
+			console.log("else");
 		}
 	});
 	

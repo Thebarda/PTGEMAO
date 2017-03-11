@@ -263,4 +263,29 @@ public class FamilleDAO extends IDAO<Famille> {
 
 		return fam.getIdFamille();
 	}
+
+	public int getNbEleves(int idFamille) {
+		int nbEleves=0;
+		Connection connexion = null;
+		PreparedStatement requete = null;
+		ResultSet result = null;
+		String sql = "SELECT COUNT(idPersonne) as NbEleves FROM adherent where idFamille=?;";
+		try {
+
+			connexion = factory.getConnection();
+			requete = DAOUtilitaires.initialisationRequetePreparee(connexion,
+					sql, false, idFamille);
+			result = requete.executeQuery();
+
+			while (result.next()) {
+				nbEleves = result.getInt("NbEleves");
+			}
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			DAOUtilitaires.fermeturesSilencieuses(result, requete, connexion);
+		}
+
+		return nbEleves;
+	}
 }

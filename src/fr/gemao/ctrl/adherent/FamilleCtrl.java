@@ -57,4 +57,9 @@ public class FamilleCtrl {
 		FamilleDAO familleDAO = DAOFactory.getInstance().getFamilleDAO();
 		return familleDAO.getFamille(nomFamille);
 	}
+
+	public static int getNbEleve(int idFamille) {
+		FamilleDAO familleDAO = DAOFactory.getInstance().getFamilleDAO();
+		return familleDAO.getNbEleves(idFamille);
+	}
 }
