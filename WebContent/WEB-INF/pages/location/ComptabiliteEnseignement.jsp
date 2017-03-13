@@ -69,18 +69,19 @@
 </c:otherwise>
 </c:choose>
 <script type="text/javascript">
-var nbColonneAGriser = 5-${requestScope.nbEleves}
-var depart=${requestScope.nbEleves};
-function blanchageEtGrisage(){
+$(document).ready(function(){	
+	//////////////////////////////////
+	var nbColonneAGriser = 5-${requestScope.nbEleves}
+	var depart=${requestScope.nbEleves};
 	//Grisage
-	for(var i=depart;i<=(nbColonneAGriser+4);i++){
+	for(var i=depart;i<=5;i++){
 		$('[id*="_col_'+i+'"]').each(function(){
 			$(this).attr("contenteditable", false);
 			$(this).css("background-color", "#A6A1A0");
 			$(this).text("");
 		});
 	}
-	for(var i=(depart+1);i<=(nbColonneAGriser+1);i++){
+	for(var i=(depart+1);i<=5;i++){
 		$('[id="eleve_'+i+'"]').each(function(){
 			console.log(i);
 			$(this).attr("contenteditable", false);
@@ -88,14 +89,14 @@ function blanchageEtGrisage(){
 			$(this).text("");
 		});
 	}
-	for(var i=(depart+1);i<=(nbColonneAGriser+2);i++){
+	for(var i=(depart+1);i<=5;i++){
 		$('[id*="qf_'+i+'"]').each(function(){
 			$(this).attr("contenteditable", false);
 			$(this).css("background-color", "#A6A1A0");
 			$(this).text("");
 		});
 	}
-	for(var i=(depart+1);i<=(nbColonneAGriser+2);i++){
+	for(var i=(depart+1);i<=5;i++){
 		$('[class*="ce_'+i+'"]').each(function(){
 			$(this).attr("contenteditable", false);
 			$(this).css("background-color", "#A6A1A0");
@@ -127,8 +128,7 @@ function blanchageEtGrisage(){
 			$(this).css("background-color", "#FFFFFF");
 		});
 	}
-}
-$(document).ready(function(){		
+	//////////////////////////////////
 	$("#ajoutTab").click( function () {
 		var ligne = parseInt($("#tableau tbody tr:last-child").attr("data"))+parseInt(1);
 		var nbLigne = parseInt(ligne)-parseInt(11);
@@ -170,7 +170,6 @@ $(document).ready(function(){
 		}
 	});
 });
-blanchageEtGrisage();
 </script>
 <script src="<c:url value="/js/ScriptFicheComptable.js"/>" ></script>
 <script src="<c:url value="/js/ScriptTableauRecapitulatif.js"/>" ></script>

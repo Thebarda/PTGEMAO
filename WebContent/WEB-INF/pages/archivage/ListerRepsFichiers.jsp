@@ -46,6 +46,7 @@
 							<br>
 						</c:forEach>
 						</table>
+						<br>
 					<span id="formGauche">
 							<form id="formGauche" method="post" action="<c:url value="<%= Pattern.ARCHIVAGE_LISTER %>"/>?path=<%=session.getAttribute("path") %>" enctype="multipart/form-data">
 								<fieldset>
@@ -73,7 +74,7 @@
 			<c:otherwise>
 				<p><c:out value="${demandeVerifcationSuppresssion }"></c:out></p>
 				<span class="btn"><a class="croix" href="<c:url value="<%= Pattern.ARCHIVAGE_LISTER %>"/>?delete=oui">Oui, je veux supprimer cette élément</span> <span>Annuler la suppression</span>
-				<button id="retour" href="<c:url value="<%= Pattern.ARCHIVAGE_LISTER %>"/>?path=<%= session.getAttribute("retour") %>">Annuler la suppression</button>
+				<a class="btn-annuler" href="<c:url value="<%= Pattern.ARCHIVAGE_LISTER %>"/>?path=<%= session.getAttribute("retour") %>">Annuler la suppression</a>
 			</c:otherwise>
 		</c:choose>
 	</c:when>

@@ -9,22 +9,25 @@
 <c:import url="/inc/menu.inc.jsp" />
 
 <h1>Saisie de la cotisation</h1>
-
 <c:choose>
-	<c:when test="${adherent.getQf()==null}">
-		<p class="offset">L'adhérent ne bénéficie pas du quotient familial</p>
-	</c:when>
-	<c:when test="${params.getQf_min() > adherent.getQf()}">
-		<p class="offset">L'adhérent bénéficie du Quotient 3</p>
-	</c:when>
-	<c:when test="${params.getQf_max() > adherent.getQf()}">
-		<p class="offset">L'adhérent bénéficie du Quotient 2</p>
+	<c:when test="${! empty isFamilleFull }">
+		<p class="text-danger"> La famille ne peut plus contenir d'ahérent</p>
 	</c:when>
 	<c:otherwise>
-		<p class="offset">L'adhérent bénéficie du Quotient 1</p>
-	</c:otherwise>
-</c:choose>
-
+		<c:choose>
+			<c:when test="${adherent.getQf()==null}">
+				<p class="offset">L'adhérent ne bénéficie pas du quotient familial</p>
+			</c:when>
+			<c:when test="${params.getQf_min() > adherent.getQf()}">
+				<p class="offset">L'adhérent bénéficie du Quotient 3</p>
+			</c:when>
+			<c:when test="${params.getQf_max() > adherent.getQf()}">
+				<p class="offset">L'adhérent bénéficie du Quotient 2</p>
+			</c:when>
+			<c:otherwise>
+				<p class="offset">L'adhérent bénéficie du Quotient 1</p>
+			</c:otherwise>
+		</c:choose>
 <form action="#" method="post">
 	<fieldset>
 		<div>
@@ -38,6 +41,7 @@
 		<input type="submit" class="btn" value="Valider" />
 	</fieldset>
 </form>
-
+	</c:otherwise>
+</c:choose>
 
 <c:import url="/inc/footer.inc.jsp" />

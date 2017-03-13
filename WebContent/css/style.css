@@ -16,6 +16,13 @@
 	text-align: right;
 }
 
+.btn-annuler{
+	color:#000000;
+	padding:5px;
+	background: #CCCCCC;
+	border: 1px solid block;
+}
+
 .btn{
 	color: #fff;
 /*	background-color: #646464;*/
@@ -373,4 +380,8 @@ a:hover span, a:focus span{
  transform:scale(1) rotate(0);
  /* Effet sur la transparence */ 
  opacity:1;
+}
+
+#retour{
+	border: 1px solid black;
 }

@@ -25,6 +25,7 @@ import fr.gemao.ctrl.location.LocationCtrl;
 import fr.gemao.ctrl.materiel.EtatCtrl;
 import fr.gemao.ctrl.materiel.MaterielCtrl;
 import fr.gemao.entity.Personne;
+import fr.gemao.entity.adherent.Adherent;
 import fr.gemao.entity.adherent.Famille;
 import fr.gemao.entity.adherent.FamilleTableaux;
 import fr.gemao.entity.materiel.Etat;
@@ -95,6 +96,13 @@ public class ComptabiliteEnseignementServlet extends HttpServlet{
 			}
 			int idFamille = FamilleCtrl.getFamille(Form.getValeurChamp(request, "famille"));
 			request.setAttribute("nbEleves", FamilleCtrl.getNbEleve(idFamille));
+			List<Adherent> adherents = AdherentCtrl.recupererTousAdherents();
+			List<String> elevesTmp = new ArrayList<>();
+			for(Adherent adh : adherents){
+				if(adh.getFamille().getIdFamille()==idFamille){
+					elevesTmp.add(adh.getPrenom());
+				}
+			}
 			List<FamilleTableaux> famtabs= FamilleCtrl.getFamilleTableaux(idFamille, anne);
 			if(!famtabs.isEmpty()){
 				Calendar calendar = Calendar.getInstance();

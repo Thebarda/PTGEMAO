@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -140,7 +141,7 @@ public class ListerRepsFichiersServlet extends HttpServlet{
 			}else{
 				request.setAttribute("diffDate", "Vous n'avez effectué aucune sauvegarde");
 			}
-			request.setAttribute("apz", absolutePathZip);
+			request.setAttribute("apz", zip.getAbsolutePath());
 			request.setAttribute("reps", reps);
 			request.setAttribute("files", files);
 			session.setAttribute("lastPath", pathActuel);
