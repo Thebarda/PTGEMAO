@@ -61,12 +61,13 @@
 	});
 
 	// Contrôle paiement mensuel (Somme à payer = Somme payée)
-	$(document).on("keyup", "tr", function() {
+	$(document).on("keyup", "#recap tr", function() {
 		var num_lig = $(this).attr("data");
 		$('[id*="paiement_"]').each(function(){
 			var valeurAttendue = $('[id="total_'+num_lig+'"]');
 			var valeurSaisie = $('[id*="paiement_'+num_lig+'"]');
 			if(valeurSaisie.text() == valeurAttendue.text()){
+				console.log("paiement_"+num_lig);
 				document.getElementById("paiement_"+num_lig).style.backgroundColor = 'lightgreen';
 			}
 			else{
