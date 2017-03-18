@@ -86,15 +86,10 @@ public class LocationInterneServlet extends HttpServlet implements Printable {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// 1er passage : choix de la catÃ©gorie
+		// 1er passage : on envoie la liste des categories a la jsp
 		List<Categorie> listeCategorie = CategorieCtrl.recupererToutesCategories();
 		HttpSession session = request.getSession();
-		if(session.getAttribute(PARAM_ID_CATEGORIE)!=null){
-			List<Materiel> listeMateriel = MaterielCtrl.recupererMaterielByCategorie((int) session.getAttribute(PARAM_ID_CATEGORIE));
-			request.setAttribute(PARAM_LISTE_MATERIEL, listeMateriel);
-		}
 		request.setAttribute(PARAM_LISTE_CATEGORIE, listeCategorie);
-
 		this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_INTERNE).forward(request, response);
 	}
 
@@ -226,7 +221,8 @@ public class LocationInterneServlet extends HttpServlet implements Printable {
 					location=loc;
 				}
 			}
-			
+
+			//Si les champs sont bien remplis on ajoute le cheque à la BDD 
 			if((session.getAttribute(CHAMP_DATE_PAIEMENT)!=null)&&(session.getAttribute(CHAMP_MONTANT_CHEQUE)!=null)&&(session.getAttribute(CHAMP_NUMERO_CHEQUE)!=null)&&(session.getAttribute(CHAMP_DATE_ENCAISSEMENT)!=null)){
 				ChequeLocation cheque = new ChequeLocation(location, ""+session.getAttribute(CHAMP_DATE_PAIEMENT), Float.parseFloat(""+session.getAttribute(CHAMP_MONTANT_CHEQUE)), Long.parseLong(""+session.getAttribute(CHAMP_NUMERO_CHEQUE)), ""+session.getAttribute(CHAMP_DATE_ENCAISSEMENT), null);
 				ChequeCtrl.ajouterCheque(cheque);
@@ -243,7 +239,7 @@ public class LocationInterneServlet extends HttpServlet implements Printable {
 		//Traitement du formulaire
 		if(Form.getValeurChamp(request, PARAM_ID_DESIGNATION)!=null){
 			ChequeForm chequeForm = new ChequeForm(request);
-			chequeForm.testerCheque(request);
+			chequeForm.testerCheque(request); //Les controles sur les cheques se font dans ChequeForm.java
 			if(chequeForm.getErreurs().isEmpty()){
 				DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 				String personne = Form.getValeurChamp(request, PARAM_ID_ADHERENT);
@@ -254,7 +250,7 @@ public class LocationInterneServlet extends HttpServlet implements Printable {
 				String idMateriel = Form.getValeurChamp(request, PARAM_ID_DESIGNATION);
 				session.setAttribute("PARAM_ID_DESIGNATION",Integer.parseInt(idMateriel));
 				List<Personne> personnes = PersonneCtrl.recupererToutesPersonnes();
-					List<Materiel> mats = MaterielCtrl.recupererMaterielByCategorie(Integer.parseInt(""+session.getAttribute(PARAM_ID_CATEGORIE)));
+					List<Materiel> mats = MaterielCtrl.recupererMaterielByCategorie(Integer.parseInt(""+session.getAttribute(PARAM_ID_CATEGORIE))); //On recupere les materiels de la categorie choisie
 					Materiel mat=null;
 					for(Materiel m : mats){
 						if(m.getIdMateriel()==Integer.parseInt(idMateriel)){
@@ -328,6 +324,8 @@ public class LocationInterneServlet extends HttpServlet implements Printable {
 					String dateEncaissement = Form.getValeurChamp(request, CHAMP_DATE_ENCAISSEMENT);
 					String numCheque = Form.getValeurChamp(request, CHAMP_NUMERO_CHEQUE);
 					String montantCheque = Form.getValeurChamp(request, CHAMP_MONTANT_CHEQUE);
+					
+					//On met ces attributs en session pour pouvoir les afficher plus tard dans la jsp
 					session.setAttribute(CHAMP_DATE_PAIEMENT, datePaiement);
 					session.setAttribute(CHAMP_DATE_ENCAISSEMENT, dateEncaissement);
 					session.setAttribute(CHAMP_NUMERO_CHEQUE, numCheque);
@@ -349,13 +347,13 @@ public class LocationInterneServlet extends HttpServlet implements Printable {
 					
 					
 					this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_INTERNE).forward(request, response);
-			}else{
+			}else{ //S'il y a des erreurs sur le cheque
 				request.setAttribute("erreurCheque", "Cheque Invalide !<br> Veuillez à ce que la date de paiement soit inférieure à la date d'encaissement<br> Veuillez vérifier que le montant soit strictement supérieur à zéro<br> Veuillez vérifier que le numéro fasse exactement 11 caractères");
 				this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_EXTERNE).forward(request, response);
 			}
 		}
 		
-		//GÃ©nÃ©ration du formulaire de location
+		//Generation du formulaire de location
 		if(Form.getValeurChamp(request, CATEGORIE)!=null){
 			idCategorie = Integer.parseInt(Form.getValeurChamp(request, CATEGORIE));
 			CategorieCtrl categorieCtrl = new CategorieCtrl();
@@ -363,12 +361,12 @@ public class LocationInterneServlet extends HttpServlet implements Printable {
 			session.setAttribute(PARAM_ID_CATEGORIE, Integer.parseInt(Form.getValeurChamp(request, CATEGORIE)));
 			session.setAttribute(PARAM_NOM_CATEGORIE, categorie.getLibelleCat());
 			List<Materiel> listeMateriel = MaterielCtrl.recupereMaterielLouable((int) session.getAttribute(PARAM_ID_CATEGORIE));
-			if(listeMateriel.isEmpty()){
+			if(listeMateriel.isEmpty()){ //S'il n'y a pas de materiel louable
 				session.setAttribute("ListeMatVide", categorie.getLibelleCat());
 				session.setAttribute("errListeVide", true);
 				response.sendRedirect(request.getContextPath()+Pattern.MATERIEL_AJOUT+"?errListeVide=1");
 				
-			}else{
+			}else{ //S'il y a des materiels de cette categorie louables
 				Map<Integer, List> listeMats = new HashMap<>();
 				for(Materiel mat : listeMateriel){
 					List mats;
@@ -382,7 +380,7 @@ public class LocationInterneServlet extends HttpServlet implements Printable {
 					listeMats.put(Integer.parseInt(""+mat.getIdMateriel()), mats);
 				}
 				List<Adherent> listeAdherent = AdherentCtrl.recupererTousAdherents();
-				if(listeAdherent.isEmpty()){
+				if(listeAdherent.isEmpty()){ //S'il n'y a pas d'adherant, redirection vers la page d'ajout adherant
 					session.setAttribute("errAdhVide", true);
 					response.sendRedirect(request.getContextPath()+Pattern.ADHERENT_AJOUT+"?errAdherent=1");
 				}else{
@@ -397,7 +395,7 @@ public class LocationInterneServlet extends HttpServlet implements Printable {
 					for (Adherent a : adherents) {
 						listAdherents.add('"' + a.getNom()+" "+ a.getPrenom() + '"');
 					}
-					request.setAttribute(ATTR_AUTO_FAMILLES, listAdherents);
+					request.setAttribute(ATTR_AUTO_FAMILLES, listAdherents); //Pour l'auto completion
 					request.setAttribute(PARAM_LISTE_MATERIEL, listeMats);
 					request.setAttribute(PARAM_LISTE_ADHERENT, listePersonne);
 					this.getServletContext().getRequestDispatcher(JSPFile.LOCATION_INTERNE).forward(request, response);
