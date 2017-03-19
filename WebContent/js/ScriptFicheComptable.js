@@ -69,7 +69,7 @@
 		var sommeTotalFinal = 0;
 		var sommeCE = 0;
 		sommeTotalFinal += parseInt($('[id*="totalAnnuel"]').text());
-		$('[class="ce"]').each(function() {
+		$('[class*="ce_"]').each(function() {
 			var val = $(this).text();
 			if ($.isNumeric(val)) {
 				sommeCE += parseInt(val);

@@ -67,4 +67,9 @@ public class FamilleCtrl {
 		FamilleDAO familleDAO = DAOFactory.getInstance().getFamilleDAO();
 		return familleDAO.getNbElevesByNomFamille(famille);
 	}
+
+	public static List<String> getEleves(int idFamille) {
+		FamilleDAO familleDAO = DAOFactory.getInstance().getFamilleDAO();
+		return familleDAO.getEleves(idFamille);
+	}
 }

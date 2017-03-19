@@ -313,4 +313,31 @@ public class FamilleDAO extends IDAO<Famille> {
 
 		return nbEleves;
 	}
+
+	public List<String> getEleves(int idFamille) {
+		List<String> liste = new ArrayList<>();
+
+		FamilleTableaux famtab = null;
+		Connection connexion = null;
+		PreparedStatement requete = null;
+		ResultSet result = null;
+		String sql = "SELECT prenom FROM adherent a INNER JOIN personne p ON p.idPersonne=a.idPersonne WHERE idFamille=?;";
+		try {
+
+			connexion = factory.getConnection();
+			requete = DAOUtilitaires.initialisationRequetePreparee(connexion,
+					sql, false, idFamille);
+			result = requete.executeQuery();
+
+			while (result.next()) {
+				liste.add(result.getString("prenom"));
+			}
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			DAOUtilitaires.fermeturesSilencieuses(result, requete, connexion);
+		}
+
+		return liste;
+	}
 }

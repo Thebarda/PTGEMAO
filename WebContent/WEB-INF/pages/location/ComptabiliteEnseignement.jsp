@@ -52,9 +52,27 @@
 	<h2 class="offset">Année : <%= request.getAttribute("annee") %> - <%= request.getAttribute("anneeFin") %></h2>
 	<h3 id="validation" class="offset text-success"></h3>
 	<h2 class="offset">Tableau Fiche Comptable</h2>
-	<div id="tfc">
+	<table>
+		<tr>
+			<td class='ignorer'></td>
+			<th class='numEleve'>Elève 1</th>
+			<th class='numEleve'>Elève 2</th>
+			<th class='numEleve'>Elève 3</th>
+			<th class='numEleve'>Elève 4</th>
+			<th class='numEleve'>Elève 5</th>
+		</tr>
+		<tr>
+			<th class='intitule'>Prénom</th>
+			<td contenteditable='true' class='nom' id='eleve_1'><c:out value="${eleves[0] }"></c:out></td>
+			<td contenteditable='true' class='nom' id='eleve_2'><c:out value="${eleves[1] }"></c:out></td>
+			<td contenteditable='true' class='nom' id='eleve_3'><c:out value="${eleves[2] }"></c:out></td>
+			<td contenteditable='true' class='nom' id='eleve_4'><c:out value="${eleves[3] }"></c:out></td>
+			<td contenteditable='true' class='nom' id='eleve_5'><c:out value="${eleves[4] }"></c:out></td>
+		</tr>
+		<div id="tfc">
 		<%= request.getAttribute("tfc") %>
-	</div>
+		</div>
+	</table>
 	<br><br>
 	<h2 class="offset">Tableau Récapitulatif</h2>
 	<div id="recap">

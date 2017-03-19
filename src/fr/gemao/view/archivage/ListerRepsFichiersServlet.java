@@ -48,11 +48,15 @@ import fr.gemao.view.Pattern;
 public class ListerRepsFichiersServlet extends HttpServlet{
 	static int UN = 1;
     static int DOUZE = 12;
+	private File zip;
+	private List<String> reps;
+	private Map<String, String> files;
+	private String pathActuel;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		if(request.getParameter("path")!=null){
-			String pathActuel = request.getParameter("path");
+			pathActuel = request.getParameter("path");
 			String pasthTmp = pathActuel.replaceAll("--", "\\\\");
 			String[] pathAfficheTmp = pathActuel.split("--");
 			String pathAffiche="";
@@ -78,8 +82,8 @@ public class ListerRepsFichiersServlet extends HttpServlet{
 				request.setAttribute("noReturn", false);
 			}
 
-			Map<String, String> files = new HashMap<>();
-			List<String> reps = new ArrayList<>();
+			files = new HashMap<>();
+			reps = new ArrayList<>();
 			File file = new File(pasthTmp);
 			File[] tmp = file.listFiles();
 			for(int i=0;i<tmp.length;i++){
@@ -146,6 +150,7 @@ public class ListerRepsFichiersServlet extends HttpServlet{
 			request.setAttribute("files", files);
 			session.setAttribute("lastPath", pathActuel);
 			session.setAttribute("path", pathActuel);
+
 		}
 		if(request.getParameter("delete")!=null){
 			String pathActuel = ""+session.getAttribute("delete");
