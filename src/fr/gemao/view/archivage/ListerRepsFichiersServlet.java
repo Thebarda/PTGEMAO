@@ -198,7 +198,7 @@ public class ListerRepsFichiersServlet extends HttpServlet{
 			}
 			today = dayDeb+"/"+moisDeb+"/"+(1900+todayTmp.getYear());
 			ArchivageCtrl.addSauvegarde(today);
-			request.setAttribute("ajout", "Votre sauvegarde a été téléchargé");
+			request.setAttribute("ajout", "Votre sauvegarde a été téléchargée");
 		}
 		this.getServletContext().getRequestDispatcher(JSPFile.ARCHIVAGE_LISTER).forward(request, response);
 	}
