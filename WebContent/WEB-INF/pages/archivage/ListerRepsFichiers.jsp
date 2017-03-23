@@ -73,7 +73,7 @@
 			</c:when>
 			<c:otherwise>
 				<p><c:out value="${demandeVerifcationSuppresssion }"></c:out></p>
-				<span class="btn"><a class="croix" href="<c:url value="<%= Pattern.ARCHIVAGE_LISTER %>"/>?delete=oui">Oui, je veux supprimer cette élément</span> <span>Annuler la suppression</span>
+				<span class="btn"><a class="croix" href="<c:url value="<%= Pattern.ARCHIVAGE_LISTER %>"/>?delete=oui">Oui, je veux supprimer cet élément</span> <span>Annuler la suppression</span>
 				<a class="btn-annuler" href="<c:url value="<%= Pattern.ARCHIVAGE_LISTER %>"/>?path=<%= session.getAttribute("retour") %>">Annuler la suppression</a>
 			</c:otherwise>
 		</c:choose>
